@@ -1,0 +1,635 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "done": "Done",
+    "retry": "Try again",
+    "comingSoon": "This section is coming soon.",
+    "edit": "Edit",
+    "delete": "Delete",
+    "undo": "Undo",
+    "ok": "OK",
+    "search": "Search",
+    "clear": "Clear",
+    "comingSoonTitle": "Coming soon",
+    "continue": "Continue"
+  },
+  "brand": {
+    "name": "tabulo"
+  },
+  "tabs": {
+    "home": "Home",
+    "contacts": "Contacts",
+    "add": "Add transaction",
+    "reports": "Reports",
+    "settings": "Settings"
+  },
+  "home": {
+    "notifications": "Notifications",
+    "netBalance": "Net balance",
+    "netBalanceAsOf": "Net balance as of {{date}}",
+    "selectMonth": "Month: {{month}}. Tap to change",
+    "receivable": "Owed to you",
+    "payable": "You owe",
+    "monthPicker": "Choose a month",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "thisMonth": "Back to this month",
+    "seeAll": "See all",
+    "seeAllCount": "See all ({{count}})",
+    "accounts": "Account balances",
+    "accountHint": "Opens this account's entries",
+    "statement": "Statement",
+    "dueReceivables": "Payments due to you",
+    "due": {
+      "today": "Today",
+      "inDays_one": "In {{count}} day",
+      "inDays_other": "In {{count}} days",
+      "overdue_one": "{{count}} day overdue",
+      "overdue_other": "{{count}} days overdue"
+    },
+    "recent": "Recent entries",
+    "empty": {
+      "title": "No entries yet",
+      "description": "Add your first payment in or out to see your summary here."
+    },
+    "upcomingPayments": "Upcoming payments",
+    "remindersDue_one": "Notifications, {{count}} reminder due",
+    "remindersDue_other": "Notifications, {{count}} reminders due"
+  },
+  "movementTypes": {
+    "collection": "Money in",
+    "payment": "Money out",
+    "credit_sale": "Sale on credit",
+    "credit_purchase": "Purchase on credit",
+    "opening": "Opening balance"
+  },
+  "movementSheet": {
+    "title": "What would you like to add?",
+    "collectionHint": "Money received into cash or bank",
+    "paymentHint": "Money paid out of cash or bank",
+    "credit_saleHint": "The customer owes you",
+    "credit_purchaseHint": "You owe the supplier",
+    "openingHint": "Balance carried over with this contact"
+  },
+  "transaction": {
+    "newTitle": "New: {{type}}"
+  },
+  "settings": {
+    "appearance": "Appearance",
+    "theme": "Theme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeSystem": "System",
+    "language": "Language",
+    "languageTr": "Türkçe",
+    "languageEn": "English",
+    "developer": "Developer",
+    "formDemo": "Sample form (keyboard test)",
+    "privacyNote": "Your data is stored only on this device.",
+    "version": "Version {{version}}",
+    "business": "Business",
+    "businessProfile": "Business profile",
+    "currency": "Currency",
+    "definitions": "Lists",
+    "accounts": "Accounts",
+    "transactionTypes": "Categories",
+    "subjects": "Subjects",
+    "reminders": "Reminders",
+    "notifications": "Notifications",
+    "defaultRemindTime": "Default reminder time",
+    "defaultRemindTimeHint": "New recurring payments and reminders start with this time."
+  },
+  "formDemo": {
+    "title": "Sample form",
+    "name": "Full name",
+    "phone": "Phone",
+    "email": "Email",
+    "city": "City",
+    "district": "County / State",
+    "address": "Address",
+    "taxNumber": "Company / VAT No",
+    "note": "Note",
+    "saved": "Saved"
+  },
+  "errors": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Your data is safe.",
+    "domain": {
+      "notFound": "Record not found.",
+      "nameRequired": "Name can't be empty.",
+      "contactHasTransactions": "Contacts with transactions can't be deleted.",
+      "generic": "Something went wrong. Please try again.",
+      "contactPassive": "An inactive contact can't be used in a new entry.",
+      "accountPassive": "An inactive account can't be used in a new entry.",
+      "transactionTypePassive": "An inactive category can't be used in a new entry.",
+      "subjectPassive": "An inactive subject can't be used in a new entry.",
+      "transactionTypeMismatch": "This category doesn't match the entry type.",
+      "accountHasTransactions": "An account with entries can't be deleted.",
+      "systemRecordNotDeletable": "Built-in items can't be deleted; you can deactivate them.",
+      "exchangeRateRequired": "Enter an exchange rate to change the currency.",
+      "conversionOverflow": "A converted amount is too large. Check the exchange rate.",
+      "recurringEnded": "This recurring payment has ended or is inactive. Edit it and update the date to continue."
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "goHome": "Go to home"
+  },
+  "personTypes": {
+    "individual": "Individual",
+    "company": "Company"
+  },
+  "seed": {
+    "accounts": {
+      "cash": "Cash",
+      "bank": "Bank"
+    },
+    "transactionTypes": {
+      "sales": "Sales",
+      "serviceFee": "Service Revenue",
+      "contactCollection": "Customer Payments",
+      "rentIncome": "Rental Income",
+      "interestIncome": "Interest Income",
+      "otherIncome": "Other Income",
+      "naturalGas": "Natural Gas",
+      "electricity": "Electricity",
+      "shipping": "Shipping",
+      "rent": "Rent",
+      "officeExpense": "Office Expenses",
+      "personnel": "Payroll",
+      "socialSecurity": "Payroll Taxes",
+      "water": "Water",
+      "tax": "Taxes",
+      "fuel": "Fuel",
+      "food": "Meals",
+      "otherExpense": "Other Expenses"
+    },
+    "subjects": {
+      "general": "General",
+      "vehicle": "Vehicle",
+      "office": "Office",
+      "other": "Other"
+    }
+  },
+  "unsaved": {
+    "title": "Unsaved changes",
+    "message": "If you leave now, your changes will be lost.",
+    "keepEditing": "Keep editing",
+    "discard": "Leave"
+  },
+  "validation": {
+    "required": "This field is required.",
+    "tooLong": "Too long.",
+    "taxNumberInvalid": "Tax number must be 10 digits.",
+    "phoneInvalid": "Enter a valid phone number.",
+    "emailInvalid": "Enter a valid email address.",
+    "fixErrors": "Please fix the highlighted fields.",
+    "amount": {
+      "empty": "Enter an amount.",
+      "invalid": "Enter a valid amount.",
+      "negative": "Amount can't be negative.",
+      "tooManyDecimals": "Use at most 2 decimal places.",
+      "tooLarge": "Amount is too large.",
+      "notPositive": "Amount must be greater than zero."
+    },
+    "nationalId": {
+      "length": "Turkish ID number must be 11 digits.",
+      "firstDigit": "Turkish ID number can't start with 0."
+    },
+    "dateInvalid": "Choose a valid date.",
+    "ibanInvalid": "Enter a valid IBAN.",
+    "intervalInvalid": "Must be between 1 and 12.",
+    "endBeforeStart": "End date can't be before the start date.",
+    "timeInvalid": "Choose a valid time.",
+    "timeInPast": "You can't choose a time in the past."
+  },
+  "contactRoles": {
+    "customer": "Customer",
+    "supplier": "Supplier",
+    "both": "Both"
+  },
+  "contacts": {
+    "add": "Add contact",
+    "searchPlaceholder": "Search name, phone or city",
+    "filters": {
+      "label": "Filter",
+      "all": "All",
+      "customer": "Customers",
+      "supplier": "Suppliers",
+      "debtors": "Owe you",
+      "creditors": "You owe",
+      "passive": "Inactive"
+    },
+    "sort": {
+      "title": "Sort",
+      "name": "By name",
+      "balance": "By balance",
+      "lastActivity": "By last activity"
+    },
+    "empty": {
+      "title": "No contacts yet",
+      "description": "Add your customers and suppliers to see who owes what at a glance."
+    },
+    "noResults": {
+      "title": "No results",
+      "description": "Try a different search or filter."
+    },
+    "passiveTag": "Inactive",
+    "balanceReceivable": "Owes you {{amount}}",
+    "balancePayable": "You owe {{amount}}",
+    "balanceSettled": "Settled",
+    "actions": {
+      "deactivate": "Make inactive",
+      "activate": "Make active",
+      "hint": "Long press or swipe for actions"
+    },
+    "saved": "Contact saved",
+    "deleted": "{{name}} deleted",
+    "deactivated": "{{name}} is now inactive",
+    "activated": "{{name}} is now active",
+    "deleteBlocked": {
+      "title": "Can't delete this contact",
+      "message": "Contacts with transactions can't be deleted. You can make it inactive instead; its history and balance are kept."
+    },
+    "limit": {
+      "title": "Free plan limit",
+      "message": "The free plan allows up to {{count}} active contacts. Upgrade to Premium for more, or make contacts you no longer use inactive."
+    }
+  },
+  "contactForm": {
+    "newTitle": "New contact",
+    "editTitle": "Edit contact",
+    "personType": "Type",
+    "role": "Contact type",
+    "name": "Full name",
+    "companyName": "Company name",
+    "nationalId": "Turkish ID No",
+    "nationalIdIntl": "Tax ID",
+    "taxNumber": "Tax No",
+    "taxNumberIntl": "Company / VAT No",
+    "taxOffice": "Tax office",
+    "contactSection": "Contact details",
+    "phone": "Phone",
+    "phoneHint": "Without a country code, {{code}} is assumed.",
+    "email": "Email",
+    "addressSection": "Address",
+    "city": "Province",
+    "district": "District",
+    "cityIntl": "City",
+    "districtIntl": "County / State",
+    "selectCity": "Select province",
+    "selectDistrict": "Select district",
+    "selectCityFirst": "Select a province first",
+    "address": "Street address",
+    "note": "Note",
+    "active": "Active",
+    "activeHint": "Inactive contacts are hidden from the list and can't be used in new transactions.",
+    "openingSection": "Opening balance",
+    "openingHint": "If there's an existing balance with this contact, enter it and an opening balance entry will be created.",
+    "openingAmount": "Amount",
+    "openingReceivable": "They owe me",
+    "openingPayable": "I owe them",
+    "optional": "optional"
+  },
+  "picker": {
+    "searchPlaceholder": "Search",
+    "noResults": "No results"
+  },
+  "transactionForm": {
+    "editTitle": "Edit entry",
+    "movementType": "Entry type",
+    "amount": "Amount",
+    "contact": "Contact",
+    "selectContact": "Choose a contact",
+    "selectContactOptional": "Choose a contact (optional)",
+    "noContacts": "No active contacts yet",
+    "account": "Account",
+    "noAccounts": "No active accounts. Add one in Settings.",
+    "openingDirection": "Balance direction",
+    "date": "Date",
+    "dueDate": "Due date",
+    "noDueDate": "No due date",
+    "detailsSection": "Details",
+    "incomeType": "Income category",
+    "expenseType": "Expense category",
+    "selectType": "Choose a category",
+    "subject": "Subject",
+    "selectSubject": "Choose a subject",
+    "description": "Description",
+    "documentNo": "Reference no.",
+    "saved": "Saved",
+    "addAnother": "Add another",
+    "draftRestored": "Your unfinished entry was restored"
+  },
+  "transactionDetail": {
+    "title": "Entry details",
+    "type": "Category"
+  },
+  "transactions": {
+    "title": "All entries",
+    "searchPlaceholder": "Search description or reference",
+    "runningBalance": "Balance {{amount}}",
+    "attachmentCount_one": "{{count}} attachment",
+    "attachmentCount_other": "{{count}} attachments",
+    "actionsHint": "Press and hold or swipe for actions",
+    "deleted": "Entry deleted",
+    "actions": {
+      "open": "Open"
+    },
+    "empty": {
+      "title": "No entries yet",
+      "description": "Use the + button below to add money in, money out or credit sales."
+    }
+  },
+  "transactionFilters": {
+    "title": "Filter",
+    "reset": "Reset",
+    "apply": "Apply",
+    "period": "Period",
+    "periods": {
+      "all": "All",
+      "thisMonth": "This month",
+      "lastMonth": "Last month",
+      "thisYear": "This year",
+      "custom": "Custom range"
+    },
+    "from": "From",
+    "to": "To",
+    "noLimit": "No limit",
+    "records": "Records",
+    "any": "Any",
+    "income": "Income",
+    "expense": "Expense",
+    "buttonActive": "Filter, {{count}} active"
+  },
+  "attachments": {
+    "title": "Attachments",
+    "add": "Add attachment",
+    "takePhoto": "Take photo",
+    "chooseFromLibrary": "Choose from library",
+    "choosePdf": "Choose PDF",
+    "pdf": "PDF",
+    "photo": "Photo",
+    "openHint": "Opens the attachment",
+    "remove": "Remove {{name}}",
+    "openSettings": "Open Settings",
+    "pickFailed": "Couldn't add the attachment. Please try again.",
+    "cameraPrompt": {
+      "title": "Camera access",
+      "message": "Tabulo needs the camera to photograph receipts and invoices for your entries."
+    },
+    "cameraDenied": {
+      "title": "Camera access is off",
+      "message": "To take photos, allow camera access for Tabulo in your phone's Settings."
+    }
+  },
+  "contactDetail": {
+    "title": "Contact",
+    "moreActions": "More options",
+    "call": "Call {{phone}}",
+    "balance": {
+      "receivable": "Owes you",
+      "payable": "You owe",
+      "settled": "Settled"
+    },
+    "due": "Due: {{date}}",
+    "overdue": "Overdue: {{date}}",
+    "sendStatement": "Send statement",
+    "remind": "Remind",
+    "whatsapp": "WhatsApp message",
+    "filters": {
+      "all": "All",
+      "sales": "Sales",
+      "purchases": "Purchases",
+      "collections": "Money in",
+      "payments": "Money out"
+    },
+    "empty": {
+      "title": "No entries yet",
+      "description": "Add sales, payments received or payments made with this contact using the button below."
+    },
+    "emptyFiltered": "No entries for this filter",
+    "passiveTitle": "This contact is inactive",
+    "passiveMessage": "You can't add entries to an inactive contact. Activate it first.",
+    "whatsappMessage": {
+      "receivable": "Hi {{name}}, as of {{date}} your balance is {{amount}}. Just to let you know.",
+      "payable": "Hi {{name}}, as of {{date}} we owe you {{amount}}. Just to let you know.",
+      "settled": "Hi {{name}}, as of {{date}} your account has no outstanding balance. Just to let you know."
+    },
+    "whatsappSignature": "– {{business}}",
+    "whatsappMessageLabel": "Message",
+    "whatsappOpen": "Open WhatsApp",
+    "whatsappFailedTitle": "Couldn't open WhatsApp",
+    "whatsappFailed": "The link couldn't be opened. Make sure WhatsApp is installed."
+  },
+  "dates": {
+    "today": "Today",
+    "yesterday": "Yesterday"
+  },
+  "businessForm": {
+    "saved": "Business profile saved",
+    "hint": "These details appear at the top of contact statements (PDF). All fields are optional.",
+    "logo": "Logo",
+    "logoHint": "Shown at the top of statements.",
+    "addLogo": "Add logo",
+    "changeLogo": "Change logo",
+    "removeLogo": "Remove logo",
+    "name": "Business name",
+    "taxSection": "Tax details"
+  },
+  "currency": {
+    "names": {
+      "TRY": "Turkish lira",
+      "GBP": "British pound",
+      "USD": "US dollar"
+    },
+    "current": "Current",
+    "apply": "Change currency",
+    "convert": "Convert",
+    "changed": "Currency changed to {{currency}}",
+    "conversionNote": "All saved amounts (entries, account opening balances) will be converted at today's single rate. Settled balances stay settled. This can't be undone.",
+    "rateLabel": "Rate: 1 {{base}} = how many {{quote}}?",
+    "refreshRate": "Fetch the latest rate again",
+    "fetchFailed": "Couldn't get the latest rate. Check your connection or enter the rate yourself.",
+    "rateSource": "Source: European Central Bank reference rate, {{date}}",
+    "sample": "Example: {{sample}}",
+    "noDataNote": "No amounts saved yet, so nothing needs converting.",
+    "confirmTitle": "Convert all amounts?",
+    "confirmMessage": "All saved amounts will be converted at {{rate}}. This can't be undone.",
+    "rateErrors": {
+      "empty": "Enter a rate.",
+      "invalid": "Enter a valid rate (e.g. 1.33).",
+      "notPositive": "The rate must be greater than zero.",
+      "tooManyDecimals": "Use at most 6 decimal places."
+    }
+  },
+  "definitions": {
+    "add": "Add",
+    "name": "Name",
+    "rename": "Rename",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "hint": "Tap a row to rename, reorder or deactivate it. Inactive items can't be used in new entries; past entries are kept.",
+    "rowHint": "Opens options",
+    "system": "Built-in",
+    "deleted": "{{name}} deleted",
+    "systemTitle": "Built-in items can't be deleted",
+    "systemMessage": "You can rename or deactivate built-in items.",
+    "newIncomeType": "New income category",
+    "newExpenseType": "New expense category",
+    "newSubject": "New subject"
+  },
+  "accountTypes": {
+    "cash": "Cash",
+    "bank": "Bank"
+  },
+  "accounts": {
+    "add": "Add account",
+    "newTitle": "New account",
+    "editTitle": "Edit account",
+    "saved": "Account saved",
+    "hint": "Your cash and bank accounts. Balance = opening balance + money in − money out.",
+    "type": "Account type",
+    "name": "Account name",
+    "namePlaceholderCash": "e.g. Cash",
+    "namePlaceholderBank": "e.g. Barclays",
+    "bankName": "Bank name",
+    "iban": "IBAN",
+    "ibanHint": "Optional. Can be shown on statements.",
+    "openingBalance": "Opening balance",
+    "openingHint": "The amount in this account when you start using the app.",
+    "limit": {
+      "title": "Free plan limit",
+      "cash": "The free plan includes 1 active cash account. Upgrade to Premium for more, or deactivate an account you don't use.",
+      "bank": "The free plan includes 1 active bank account. Upgrade to Premium for more, or deactivate an account you don't use."
+    },
+    "deleteBlocked": {
+      "title": "This account can't be deleted",
+      "message": "Accounts with entries can't be deleted. You can deactivate it; its entries and balance are kept."
+    }
+  },
+  "notifications": {
+    "channel": "Payment and collection reminders",
+    "permission": {
+      "title": "Reminder notifications",
+      "message": "Allow notifications so we can remind you when a payment or collection is due. You can allow them on the next screen.",
+      "later": "Not now"
+    },
+    "denied": {
+      "title": "Notifications are off",
+      "message": "Reminders won't arrive as notifications. You can turn them on in your phone's settings.",
+      "openSettings": "Settings"
+    },
+    "payment": {
+      "today": "Due today: {{amount}}",
+      "tomorrow": "Due tomorrow: {{amount}}",
+      "inDays_one": "Due in {{count}} day ({{date}}): {{amount}}",
+      "inDays_other": "Due in {{count}} days ({{date}}): {{amount}}"
+    },
+    "collection": {
+      "today": "To collect today: {{amount}}",
+      "tomorrow": "To collect tomorrow: {{amount}}",
+      "inDays_one": "To collect in {{count}} day ({{date}}): {{amount}}",
+      "inDays_other": "To collect in {{count}} days ({{date}}): {{amount}}"
+    },
+    "reminder": {
+      "title": "Payment reminder: {{name}}",
+      "body": "Check their balance and remind them to pay."
+    }
+  },
+  "recurring": {
+    "title": "Recurring payments",
+    "newTitle": "New recurring payment",
+    "editTitle": "Edit recurring payment",
+    "add": "Add recurring payment",
+    "saved": "Saved",
+    "deleted": "Recurring payment deleted",
+    "finished": "Completed",
+    "inactiveSection": "Inactive and completed",
+    "hint": "Tap \"Paid\" when you pay: the transaction is recorded and the next date moves forward.",
+    "dueOn": "Due {{date}}",
+    "paid": "Saved. Next: {{date}}",
+    "paidFinished": "Saved. This recurring payment is complete.",
+    "empty": {
+      "title": "No recurring payments",
+      "description": "Add payments that repeat, like rent, payroll taxes or subscriptions, and we'll remind you when they're due."
+    },
+    "due": {
+      "today": "Today",
+      "inDays_one": "{{count}} day left",
+      "inDays_other": "{{count}} days left",
+      "overdue_one": "Overdue · {{count}} day",
+      "overdue_other": "Overdue · {{count}} days",
+      "later_one": "In {{count}} day · {{date}}",
+      "later_other": "In {{count}} days · {{date}}"
+    },
+    "frequency": {
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "yearly": "Yearly"
+    },
+    "every": {
+      "weekly_one": "Every week",
+      "weekly_other": "Every {{count}} weeks",
+      "monthly_one": "Every month",
+      "monthly_other": "Every {{count}} months",
+      "yearly_one": "Every year",
+      "yearly_other": "Every {{count}} years"
+    },
+    "remindDays_zero": "Same day",
+    "remindDays_one": "{{count}} day before",
+    "remindDays_other": "{{count}} days before",
+    "pay": {
+      "payment": "Paid",
+      "collection": "Received",
+      "paymentTitle": "Mark as paid",
+      "collectionTitle": "Mark as received",
+      "paymentSubmit": "Save payment",
+      "collectionSubmit": "Save collection",
+      "paymentDate": "Payment date",
+      "collectionDate": "Collection date",
+      "paymentHint": "A money-out transaction is created and the next due date moves forward by one period.",
+      "collectionHint": "A money-in transaction is created and the next due date moves forward by one period."
+    },
+    "form": {
+      "type": "Type",
+      "payment": "Money out",
+      "collection": "Money in",
+      "title": "Title",
+      "titlePlaceholderPayment": "e.g. Shop rent",
+      "titlePlaceholderCollection": "e.g. Monthly maintenance fee",
+      "frequency": "Frequency",
+      "intervalDecrease": "Decrease interval",
+      "intervalIncrease": "Increase interval",
+      "firstDate": "First due date",
+      "nextDate": "Next due date",
+      "endDate": "End date",
+      "noEndDate": "No end date",
+      "reminderSection": "Reminder",
+      "remindDaysBefore": "When should we remind you?",
+      "remindTime": "Time"
+    }
+  },
+  "reminders": {
+    "title": "Reminders",
+    "newTitle": "Payment reminder",
+    "editTitle": "Edit reminder",
+    "saved": "Reminder set",
+    "completed": "Done",
+    "deleted": "Reminder deleted",
+    "complete": "Done",
+    "contact": "Contact",
+    "date": "Date",
+    "time": "Time",
+    "note": "Note",
+    "notePlaceholder": "e.g. Call about the remaining balance",
+    "dueSection": "Due now",
+    "upcomingSection": "Upcoming",
+    "empty": {
+      "title": "No pending reminders",
+      "description": "Use \"Remind\" on a contact's page to set a payment reminder."
+    }
+  }
+}

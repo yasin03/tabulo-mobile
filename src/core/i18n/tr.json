@@ -1,0 +1,635 @@
+{
+  "common": {
+    "save": "Kaydet",
+    "cancel": "Vazgeç",
+    "close": "Kapat",
+    "done": "Bitti",
+    "retry": "Tekrar dene",
+    "comingSoon": "Bu bölüm yakında burada olacak.",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "undo": "Geri al",
+    "ok": "Tamam",
+    "search": "Ara",
+    "clear": "Temizle",
+    "comingSoonTitle": "Yakında",
+    "continue": "Devam"
+  },
+  "brand": {
+    "name": "tabulo"
+  },
+  "tabs": {
+    "home": "Ana sayfa",
+    "contacts": "Cariler",
+    "add": "İşlem ekle",
+    "reports": "Raporlar",
+    "settings": "Ayarlar"
+  },
+  "home": {
+    "notifications": "Bildirimler",
+    "netBalance": "Net bakiye",
+    "netBalanceAsOf": "{{date}} itibarıyla net bakiye",
+    "selectMonth": "Ay: {{month}}. Değiştirmek için dokunun",
+    "receivable": "Alacak",
+    "payable": "Borç",
+    "monthPicker": "Ay seçin",
+    "previousMonth": "Önceki ay",
+    "nextMonth": "Sonraki ay",
+    "thisMonth": "Bu aya dön",
+    "seeAll": "Tümü",
+    "seeAllCount": "Tümü ({{count}})",
+    "accounts": "Hesap bakiyeleri",
+    "accountHint": "Bu hesabın hareketlerini açar",
+    "statement": "Ekstre",
+    "dueReceivables": "Vadesi gelen alacaklar",
+    "due": {
+      "today": "Bugün",
+      "inDays_one": "{{count}} gün sonra",
+      "inDays_other": "{{count}} gün sonra",
+      "overdue_one": "{{count}} gün gecikti",
+      "overdue_other": "{{count}} gün gecikti"
+    },
+    "recent": "Son işlemler",
+    "empty": {
+      "title": "Henüz işlem yok",
+      "description": "İlk tahsilat veya ödemenizi ekleyin; özetler burada görünsün."
+    },
+    "upcomingPayments": "Yaklaşan ödemeler",
+    "remindersDue_one": "Bildirimler, {{count}} hatırlatıcının zamanı geldi",
+    "remindersDue_other": "Bildirimler, {{count}} hatırlatıcının zamanı geldi"
+  },
+  "movementTypes": {
+    "collection": "Tahsilat",
+    "payment": "Ödeme",
+    "credit_sale": "Veresiye Satış",
+    "credit_purchase": "Veresiye Alış",
+    "opening": "Devir"
+  },
+  "movementSheet": {
+    "title": "Ne eklemek istiyorsunuz?",
+    "collectionHint": "Kasaya veya bankaya para girişi",
+    "paymentHint": "Kasadan veya bankadan para çıkışı",
+    "credit_saleHint": "Müşteri size borçlanır",
+    "credit_purchaseHint": "Siz tedarikçiye borçlanırsınız",
+    "openingHint": "Bu cariyle önceden kalan bakiye"
+  },
+  "transaction": {
+    "newTitle": "Yeni {{type}}"
+  },
+  "settings": {
+    "appearance": "Görünüm",
+    "theme": "Tema",
+    "themeLight": "Açık",
+    "themeDark": "Koyu",
+    "themeSystem": "Sistem",
+    "language": "Dil",
+    "languageTr": "Türkçe",
+    "languageEn": "English",
+    "developer": "Geliştirici",
+    "formDemo": "Örnek form (klavye testi)",
+    "privacyNote": "Verileriniz yalnızca bu cihazda saklanır.",
+    "version": "Sürüm {{version}}",
+    "business": "İşletme",
+    "businessProfile": "İşletme profili",
+    "currency": "Para birimi",
+    "definitions": "Tanımlar",
+    "accounts": "Hesaplar",
+    "transactionTypes": "İşlem türleri",
+    "subjects": "İşlem konuları",
+    "reminders": "Hatırlatmalar",
+    "notifications": "Bildirimler",
+    "defaultRemindTime": "Varsayılan hatırlatma saati",
+    "defaultRemindTimeHint": "Yeni düzenli ödeme ve hatırlatıcılarda bu saat önerilir."
+  },
+  "formDemo": {
+    "title": "Örnek form",
+    "name": "Ad Soyad",
+    "phone": "Telefon",
+    "email": "E-posta",
+    "city": "İl",
+    "district": "İlçe",
+    "address": "Adres",
+    "taxNumber": "Vergi No",
+    "note": "Not",
+    "saved": "Kaydedildi"
+  },
+  "errors": {
+    "title": "Bir sorun oluştu",
+    "description": "Beklenmeyen bir hata oluştu. Verileriniz etkilenmedi.",
+    "domain": {
+      "notFound": "Kayıt bulunamadı.",
+      "nameRequired": "Ad boş olamaz.",
+      "contactHasTransactions": "Hareketi olan cari silinemez.",
+      "generic": "İşlem tamamlanamadı. Lütfen tekrar deneyin.",
+      "contactPassive": "Pasif cari yeni harekette seçilemez.",
+      "accountPassive": "Pasif hesap yeni harekette seçilemez.",
+      "transactionTypePassive": "Pasif işlem türü yeni harekette seçilemez.",
+      "subjectPassive": "Pasif konu yeni harekette seçilemez.",
+      "transactionTypeMismatch": "İşlem türü bu hareket tipine uymuyor.",
+      "accountHasTransactions": "Hareketi olan hesap silinemez.",
+      "systemRecordNotDeletable": "Hazır kayıt silinemez; pasife alabilirsiniz.",
+      "exchangeRateRequired": "Para birimini değiştirmek için kur girin.",
+      "conversionOverflow": "Dönüştürülen bir tutar çok büyük. Kuru kontrol edin.",
+      "recurringEnded": "Bu düzenli ödeme sona erdi veya pasif. Devam etmek için düzenleyip tarihini güncelleyin."
+    }
+  },
+  "notFound": {
+    "title": "Sayfa bulunamadı",
+    "goHome": "Ana sayfaya dön"
+  },
+  "personTypes": {
+    "individual": "Şahıs",
+    "company": "Şirket"
+  },
+  "seed": {
+    "accounts": {
+      "cash": "Kasa",
+      "bank": "Banka"
+    },
+    "transactionTypes": {
+      "sales": "Satış",
+      "serviceFee": "Hizmet Bedeli",
+      "contactCollection": "Cari Tahsilatı",
+      "rentIncome": "Kira Geliri",
+      "interestIncome": "Faiz Geliri",
+      "otherIncome": "Diğer Gelir",
+      "naturalGas": "Doğalgaz",
+      "electricity": "Elektrik",
+      "shipping": "Kargo",
+      "rent": "Kira",
+      "officeExpense": "Ofis Gideri",
+      "personnel": "Personel",
+      "socialSecurity": "SGK",
+      "water": "Su",
+      "tax": "Vergi",
+      "fuel": "Yakıt",
+      "food": "Yemek",
+      "otherExpense": "Diğer"
+    },
+    "subjects": {
+      "general": "Genel",
+      "vehicle": "Araç",
+      "office": "Ofis",
+      "other": "Diğer"
+    }
+  },
+  "unsaved": {
+    "title": "Değişiklikler kaydedilmedi",
+    "message": "Çıkarsanız yaptığınız değişiklikler kaybolacak.",
+    "keepEditing": "Düzenlemeye devam et",
+    "discard": "Çık"
+  },
+  "validation": {
+    "required": "Bu alan zorunlu.",
+    "tooLong": "Çok uzun.",
+    "taxNumberInvalid": "Vergi No 10 haneli olmalı.",
+    "phoneInvalid": "Geçerli bir telefon numarası girin.",
+    "emailInvalid": "Geçerli bir e-posta adresi girin.",
+    "fixErrors": "Lütfen işaretli alanları düzeltin.",
+    "amount": {
+      "empty": "Tutar girin.",
+      "invalid": "Geçerli bir tutar girin.",
+      "negative": "Tutar eksi olamaz.",
+      "tooManyDecimals": "Virgülden sonra en fazla 2 basamak girilebilir.",
+      "tooLarge": "Tutar çok büyük.",
+      "notPositive": "Tutar sıfırdan büyük olmalı."
+    },
+    "nationalId": {
+      "length": "TC Kimlik No 11 haneli olmalı.",
+      "firstDigit": "TC Kimlik No 0 ile başlayamaz."
+    },
+    "dateInvalid": "Geçerli bir tarih seçin.",
+    "ibanInvalid": "Geçerli bir IBAN girin.",
+    "intervalInvalid": "1 ile 12 arasında olmalı.",
+    "endBeforeStart": "Bitiş tarihi başlangıçtan önce olamaz.",
+    "timeInvalid": "Geçerli bir saat seçin.",
+    "timeInPast": "Geçmiş bir zaman seçilemez."
+  },
+  "contactRoles": {
+    "customer": "Müşteri",
+    "supplier": "Tedarikçi",
+    "both": "İkisi"
+  },
+  "contacts": {
+    "add": "Cari ekle",
+    "searchPlaceholder": "Ad, telefon veya il ara",
+    "filters": {
+      "label": "Filtre",
+      "all": "Tümü",
+      "customer": "Müşteri",
+      "supplier": "Tedarikçi",
+      "debtors": "Borçlu olanlar",
+      "creditors": "Alacaklı olanlar",
+      "passive": "Pasifler"
+    },
+    "sort": {
+      "title": "Sırala",
+      "name": "Ada göre",
+      "balance": "Bakiyeye göre",
+      "lastActivity": "Son harekete göre"
+    },
+    "empty": {
+      "title": "Henüz cari yok",
+      "description": "Müşteri ve tedarikçilerinizi ekleyin; kimin ne kadar borçlu olduğunu buradan takip edin."
+    },
+    "noResults": {
+      "title": "Sonuç bulunamadı",
+      "description": "Aramayı veya filtreyi değiştirmeyi deneyin."
+    },
+    "passiveTag": "Pasif",
+    "balanceReceivable": "Size borçlu {{amount}}",
+    "balancePayable": "Borcunuz {{amount}}",
+    "balanceSettled": "Hesap kapalı",
+    "actions": {
+      "deactivate": "Pasife al",
+      "activate": "Aktife al",
+      "hint": "İşlemler için basılı tutun veya kaydırın"
+    },
+    "saved": "Cari kaydedildi",
+    "deleted": "{{name}} silindi",
+    "deactivated": "{{name}} pasife alındı",
+    "activated": "{{name}} aktife alındı",
+    "deleteBlocked": {
+      "title": "Bu cari silinemez",
+      "message": "Hareketi olan cari silinemez. Pasife alabilirsiniz; geçmiş hareketleri ve bakiyesi korunur."
+    },
+    "limit": {
+      "title": "Ücretsiz sürüm sınırı",
+      "message": "Ücretsiz sürümde en fazla {{count}} aktif cari olabilir. Daha fazlası için Premium'a geçebilir veya kullanmadığınız carileri pasife alabilirsiniz."
+    }
+  },
+  "contactForm": {
+    "newTitle": "Yeni cari",
+    "editTitle": "Cariyi düzenle",
+    "personType": "Kişi türü",
+    "role": "Cari tipi",
+    "name": "Ad Soyad",
+    "companyName": "Unvan",
+    "nationalId": "TC Kimlik No",
+    "nationalIdIntl": "Tax ID",
+    "taxNumber": "Vergi No",
+    "taxNumberIntl": "Company / VAT No",
+    "taxOffice": "Vergi Dairesi",
+    "contactSection": "İletişim",
+    "phone": "Telefon",
+    "phoneHint": "Ülke kodu yazmazsanız {{code}} kabul edilir.",
+    "email": "E-posta",
+    "addressSection": "Adres",
+    "city": "İl",
+    "district": "İlçe",
+    "cityIntl": "Şehir",
+    "districtIntl": "İlçe / Eyalet",
+    "selectCity": "İl seçin",
+    "selectDistrict": "İlçe seçin",
+    "selectCityFirst": "Önce il seçin",
+    "address": "Açık adres",
+    "note": "Not",
+    "active": "Aktif",
+    "activeHint": "Pasif cariler listede gizlenir ve yeni harekette seçilemez.",
+    "openingSection": "Açılış bakiyesi",
+    "openingHint": "Bu cariyle önceden kalan bir hesap varsa girin; otomatik olarak Devir hareketi oluşturulur.",
+    "openingAmount": "Tutar",
+    "openingReceivable": "Alacağım var",
+    "openingPayable": "Borcum var",
+    "optional": "isteğe bağlı"
+  },
+  "picker": {
+    "searchPlaceholder": "Ara",
+    "noResults": "Sonuç yok"
+  },
+  "transactionForm": {
+    "editTitle": "Hareketi düzenle",
+    "movementType": "Hareket tipi",
+    "amount": "Tutar",
+    "contact": "Cari",
+    "selectContact": "Cari seçin",
+    "selectContactOptional": "Cari seçin (isteğe bağlı)",
+    "noContacts": "Henüz aktif cari yok",
+    "account": "Hesap",
+    "noAccounts": "Aktif hesap yok. Ayarlar'dan hesap ekleyin.",
+    "openingDirection": "Devir yönü",
+    "date": "Tarih",
+    "dueDate": "Vade tarihi",
+    "noDueDate": "Vade yok",
+    "detailsSection": "Ayrıntılar",
+    "incomeType": "Gelir türü",
+    "expenseType": "Gider türü",
+    "selectType": "Tür seçin",
+    "subject": "İşlem konusu",
+    "selectSubject": "Konu seçin",
+    "description": "Açıklama",
+    "documentNo": "Belge no",
+    "saved": "Kaydedildi",
+    "addAnother": "Yeni ekle",
+    "draftRestored": "Yarım kalan giriş geri yüklendi"
+  },
+  "transactionDetail": {
+    "title": "Hareket detayı",
+    "type": "İşlem türü"
+  },
+  "transactions": {
+    "title": "Tüm hareketler",
+    "searchPlaceholder": "Açıklama veya belge no ara",
+    "runningBalance": "Bakiye {{amount}}",
+    "attachmentCount_one": "{{count}} belge",
+    "attachmentCount_other": "{{count}} belge",
+    "actionsHint": "İşlemler için basılı tutun veya kaydırın",
+    "deleted": "Hareket silindi",
+    "actions": {
+      "open": "Aç"
+    },
+    "empty": {
+      "title": "Henüz hareket yok",
+      "description": "Alttaki + düğmesiyle tahsilat, ödeme veya veresiye ekleyin."
+    }
+  },
+  "transactionFilters": {
+    "title": "Filtrele",
+    "reset": "Sıfırla",
+    "apply": "Uygula",
+    "period": "Dönem",
+    "periods": {
+      "all": "Tümü",
+      "thisMonth": "Bu ay",
+      "lastMonth": "Geçen ay",
+      "thisYear": "Bu yıl",
+      "custom": "Özel aralık"
+    },
+    "from": "Başlangıç",
+    "to": "Bitiş",
+    "noLimit": "Sınır yok",
+    "records": "Kayıtlar",
+    "any": "Tümü",
+    "income": "Gelir",
+    "expense": "Gider",
+    "buttonActive": "Filtrele, {{count}} filtre etkin"
+  },
+  "attachments": {
+    "title": "Belgeler",
+    "add": "Belge ekle",
+    "takePhoto": "Fotoğraf çek",
+    "chooseFromLibrary": "Galeriden seç",
+    "choosePdf": "PDF seç",
+    "pdf": "PDF",
+    "photo": "Fotoğraf",
+    "openHint": "Belgeyi açar",
+    "remove": "{{name}} kaldır",
+    "openSettings": "Ayarları aç",
+    "pickFailed": "Belge eklenemedi. Lütfen tekrar deneyin.",
+    "cameraPrompt": {
+      "title": "Kamera izni",
+      "message": "Fiş ve faturaların fotoğrafını çekip harekete eklemek için kameraya erişim gerekiyor."
+    },
+    "cameraDenied": {
+      "title": "Kamera izni kapalı",
+      "message": "Fotoğraf çekebilmek için telefonun Ayarlar'ından Tabulo'ya kamera izni verin."
+    }
+  },
+  "contactDetail": {
+    "title": "Cari detay",
+    "moreActions": "Diğer seçenekler",
+    "call": "Ara: {{phone}}",
+    "balance": {
+      "receivable": "Size borçlu",
+      "payable": "Borcunuz",
+      "settled": "Hesap kapalı"
+    },
+    "due": "Vade: {{date}}",
+    "overdue": "Gecikti: {{date}}",
+    "sendStatement": "Ekstre gönder",
+    "remind": "Hatırlat",
+    "whatsapp": "WhatsApp mesajı",
+    "filters": {
+      "all": "Tümü",
+      "sales": "Satışlar",
+      "purchases": "Alışlar",
+      "collections": "Tahsilatlar",
+      "payments": "Ödemeler"
+    },
+    "empty": {
+      "title": "Henüz hareket yok",
+      "description": "Bu cariyle ilgili satış, tahsilat veya ödemeleri aşağıdaki düğmeyle ekleyin."
+    },
+    "emptyFiltered": "Bu filtrede hareket yok",
+    "passiveTitle": "Bu cari pasif",
+    "passiveMessage": "Pasif cariye yeni hareket eklenemez. Önce aktife alın.",
+    "whatsappMessage": {
+      "receivable": "Merhaba {{name}}, {{date}} itibarıyla güncel bakiyeniz {{amount}}'dir. Bilginize.",
+      "payable": "Merhaba {{name}}, {{date}} itibarıyla size olan borcumuz {{amount}}'dir. Bilginize.",
+      "settled": "Merhaba {{name}}, {{date}} itibarıyla hesabınızda açık bakiye bulunmamaktadır. Bilginize."
+    },
+    "whatsappSignature": "– {{business}}",
+    "whatsappMessageLabel": "Mesaj",
+    "whatsappOpen": "WhatsApp'ta aç",
+    "whatsappFailedTitle": "WhatsApp açılamadı",
+    "whatsappFailed": "Bağlantı açılamadı. WhatsApp'ın yüklü olduğundan emin olun."
+  },
+  "dates": {
+    "today": "Bugün",
+    "yesterday": "Dün"
+  },
+  "businessForm": {
+    "saved": "İşletme profili kaydedildi",
+    "hint": "Bu bilgiler cari ekstresinin (PDF) başlığında görünür. Hepsi isteğe bağlıdır.",
+    "logo": "Logo",
+    "logoHint": "Ekstre başlığında gösterilir.",
+    "addLogo": "Logo ekle",
+    "changeLogo": "Logoyu değiştir",
+    "removeLogo": "Logoyu kaldır",
+    "name": "İşletme adı / Unvan",
+    "taxSection": "Vergi bilgileri"
+  },
+  "currency": {
+    "names": {
+      "TRY": "Türk lirası",
+      "GBP": "İngiliz sterlini",
+      "USD": "ABD doları"
+    },
+    "current": "Şu anki",
+    "apply": "Para birimini değiştir",
+    "convert": "Dönüştür",
+    "changed": "Para birimi {{currency}} olarak değiştirildi",
+    "conversionNote": "Kayıtlı tüm tutarlar (hareketler, hesap açılış bakiyeleri) bugünkü tek kurla dönüştürülecek. Kapalı hesaplar kapalı kalır. Bu işlem geri alınamaz.",
+    "rateLabel": "Kur: 1 {{base}} kaç {{quote}}?",
+    "refreshRate": "Güncel kuru yeniden al",
+    "fetchFailed": "Güncel kur alınamadı. İnternet bağlantınızı kontrol edin veya kuru elle girin.",
+    "rateSource": "Kaynak: Avrupa Merkez Bankası referans kuru, {{date}}",
+    "sample": "Örnek: {{sample}}",
+    "noDataNote": "Henüz kayıtlı tutar yok; para birimi dönüştürme yapılmadan değişecek.",
+    "confirmTitle": "Tutarlar dönüştürülsün mü?",
+    "confirmMessage": "Kayıtlı tüm tutarlar {{rate}} kuruyla dönüştürülecek. Bu işlem geri alınamaz.",
+    "rateErrors": {
+      "empty": "Kur girin.",
+      "invalid": "Geçerli bir kur girin (ör. 49,55).",
+      "notPositive": "Kur sıfırdan büyük olmalı.",
+      "tooManyDecimals": "Virgülden sonra en fazla 6 basamak girilebilir."
+    }
+  },
+  "definitions": {
+    "add": "Ekle",
+    "name": "Ad",
+    "rename": "Yeniden adlandır",
+    "moveUp": "Yukarı taşı",
+    "moveDown": "Aşağı taşı",
+    "hint": "Düzenlemek, sıralamak veya pasife almak için bir satıra dokunun. Pasif kayıtlar yeni harekette seçilemez; geçmiş hareketler korunur.",
+    "rowHint": "Seçenekleri açar",
+    "system": "Hazır",
+    "deleted": "{{name}} silindi",
+    "systemTitle": "Hazır kayıt silinemez",
+    "systemMessage": "Hazır kayıtları yeniden adlandırabilir veya pasife alabilirsiniz.",
+    "newIncomeType": "Yeni gelir türü",
+    "newExpenseType": "Yeni gider türü",
+    "newSubject": "Yeni konu"
+  },
+  "accountTypes": {
+    "cash": "Kasa",
+    "bank": "Banka"
+  },
+  "accounts": {
+    "add": "Hesap ekle",
+    "newTitle": "Yeni hesap",
+    "editTitle": "Hesabı düzenle",
+    "saved": "Hesap kaydedildi",
+    "hint": "Kasa ve banka hesaplarınız. Bakiye = açılış bakiyesi + tahsilatlar − ödemeler.",
+    "type": "Hesap tipi",
+    "name": "Hesap adı",
+    "namePlaceholderCash": "ör. Kasa",
+    "namePlaceholderBank": "ör. Ziraat Bankası",
+    "bankName": "Banka adı",
+    "iban": "IBAN",
+    "ibanHint": "İsteğe bağlı. Ekstrede gösterilebilir.",
+    "openingBalance": "Açılış bakiyesi",
+    "openingHint": "Uygulamayı kullanmaya başladığınızda hesapta bulunan tutar.",
+    "limit": {
+      "title": "Ücretsiz sürüm sınırı",
+      "cash": "Ücretsiz sürümde 1 aktif kasa hesabı olabilir. Daha fazlası için Premium'a geçebilir veya kullanmadığınız hesabı pasife alabilirsiniz.",
+      "bank": "Ücretsiz sürümde 1 aktif banka hesabı olabilir. Daha fazlası için Premium'a geçebilir veya kullanmadığınız hesabı pasife alabilirsiniz."
+    },
+    "deleteBlocked": {
+      "title": "Bu hesap silinemez",
+      "message": "Hareketi olan hesap silinemez. Pasife alabilirsiniz; geçmiş hareketleri ve bakiyesi korunur."
+    }
+  },
+  "notifications": {
+    "channel": "Ödeme ve tahsilat hatırlatmaları",
+    "permission": {
+      "title": "Hatırlatma bildirimleri",
+      "message": "Ödeme ve tahsilat günü geldiğinde sizi uyarabilmemiz için bildirim izni gerekiyor. Bir sonraki ekranda izin verebilirsiniz.",
+      "later": "Şimdi değil"
+    },
+    "denied": {
+      "title": "Bildirimler kapalı",
+      "message": "Hatırlatmalar bildirim olarak gelmez. Telefon ayarlarından açabilirsiniz.",
+      "openSettings": "Ayarlar"
+    },
+    "payment": {
+      "today": "Bugün ödenecek: {{amount}}",
+      "tomorrow": "Yarın ödenecek: {{amount}}",
+      "inDays_one": "{{count}} gün sonra ({{date}}) ödenecek: {{amount}}",
+      "inDays_other": "{{count}} gün sonra ({{date}}) ödenecek: {{amount}}"
+    },
+    "collection": {
+      "today": "Bugün tahsil edilecek: {{amount}}",
+      "tomorrow": "Yarın tahsil edilecek: {{amount}}",
+      "inDays_one": "{{count}} gün sonra ({{date}}) tahsil edilecek: {{amount}}",
+      "inDays_other": "{{count}} gün sonra ({{date}}) tahsil edilecek: {{amount}}"
+    },
+    "reminder": {
+      "title": "Tahsilat hatırlatması: {{name}}",
+      "body": "Carinin bakiyesini kontrol edip tahsilatı hatırlatın."
+    }
+  },
+  "recurring": {
+    "title": "Düzenli ödemeler",
+    "newTitle": "Yeni düzenli ödeme",
+    "editTitle": "Düzenli ödemeyi düzenle",
+    "add": "Düzenli ödeme ekle",
+    "saved": "Kaydedildi",
+    "deleted": "Düzenli ödeme silindi",
+    "finished": "Tamamlandı",
+    "inactiveSection": "Pasif ve tamamlananlar",
+    "hint": "Ödeme yaptığınızda \"Ödendi\"ye dokunun: hareket kaydedilir, sonraki tarih ileri alınır.",
+    "dueOn": "Tarih: {{date}}",
+    "paid": "Kaydedildi. Sonraki: {{date}}",
+    "paidFinished": "Kaydedildi. Bu düzenli ödeme tamamlandı.",
+    "empty": {
+      "title": "Düzenli ödeme yok",
+      "description": "Kira, SGK, abonelik gibi her ay tekrarlanan ödemelerinizi ekleyin; zamanı gelince hatırlatalım."
+    },
+    "due": {
+      "today": "Bugün",
+      "inDays_one": "{{count}} gün kaldı",
+      "inDays_other": "{{count}} gün kaldı",
+      "overdue_one": "Gecikti · {{count}} gün",
+      "overdue_other": "Gecikti · {{count}} gün",
+      "later_one": "{{count}} gün sonra · {{date}}",
+      "later_other": "{{count}} gün sonra · {{date}}"
+    },
+    "frequency": {
+      "weekly": "Haftalık",
+      "monthly": "Aylık",
+      "yearly": "Yıllık"
+    },
+    "every": {
+      "weekly_one": "Her hafta",
+      "weekly_other": "{{count}} haftada bir",
+      "monthly_one": "Her ay",
+      "monthly_other": "{{count}} ayda bir",
+      "yearly_one": "Her yıl",
+      "yearly_other": "{{count}} yılda bir"
+    },
+    "remindDays_zero": "Aynı gün",
+    "remindDays_one": "{{count}} gün önce",
+    "remindDays_other": "{{count}} gün önce",
+    "pay": {
+      "payment": "Ödendi",
+      "collection": "Tahsil edildi",
+      "paymentTitle": "Ödendi olarak işaretle",
+      "collectionTitle": "Tahsil edildi olarak işaretle",
+      "paymentSubmit": "Ödemeyi kaydet",
+      "collectionSubmit": "Tahsilatı kaydet",
+      "paymentDate": "Ödeme tarihi",
+      "collectionDate": "Tahsilat tarihi",
+      "paymentHint": "Bir ödeme hareketi oluşturulur ve sonraki ödeme tarihi bir dönem ileri alınır.",
+      "collectionHint": "Bir tahsilat hareketi oluşturulur ve sonraki tahsilat tarihi bir dönem ileri alınır."
+    },
+    "form": {
+      "type": "Tür",
+      "payment": "Ödeme",
+      "collection": "Tahsilat",
+      "title": "Başlık",
+      "titlePlaceholderPayment": "Örn. Dükkan kirası",
+      "titlePlaceholderCollection": "Örn. Aylık bakım ücreti",
+      "frequency": "Sıklık",
+      "intervalDecrease": "Aralığı azalt",
+      "intervalIncrease": "Aralığı artır",
+      "firstDate": "İlk ödeme tarihi",
+      "nextDate": "Sonraki ödeme tarihi",
+      "endDate": "Bitiş tarihi",
+      "noEndDate": "Süresiz",
+      "reminderSection": "Hatırlatma",
+      "remindDaysBefore": "Ne zaman hatırlatılsın?",
+      "remindTime": "Saat"
+    }
+  },
+  "reminders": {
+    "title": "Hatırlatıcılar",
+    "newTitle": "Tahsilat hatırlatıcısı",
+    "editTitle": "Hatırlatıcıyı düzenle",
+    "saved": "Hatırlatıcı kuruldu",
+    "completed": "Tamamlandı",
+    "deleted": "Hatırlatıcı silindi",
+    "complete": "Tamam",
+    "contact": "Cari",
+    "date": "Tarih",
+    "time": "Saat",
+    "note": "Not",
+    "notePlaceholder": "Örn. Kalan 2.000 ₺ için aranacak",
+    "dueSection": "Zamanı gelenler",
+    "upcomingSection": "Yaklaşanlar",
+    "empty": {
+      "title": "Bekleyen hatırlatıcı yok",
+      "description": "Cari detayındaki \"Hatırlat\" düğmesiyle tahsilat hatırlatıcısı kurabilirsiniz."
+    }
+  }
+}

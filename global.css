@@ -1,0 +1,174 @@
+@import 'tailwindcss';
+@import 'uniwind';
+@import 'heroui-native/styles';
+
+/*
+ * Tabulo teması – PROMPT.md 4.2 / 4.4.
+ * Değerler src/core/theme/tokens.ts ile birebir aynı olmalı (tokens.test.ts doğrular).
+ *
+ * HeroUI eşlemesi:
+ *   accent      -> ana eylem butonları (kehribar)
+ *   success     -> positive
+ *   danger      -> negative
+ *   warning     -> accent (vade/uyarı vurgusu)
+ *   surface / overlay / field / segment -> surface
+ *   focus / link -> primary
+ */
+
+@theme {
+  --font-normal: 'PlusJakartaSans_400Regular';
+  --font-medium: 'PlusJakartaSans_500Medium';
+  --font-semibold: 'PlusJakartaSans_600SemiBold';
+  --font-bold: 'PlusJakartaSans_700Bold';
+  --font-extrabold: 'PlusJakartaSans_800ExtraBold';
+
+  /* Input köşesi 12 px, alan kenarlığı görünür */
+  --field-radius: 12px;
+  --field-border-width: 1px;
+}
+
+@layer theme {
+  :root {
+    @variant light {
+      /* --- Tabulo tokenları --- */
+      --primary: #1e3a5f;
+      --primary-foreground: #ffffff;
+      --accent: #f2a93b;
+      --accent-foreground: #16202b;
+      --background: #f6f7f9;
+      --surface: #ffffff;
+      --foreground: #16202b;
+      --muted: #5b6472;
+      --border: #e3e6eb;
+      --positive: #15803d;
+      --negative: #b91c1c;
+      --warning-bg: #fdf3e1;
+      --warning-fg: #8a5300;
+      --separator: #eef0f3;
+      --surface-secondary: #eaf0f7;
+      --summary: #1e3a5f;
+      --summary-foreground: #ffffff;
+      --summary-muted: #c9d3e0;
+      --summary-positive: #6ee7a0;
+      --summary-negative: #fca5a5;
+      --summary-tile: rgba(255, 255, 255, 0.08);
+
+      /* --- HeroUI değişkenleri --- */
+      --surface-foreground: var(--foreground);
+      --surface-secondary-foreground: var(--foreground);
+      --surface-tertiary: #f1f3f6;
+      --surface-tertiary-foreground: var(--foreground);
+      --overlay: var(--surface);
+      --overlay-foreground: var(--foreground);
+      --backdrop: rgba(14, 22, 32, 0.4);
+      --default: #eef1f5;
+      --default-foreground: var(--foreground);
+      --field-background: var(--surface);
+      --field-foreground: var(--foreground);
+      --field-placeholder: var(--muted);
+      --field-border: var(--border);
+      --success: var(--positive);
+      --success-foreground: #ffffff;
+      --warning: var(--accent);
+      --warning-foreground: var(--accent-foreground);
+      --danger: var(--negative);
+      --danger-foreground: #ffffff;
+      --segment: var(--surface);
+      --segment-foreground: var(--foreground);
+      --focus: var(--primary);
+      --link: var(--primary);
+      --surface-shadow: 0 1px 2px 0 rgba(22, 32, 43, 0.04);
+      --overlay-shadow: 0 8px 24px 0 rgba(22, 32, 43, 0.08);
+      --field-shadow: 0 0 0 0 transparent inset;
+    }
+
+    @variant dark {
+      /* --- Tabulo tokenları --- */
+      --primary: #8fb4e3;
+      --primary-foreground: #0e1620;
+      --accent: #f2a93b;
+      --accent-foreground: #16202b;
+      --background: #0e1620;
+      --surface: #16202b;
+      --foreground: #f2f4f7;
+      --muted: #aeb7c3;
+      --border: #273242;
+      --positive: #4ade80;
+      --negative: #f87171;
+      --warning-bg: #3a2a10;
+      --warning-fg: #f5c77a;
+      --separator: #1f2a38;
+      --surface-secondary: #1d2b3d;
+      --summary: #1b3354;
+      --summary-foreground: #f2f4f7;
+      --summary-muted: #b9c6d6;
+      --summary-positive: #6ee7a0;
+      --summary-negative: #fca5a5;
+      --summary-tile: rgba(255, 255, 255, 0.07);
+
+      /* --- HeroUI değişkenleri --- */
+      --surface-foreground: var(--foreground);
+      --surface-secondary-foreground: var(--foreground);
+      --surface-tertiary: #223044;
+      --surface-tertiary-foreground: var(--foreground);
+      --overlay: var(--surface);
+      --overlay-foreground: var(--foreground);
+      --backdrop: rgba(0, 0, 0, 0.5);
+      --default: #273242;
+      --default-foreground: var(--foreground);
+      --field-background: var(--surface);
+      --field-foreground: var(--foreground);
+      --field-placeholder: var(--muted);
+      --field-border: var(--border);
+      --success: var(--positive);
+      --success-foreground: #0e1620;
+      --warning: var(--accent);
+      --warning-foreground: var(--accent-foreground);
+      --danger: var(--negative);
+      --danger-foreground: #0e1620;
+      --segment: #273242;
+      --segment-foreground: var(--foreground);
+      --focus: var(--primary);
+      --link: var(--primary);
+      /* Koyu temada gölge yok; kenarlık ve ton farkı kullanılır (4.4) */
+      --surface-shadow: 0 0 0 0 transparent inset;
+      --overlay-shadow: 0 0 0 0 transparent inset;
+      --field-shadow: 0 0 0 0 transparent inset;
+    }
+  }
+}
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-positive: var(--positive);
+  --color-negative: var(--negative);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-fg: var(--warning-fg);
+  --color-summary: var(--summary);
+  --color-summary-foreground: var(--summary-foreground);
+  --color-summary-muted: var(--summary-muted);
+  --color-summary-positive: var(--summary-positive);
+  --color-summary-negative: var(--summary-negative);
+  --color-summary-tile: var(--summary-tile);
+}
+
+/*
+ * HeroUI buton ayarları – 4.3: buton köşesi 12–16 px (HeroUI varsayılanı 24–32 px hap şekli).
+ * Etiketler kalın (tasarımdaki eylem butonları 700).
+ */
+.button__root--size-sm,
+.button__background--size-sm {
+  border-radius: 12px;
+}
+.button__root--size-md,
+.button__background--size-md {
+  border-radius: 14px;
+}
+.button__root--size-lg,
+.button__background--size-lg {
+  border-radius: 16px;
+}
+.button__label {
+  @apply font-bold;
+}
