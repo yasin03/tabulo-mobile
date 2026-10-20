@@ -1,0 +1,8 @@
+node_modules
+ios
+android
+.expo
+docs
+src/uniwind-types.d.ts
+expo-env.d.ts
+src/db/migrations/

@@ -1,0 +1,5 @@
+{
+  "CFBundleDisplayName": "Tabulo",
+  "NSCameraUsageDescription": "Tabulo uses the camera to photograph receipts and invoices for your records.",
+  "NSPhotoLibraryUsageDescription": "Tabulo uses your photos to attach receipts and invoices to your records."
+}
