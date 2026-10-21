@@ -364,6 +364,69 @@
     "expense": "Expense",
     "buttonActive": "Filter, {{count}} active"
   },
+  "reports": {
+    "export": "Export",
+    "unitLabel": "Period type",
+    "units": {
+      "day": "Day",
+      "week": "Week",
+      "month": "Month",
+      "year": "Year",
+      "custom": "Custom"
+    },
+    "previous": "Previous period",
+    "next": "Next period",
+    "backToCurrent": {
+      "day": "Back to today",
+      "week": "Back to this week",
+      "month": "Back to this month",
+      "year": "Back to this year"
+    },
+    "changeRange": "Change range: {{period}}",
+    "customRange": {
+      "title": "Custom range",
+      "from": "From",
+      "to": "To",
+      "apply": "Apply"
+    },
+    "summary": {
+      "net": "Net (money in − money out)",
+      "income": "Money in",
+      "expense": "Money out",
+      "creditSales": "Sales on credit",
+      "creditPurchases": "Purchases on credit",
+      "transactionCount_one": "{{count}} transaction",
+      "transactionCount_other": "{{count}} transactions",
+      "openList": "{{label}}: {{amount}}. Show transactions"
+    },
+    "chart": {
+      "title": "Money in and out",
+      "hint": "Press and hold the chart for details",
+      "a11y": "Money in and out chart, {{period}}. Total in {{income}}, total out {{expense}}.",
+      "empty": "No money in or out in this period."
+    },
+    "byType": "Spending by category",
+    "bySubject": "Spending by subject",
+    "noType": "No category",
+    "noSubject": "No subject",
+    "noExpenses": "No payments in this period.",
+    "rowA11y": "{{name}}: {{amount}}, {{percent}} percent",
+    "accounts": "Account balances",
+    "accountsAsOf": "As of {{date}}",
+    "compact": {
+      "none": "{{value}}",
+      "thousand": "{{value}}K",
+      "million": "{{value}}M",
+      "billion": "{{value}}B"
+    },
+    "empty": {
+      "title": "No transactions in this period",
+      "description": "Use the arrows to move to another period or change the period type."
+    },
+    "percent": "{{value}}%",
+    "showAll": "Show all ({{count}})",
+    "showLess": "Show less"
+  },
   "attachments": {
     "title": "Attachments",
     "add": "Add attachment",
@@ -548,7 +611,7 @@
     "deleted": "Recurring payment deleted",
     "finished": "Completed",
     "inactiveSection": "Inactive and completed",
-    "hint": "Tap \"Paid\" when you pay: the transaction is recorded and the next date moves forward.",
+    "hint": "Tap \"Mark paid\" when you pay: the transaction is recorded and the next date moves forward.",
     "dueOn": "Due {{date}}",
     "paid": "Saved. Next: {{date}}",
     "paidFinished": "Saved. This recurring payment is complete.",
@@ -582,8 +645,8 @@
     "remindDays_one": "{{count}} day before",
     "remindDays_other": "{{count}} days before",
     "pay": {
-      "payment": "Paid",
-      "collection": "Received",
+      "payment": "Mark paid",
+      "collection": "Mark received",
       "paymentTitle": "Mark as paid",
       "collectionTitle": "Mark as received",
       "paymentSubmit": "Save payment",
@@ -610,6 +673,10 @@
       "reminderSection": "Reminder",
       "remindDaysBefore": "When should we remind you?",
       "remindTime": "Time"
+    },
+    "lastPaid": {
+      "payment": "Last paid: {{date}}",
+      "collection": "Last received: {{date}}"
     }
   },
   "reminders": {

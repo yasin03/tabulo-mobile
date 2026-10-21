@@ -8,6 +8,7 @@ import { MoneyText } from '@/components/ui/MoneyText';
 import { dueStatus } from '@/core/recurrence';
 import type { RecurringPaymentListItem } from '@/db/repositories';
 import { cn } from '@/lib/cn';
+import { useDates } from '@/lib/dates';
 import { useColors } from '@/lib/theme';
 
 import { DueLabel } from './DueLabel';
@@ -39,6 +40,7 @@ export function RecurringRow({
 }: RecurringRowProps) {
   const { t } = useTranslation();
   const colors = useColors();
+  const dates = useDates();
   const isActive = item.status === 'active';
   const isSoon = isActive && dueStatus(item.nextDueDate, today).tone !== 'later';
   const details = [
@@ -86,6 +88,11 @@ export function RecurringRow({
         {showDetails && details ? (
           <AppText numberOfLines={1} className="text-[12px] leading-[17px] text-muted">
             {details}
+          </AppText>
+        ) : null}
+        {showDetails && item.lastPaidDate ? (
+          <AppText numberOfLines={1} className="text-[12px] leading-[17px] text-positive">
+            {t(`recurring.lastPaid.${item.movementType}`, { date: dates.day(item.lastPaidDate) })}
           </AppText>
         ) : null}
       </View>

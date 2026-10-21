@@ -180,3 +180,33 @@ export function pickCurrency(codes: readonly (string | null | undefined)[]): Cur
   }
   return DEFAULT_CURRENCY;
 }
+
+export type CompactUnit = 'none' | 'thousand' | 'million' | 'billion';
+
+const COMPACT_STEPS: readonly [CompactUnit, number][] = [
+  ['billion', 1e9],
+  ['million', 1e6],
+  ['thousand', 1e3],
+];
+
+const compactFormatterCache = new Map<string, Intl.NumberFormat>();
+
+/**
+ * Grafik ekseni için kısaltılmış tutar (yalnızca gösterim): `1.250.000,00` → `{ value: '1,3', unit: 'million' }`.
+ * Birim adı ("B", "Mn" / "K", "M") çeviri dosyasından gelir. İşaret korunur.
+ */
+export function compactAmount(
+  minor: number,
+  options: MoneyFormatOptions,
+): { value: string; unit: CompactUnit } {
+  assertMinor(minor);
+  const major = minor / 100;
+  const [unit, divisor] = COMPACT_STEPS.find(([, step]) => Math.abs(major) >= step) ?? ['none', 1];
+  const locale = formatLocale(options.language, options.currency);
+  let formatter = compactFormatterCache.get(locale);
+  if (!formatter) {
+    formatter = new Intl.NumberFormat(locale, { maximumFractionDigits: 1, useGrouping: true });
+    compactFormatterCache.set(locale, formatter);
+  }
+  return { value: formatter.format(major / divisor), unit };
+}

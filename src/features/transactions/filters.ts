@@ -1,5 +1,7 @@
 import { monthRange, toIsoDate, yearRange } from '@/core/dates';
 import type { MovementType } from '@/core/ledger';
+import { isIsoDate } from '@/core/validation';
+import { MOVEMENT_TYPES } from '@/db/schema';
 import type { TransactionSearchFilter } from '@/db/repositories';
 
 export const PERIODS = ['all', 'thisMonth', 'lastMonth', 'thisYear', 'custom'] as const;
@@ -28,6 +30,35 @@ export const EMPTY_FILTERS: TransactionFilters = {
   subjectId: '',
   contactId: '',
 };
+
+/** Ekrana bağlantıyla gelen filtreler (hesap kartı, raporlardaki kırılımlar). */
+export type TransactionFilterParams = {
+  accountId?: string;
+  transactionTypeId?: string;
+  subjectId?: string;
+  /** Virgülle ayrılmış hareket tipleri: `payment` veya `collection,payment`. */
+  types?: string;
+  from?: string;
+  to?: string;
+};
+
+export function filtersFromParams(params: TransactionFilterParams): TransactionFilters {
+  const from = params.from && isIsoDate(params.from) ? params.from : '';
+  const to = params.to && isIsoDate(params.to) ? params.to : '';
+  const movementTypes = (params.types ?? '')
+    .split(',')
+    .filter((type): type is MovementType => (MOVEMENT_TYPES as readonly string[]).includes(type));
+  return {
+    ...EMPTY_FILTERS,
+    period: from || to ? 'custom' : 'all',
+    from,
+    to,
+    movementTypes,
+    accountId: params.accountId ?? '',
+    transactionTypeId: params.transactionTypeId ?? '',
+    subjectId: params.subjectId ?? '',
+  };
+}
 
 function periodRange(filters: TransactionFilters, today: string): { from?: string; to?: string } {
   switch (filters.period) {

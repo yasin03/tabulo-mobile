@@ -364,6 +364,69 @@
     "expense": "Gider",
     "buttonActive": "Filtrele, {{count}} filtre etkin"
   },
+  "reports": {
+    "export": "Dışa aktar",
+    "unitLabel": "Dönem türü",
+    "units": {
+      "day": "Gün",
+      "week": "Hafta",
+      "month": "Ay",
+      "year": "Yıl",
+      "custom": "Özel"
+    },
+    "previous": "Önceki dönem",
+    "next": "Sonraki dönem",
+    "backToCurrent": {
+      "day": "Bugüne dön",
+      "week": "Bu haftaya dön",
+      "month": "Bu aya dön",
+      "year": "Bu yıla dön"
+    },
+    "changeRange": "Aralığı değiştir: {{period}}",
+    "customRange": {
+      "title": "Özel aralık",
+      "from": "Başlangıç",
+      "to": "Bitiş",
+      "apply": "Uygula"
+    },
+    "summary": {
+      "net": "Net (gelir − gider)",
+      "income": "Gelir",
+      "expense": "Gider",
+      "creditSales": "Veresiye satışlar",
+      "creditPurchases": "Veresiye alışlar",
+      "transactionCount_one": "{{count}} hareket",
+      "transactionCount_other": "{{count}} hareket",
+      "openList": "{{label}}: {{amount}}. Hareketleri göster"
+    },
+    "chart": {
+      "title": "Gelir ve gider",
+      "hint": "Ayrıntı için grafiğe basılı tutun",
+      "a11y": "Gelir-gider grafiği, {{period}}. Toplam gelir {{income}}, toplam gider {{expense}}.",
+      "empty": "Bu dönemde tahsilat veya ödeme yok."
+    },
+    "byType": "İşlem türüne göre gider",
+    "bySubject": "Konuya göre gider",
+    "noType": "Tür seçilmemiş",
+    "noSubject": "Konu seçilmemiş",
+    "noExpenses": "Bu dönemde ödeme yok.",
+    "rowA11y": "{{name}}: {{amount}}, yüzde {{percent}}",
+    "accounts": "Hesap bakiyeleri",
+    "accountsAsOf": "{{date}} itibarıyla",
+    "compact": {
+      "none": "{{value}}",
+      "thousand": "{{value}} B",
+      "million": "{{value}} Mn",
+      "billion": "{{value}} Mr"
+    },
+    "empty": {
+      "title": "Bu dönemde hareket yok",
+      "description": "Ok tuşlarıyla başka bir döneme geçin veya dönem türünü değiştirin."
+    },
+    "percent": "%{{value}}",
+    "showAll": "Tümünü göster ({{count}})",
+    "showLess": "Daha az göster"
+  },
   "attachments": {
     "title": "Belgeler",
     "add": "Belge ekle",
@@ -548,7 +611,7 @@
     "deleted": "Düzenli ödeme silindi",
     "finished": "Tamamlandı",
     "inactiveSection": "Pasif ve tamamlananlar",
-    "hint": "Ödeme yaptığınızda \"Ödendi\"ye dokunun: hareket kaydedilir, sonraki tarih ileri alınır.",
+    "hint": "Ödemeyi yaptığınızda \"Ödedim\"e dokunun: hareket kaydedilir, sonraki tarih ileri alınır.",
     "dueOn": "Tarih: {{date}}",
     "paid": "Kaydedildi. Sonraki: {{date}}",
     "paidFinished": "Kaydedildi. Bu düzenli ödeme tamamlandı.",
@@ -582,8 +645,8 @@
     "remindDays_one": "{{count}} gün önce",
     "remindDays_other": "{{count}} gün önce",
     "pay": {
-      "payment": "Ödendi",
-      "collection": "Tahsil edildi",
+      "payment": "Ödedim",
+      "collection": "Tahsil ettim",
       "paymentTitle": "Ödendi olarak işaretle",
       "collectionTitle": "Tahsil edildi olarak işaretle",
       "paymentSubmit": "Ödemeyi kaydet",
@@ -610,6 +673,10 @@
       "reminderSection": "Hatırlatma",
       "remindDaysBefore": "Ne zaman hatırlatılsın?",
       "remindTime": "Saat"
+    },
+    "lastPaid": {
+      "payment": "Son ödeme: {{date}}",
+      "collection": "Son tahsilat: {{date}}"
     }
   },
   "reminders": {

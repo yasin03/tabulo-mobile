@@ -11,6 +11,7 @@ export const {
   contactsRepo,
   recurringPaymentsRepo,
   remindersRepo,
+  reportsRepo,
   subjectsRepo,
   transactionTypesRepo,
   transactionsRepo,

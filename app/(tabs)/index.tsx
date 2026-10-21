@@ -105,7 +105,7 @@ export default function HomeScreen() {
               <AppText
                 weight="extrabold"
                 maxFontSizeMultiplier={1.2}
-                className="text-[11px] leading-[13px] text-primary-foreground"
+                className="text-[11px] leading-3.25 text-primary-foreground"
               >
                 {dueReminders > 9 ? '9+' : dueReminders}
               </AppText>

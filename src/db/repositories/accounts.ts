@@ -1,6 +1,6 @@
 // Hesaplar (Kasa / Banka). Bakiye saklanmaz: açılış bakiyesi + hareketlerden hesaplanır (5.1).
 
-import { and, asc, eq, isNull, max, sql, type SQL } from 'drizzle-orm';
+import { and, asc, eq, isNull, lte, max, sql, type SQL } from 'drizzle-orm';
 
 import { DomainError } from '@/core/errors';
 import type { Currency } from '@/core/money';
@@ -30,14 +30,14 @@ export function createAccountsRepo(db: Db) {
    * Hesap başına hareket etkisi toplamı; hesaplara LEFT JOIN ile bağlanır.
    * (İlişkili alt sorgu kullanılmaz: Drizzle tek tablolu sorguda sütunları tablo adı olmadan yazar.)
    */
-  function withBalance() {
+  function withBalance(asOf?: string) {
     const stats = db
       .select({
         accountId: transactions.accountId,
         delta: sumOrZero(accountDeltaSql()).as('delta'),
       })
       .from(transactions)
-      .where(liveTransactions())
+      .where(liveTransactions(asOf ? lte(transactions.date, asOf) : undefined))
       .groupBy(transactions.accountId)
       .as('account_stats');
     const balanceMinor =
@@ -75,8 +75,12 @@ export function createAccountsRepo(db: Db) {
         .all();
     },
 
-    async listWithBalances(options?: { includePassive?: boolean }): Promise<AccountWithBalance[]> {
-      return withBalance()
+    /** `asOf` verilirse o günün sonundaki bakiye (raporlar: dönem sonu). */
+    async listWithBalances(options?: {
+      includePassive?: boolean;
+      asOf?: string;
+    }): Promise<AccountWithBalance[]> {
+      return withBalance(options?.asOf)
         .where(live(options?.includePassive ? undefined : eq(a.status, 'active')))
         .orderBy(asc(a.sortOrder), asc(a.name))
         .all()

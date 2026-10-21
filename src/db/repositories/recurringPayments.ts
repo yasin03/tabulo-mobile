@@ -1,6 +1,6 @@
 // Düzenli ödemeler (6.5). "Ödendi" hareketi oluşturur ve sonraki tarihi sıklık × aralık kadar ileri alır.
 
-import { and, asc, eq, isNull, sql, type SQL } from 'drizzle-orm';
+import { and, asc, eq, isNotNull, isNull, sql, type SQL } from 'drizzle-orm';
 
 import { DomainError } from '@/core/errors';
 import { MOVEMENT_RULES } from '@/core/ledger';
@@ -44,6 +44,8 @@ export type RecurringPaymentListItem = RecurringPayment & {
   accountName: string | null;
   contactName: string | null;
   transactionTypeName: string | null;
+  /** Bu düzenli ödemeden oluşan (silinmemiş) son hareketin tarihi; hiç ödenmediyse `null`. */
+  lastPaidDate: string | null;
   /** Bitiş tarihi geçti (pasif ve tamamlandı). */
   isFinished: boolean;
 };
@@ -127,17 +129,30 @@ function assertTransactionType(db: DbOrTx, fields: ReturnType<typeof normalized>
 }
 
 function selectDetailed(db: DbOrTx, where: SQL | undefined) {
+  // Gruplanmış alt sorgu + LEFT JOIN (ilişkili alt sorgu değil, bkz. CLAUDE.md).
+  const paid = db
+    .select({
+      recurringPaymentId: transactions.recurringPaymentId,
+      lastPaidDate: sql<string>`MAX(${transactions.date})`.as('last_paid_date'),
+    })
+    .from(transactions)
+    .where(and(isNull(transactions.deletedAt), isNotNull(transactions.recurringPaymentId)))
+    .groupBy(transactions.recurringPaymentId)
+    .as('recurring_paid');
+
   return db
     .select({
       recurring: r,
       accountName: accounts.name,
       contactName: contacts.name,
       transactionTypeName: transactionTypes.name,
+      lastPaidDate: paid.lastPaidDate,
     })
     .from(r)
     .leftJoin(accounts, eq(accounts.id, r.accountId))
     .leftJoin(contacts, eq(contacts.id, r.contactId))
     .leftJoin(transactionTypes, eq(transactionTypes.id, r.transactionTypeId))
+    .leftJoin(paid, eq(paid.recurringPaymentId, r.id))
     .where(where);
 }
 
@@ -146,6 +161,7 @@ function toListItem(row: {
   accountName: string | null;
   contactName: string | null;
   transactionTypeName: string | null;
+  lastPaidDate: string | null;
 }): RecurringPaymentListItem {
   const { recurring, ...names } = row;
   return {
