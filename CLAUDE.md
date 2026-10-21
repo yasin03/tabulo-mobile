@@ -23,7 +23,8 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 | 3 – Hareketler | ✅ Tamamlandı ve onaylandı                                                                                                     |
 | 4 – Ana sayfa  | ✅ Tamamlandı                                                                                                                  |
 | 5 – Düzenli ödemeler / hatırlatıcılar | ✅ Tamamlandı (iOS'ta bildirim + dokununca ekran açılması kullanıcı tarafından doğrulandı)               |
-| 6–10           | Başlanmadı                                                                                                                     |
+| 6 – Raporlar   | ✅ Tamamlandı (onay bekliyor)                                                                                                  |
+| 7–10           | Başlanmadı                                                                                                                     |
 
 ### Faz 0'da yapılanlar
 
@@ -79,6 +80,14 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 - Ana sayfa "Yaklaşan ödemeler" (ilk 3 aktif, satıra dokununca Ödendi ekranı). Ayarlar: Hatırlatmalar grubu + varsayılan hatırlatma saati (MMKV `defaultRemindTime`). `useToday` gün değişince / ön plana gelince yeniler.
 - Ortak: `TimeField`, `src/core/recurrence.ts`, `dates.ts`'e saat yardımcıları (`isTimeOfDay`, `formatTimeOfDay`, `localDateTime`), `core/whatsapp.ts`.
 
+### Faz 6'da yapılanlar
+
+- `@shopify/react-native-skia` 2.6.2 (SDK 57 sürümü) + `victory-native` 42 → dev client yeniden derlendi.
+- Raporlar [app/(tabs)/reports.tsx](<app/(tabs)/reports.tsx>): dönem seçici (Gün / Hafta / Ay / Yıl / Özel, ‹ › okları, "Bu aya dön"), özet kartları (Net, Gelir, Gider, Veresiye satış/alış), gelir-gider sütun grafiği (victory-native `BarGroup`, basılı tutunca dilim ayrıntısı), işlem türüne / konuya göre gider, dönem sonundaki hesap bakiyeleri. Dışa aktar "Yakında" (Faz 7).
+- Kırılımlar: kutucuğa veya satıra dokununca `/transactions?from=&to=&types=&transactionTypeId=&subjectId=&accountId=` (`filtersFromParams`).
+- `src/core/periods.ts` (dönem, kaydırma, dilimler, etiketler), `money.ts`'e `compactAmount` (eksen: `15 B`, `1,3 Mn`), `dates.ts`'e `weekday` ve yeni `DateStyle`'lar.
+- `reportsRepo` (`summary`, `dailyIncomeExpense`, `expensesByType`, `expensesBySubject`); `accountsRepo.listWithBalances({ asOf })`.
+
 ## Alınan kararlar
 
 - **Drizzle 1.0 RC** (`drizzle-orm` / `drizzle-kit` `1.0.0-rc.4`, tam sürüm sabit): Drizzle'ın Expo dokümanı `@rc` kurulumunu söylüyor. RC'nin `useMigrations` tipi `journal` bekliyor ama migrator kullanmıyor → `useDatabaseSetup.ts`'te bilinçli cast.
@@ -124,6 +133,10 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 - **Belge yolu göreli saklanır** (`attachments/<id>.jpg`): iOS uygulama klasörünün mutlak yolu güncellemede değişir; `resolveAttachmentUri` ile açılır. Silinen belgenin dosyası yumuşak silme gereği diskte kalır (temizlik ileride, yedekleme fazında ele alınabilir).
 - **Tutarın işareti/rengi:** genel listelerde tahsilat `+` yeşil, ödeme `−` kırmızı, veresiye satış `+`, veresiye alış `−`; cari detayında tasarımdaki gibi işaret cari bakiyesine etkidir (tahsilat `−`), renk para akışıdır (tahsilat yeşil, veresiye nötr).
 - **Devir hareketi** yalnızca cari detayındaki "İşlem ekle"den girilir; düzenlerken tipi değiştirilemez.
+- **HeroUI BottomSheet portalı `BusinessProvider`'ın dışında render edilir:** içine `useMoney` / `useDates` kullanan bileşen (ör. `DateField`) koyma, çöker; RN `Modal` (pageSheet) kullan (`CustomRangeSheet`, `TransactionFilterSheet`).
+- **`SafeAreaView`'a (safe-area-context) `className` verme:** Uniwind onu stillemiyor (`flex-1`, zemin uygulanmıyor → Modal içinde alanlar üst üste biniyor, alttaki düğme taşıyordu). Kök düz `View` + `useSafeAreaInsets()` ile `padding`; Modal pageSheet'te üst boşluk yalnızca Android'de.
+- **`ErrorScreen` sağlayıcıların dışında da render edilebilir:** HeroUI bileşeni kullanmaz (Faz 6'da Button yüzünden hata ekranı da çöküyordu).
+- **victory-native eksen:** `tickValues` verince `tickCount`'u da `tickValues.length` yap, yoksa 5'e seyreltir.
 - **HeroUI BottomSheet portalı RN `Modal`'ın arkasında kalır:** Modal içinden açılacak seçiciler (ör. `DateField` iOS takvimi) RN `Modal` kullanır.
 - **React Compiler:** RHF `watch()` bileşeni derleyiciden çıkarır; abonelik için `subscribe` kullan. Ref'e dokunan fonksiyonları `handleSubmit`'e verilen callback'ten doğrudan çağırma (lint `react-hooks/refs`), küçük bir kancaya taşı.
 - **Özet kartı ay seçicisi (kullanıcı kararı):** seçilen ayın SONUNDAKİ net bakiye / alacak / borç (`totals(asOf)`); varsayılan bu ay. Hesap kartları her zaman bugünkü bakiye.
@@ -131,8 +144,13 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 - **Ücretsiz hesap sınırı:** 1 aktif kasa + 1 aktif banka (`canAddActiveAccount`); yeni hesap, aktif hesabın tür değişimi ve pasif hesabı aktife alırken.
 - **HeroUI `Chip` satırda dikey ortalanmıyor;** bir `View` içine sar.
 - **Düzenli ödeme tekrarı:** aylık/yıllıkta gün `startDate`'ten gelir, kısa ayda ayın son günü (31 Oca → 28 Şub → 31 Mar). Düzenlemede tarih/sıklık/aralık değişirse `startDate = nextDueDate = yeni tarih`. "Ödendi" her zaman bir dönem ilerletir (gecikmiş birden çok dönemde tekrar basılır). Zamanı geçmiş hatırlatma bildirimi kurulmaz.
+- **Düzenli ödeme düğmesi eylem diliyle (kullanıcı geri bildirimi):** "Ödedim" / "Tahsil ettim" (EN "Mark paid" / "Mark received"); "Ödendi" durum gibi okunuyordu. Ödenmiş kayıtlarda ayrı satırda yeşil "Son ödeme: …" (`lastPaidDate`, hareketlerden hesaplanır).
 - **Hatırlatıcı durumu:** "Tamam" → `done`; düzenlenen hatırlatıcı tekrar `pending`. Geçmiş bir zamana hatırlatıcı kurulamaz.
-- **Tarih biçimi** `Intl.DateTimeFormat` (UTC) ile; date-fns henüz kurulmadı (dönem hesapları gerekirse Faz 6'da).
+- **Tarih biçimi** `Intl.DateTimeFormat` (UTC) ile; date-fns kurulmadı (Faz 6 dönem hesapları da `dates.ts` UTC yardımcılarıyla yeterli oldu).
+- **Rapor tanımları (Faz 6):** gelir = tahsilat, gider = ödeme (şemadaki örnek sorgular); devir rapora girmez. Gider dağılımları yalnızca ödemelerden. Hesap bakiyeleri dönem sonunda (dönem sürüyorsa bugün). Gelecek döneme gidilmez.
+- **Grafik kırılımı:** yıl → aylar, ay ve hafta → günler, gün → grafik yok. Özel aralık: ≤31 gün günler, ≤183 gün haftalar, ≤3 yıl aylar, sonra yıllar. Hafta başı `en-US`'de Pazar, diğerlerinde Pazartesi (`weekStartFor`).
+- **Yalnızca gelir-gider grafiği victory-native;** tür/konu/hesap dağılımları View çubuklarıyla (`BarList`): uzun adlar alta kayar, Dynamic Type ve ekran okuyucu çalışır, satıra dokunulabilir. Skia yazısı yazı boyutuyla en fazla 1,3× büyür.
+- **Grafikler şimdilik herkese açık:** Premium kilidi Faz 9'da (belgelerdeki gibi). Grafik `chartPressConfig.pan.activateAfterLongPress` ile basılı tutunca devreye girer, sayfa kaydırması bozulmaz.
 
 ## Kullanıcıdan cevap bekleyen sorular
 

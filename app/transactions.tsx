@@ -15,8 +15,9 @@ import type { TransactionListItem } from '@/db/repositories';
 import { useLiveQuery } from '@/db/useLiveQuery';
 import {
   activeFilterCount,
-  EMPTY_FILTERS,
+  filtersFromParams,
   toSearchFilter,
+  type TransactionFilterParams,
   type TransactionFilters,
 } from '@/features/transactions/filters';
 import { MonthHeader } from '@/features/transactions/MonthHeader';
@@ -40,12 +41,9 @@ export default function TransactionsScreen() {
 
   const [search, setSearch] = useState('');
   const deferredSearch = useDeferredValue(search);
-  // Ana sayfadaki hesap kartından açılınca o hesaba filtreli başlar.
-  const params = useLocalSearchParams<{ accountId?: string }>();
-  const [filters, setFilters] = useState<TransactionFilters>(() => ({
-    ...EMPTY_FILTERS,
-    accountId: params.accountId ?? '',
-  }));
+  // Ana sayfadaki hesap kartından veya raporlardaki kırılımlardan açılınca filtreli başlar.
+  const params = useLocalSearchParams<TransactionFilterParams>();
+  const [filters, setFilters] = useState<TransactionFilters>(() => filtersFromParams(params));
   const [isFilterOpen, setFilterOpen] = useState(false);
   const [selected, setSelected] = useState<TransactionListItem | null>(null);
   const { data: formData } = useTransactionFormData();

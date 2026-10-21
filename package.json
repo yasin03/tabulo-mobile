@@ -7,6 +7,7 @@
     "@gorhom/bottom-sheet": "^5.2.14",
     "@react-native-community/datetimepicker": "9.1.0",
     "@shopify/flash-list": "2.0.2",
+    "@shopify/react-native-skia": "2.6.2",
     "babel-preset-expo": "~57.0.0",
     "drizzle-orm": "1.0.0-rc.4",
     "expo": "~57.0.30",
@@ -54,6 +55,7 @@
     "tailwindcss": "^4.3.3",
     "uniwind": "^1.13.0",
     "uuid": "^14.0.3",
+    "victory-native": "^42.0.1",
     "zod": "^4.6.7",
     "zustand": "^5.0.15"
   },

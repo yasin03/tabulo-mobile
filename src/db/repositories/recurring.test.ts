@@ -48,6 +48,7 @@ describe('recurringPaymentsRepo', () => {
         accountName: 'Kasa',
         contactName: 'Ev Sahibi',
         transactionTypeName: 'Kira',
+        lastPaidDate: null,
         isFinished: false,
         currency: 'TRY',
       }),
@@ -94,6 +95,7 @@ describe('recurringPaymentsRepo', () => {
       accountId: ctx.cash.id,
     });
     expect((await ctx.recurringPaymentsRepo.getById(id)).nextDueDate).toBe('2026-03-31');
+    expect((await ctx.recurringPaymentsRepo.getDetail(id)).lastPaidDate).toBe('2026-02-28');
 
     await ctx.recurringPaymentsRepo.undoPaid(id, result);
     expect((await ctx.recurringPaymentsRepo.getById(id)).nextDueDate).toBe('2026-01-31');

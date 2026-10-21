@@ -63,22 +63,39 @@ export function monthRange(iso: string, offset = 0): DateRange {
   return { from: fromUtc(first), to: fromUtc(last) };
 }
 
-export function yearRange(iso: string): DateRange {
-  const [y] = parts(iso);
+export function yearRange(iso: string, offset = 0): DateRange {
+  const y = parts(iso)[0] + offset;
   return { from: `${y}-01-01`, to: `${y}-12-31` };
+}
+
+/** Haftanın günü: 0 = Pazar … 6 = Cumartesi. */
+export function weekday(iso: string): number {
+  return toUtc(iso).getUTCDay();
 }
 
 export type DateStyle =
   | 'dayMonth' // 15 Eki
   | 'dayMonthLong' // 25 Ekim
   | 'full' // 15 Ekim 2026
-  | 'monthYear'; // Ekim 2026
+  | 'dayMonthYear' // 15 Eki 2026
+  | 'monthYear' // Ekim 2026
+  | 'monthShort' // Eki
+  | 'monthShortYear' // Eki 26
+  | 'weekdayShort' // Çar
+  | 'day' // 15
+  | 'year'; // 2026
 
 const DATE_STYLE_OPTIONS: Record<DateStyle, Intl.DateTimeFormatOptions> = {
   dayMonth: { day: 'numeric', month: 'short' },
   dayMonthLong: { day: 'numeric', month: 'long' },
   full: { day: 'numeric', month: 'long', year: 'numeric' },
+  dayMonthYear: { day: 'numeric', month: 'short', year: 'numeric' },
   monthYear: { month: 'long', year: 'numeric' },
+  monthShort: { month: 'short' },
+  monthShortYear: { month: 'short', year: '2-digit' },
+  weekdayShort: { weekday: 'short' },
+  day: { day: 'numeric' },
+  year: { year: 'numeric' },
 };
 
 const formatterCache = new Map<string, Intl.DateTimeFormat>();
