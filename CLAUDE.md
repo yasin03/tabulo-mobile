@@ -15,16 +15,17 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 
 ## Faz durumu
 
-| Faz            | Durum                                                                                                                          |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| 0 – Kurulum    | ✅ Tamamlandı (iOS doğrulandı; Android yerel derleme JDK 17 bekliyor, aşağıya bkz.)                                            |
-| 1 – Veritabanı | ✅ Tamamlandı ve onaylandı (kullanıcı geri bildirimiyle para biçimi / varsayılan hesaplar / hazır kayıt dili güncellendi)      |
-| 2 – Cariler    | ✅ Tamamlandı (iOS'ta liste/form görsel olarak doğrulandı)                                                                     |
-| 3 – Hareketler | ✅ Tamamlandı ve onaylandı                                                                                                     |
-| 4 – Ana sayfa  | ✅ Tamamlandı                                                                                                                  |
-| 5 – Düzenli ödemeler / hatırlatıcılar | ✅ Tamamlandı (iOS'ta bildirim + dokununca ekran açılması kullanıcı tarafından doğrulandı)               |
-| 6 – Raporlar   | ✅ Tamamlandı (onay bekliyor)                                                                                                  |
-| 7–10           | Başlanmadı                                                                                                                     |
+| Faz                                   | Durum                                                                                                                     |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 0 – Kurulum                           | ✅ Tamamlandı (iOS doğrulandı; Android yerel derleme JDK 17 bekliyor, aşağıya bkz.)                                       |
+| 1 – Veritabanı                        | ✅ Tamamlandı ve onaylandı (kullanıcı geri bildirimiyle para biçimi / varsayılan hesaplar / hazır kayıt dili güncellendi) |
+| 2 – Cariler                           | ✅ Tamamlandı (iOS'ta liste/form görsel olarak doğrulandı)                                                                |
+| 3 – Hareketler                        | ✅ Tamamlandı ve onaylandı                                                                                                |
+| 4 – Ana sayfa                         | ✅ Tamamlandı                                                                                                             |
+| 5 – Düzenli ödemeler / hatırlatıcılar | ✅ Tamamlandı (iOS'ta bildirim + dokununca ekran açılması kullanıcı tarafından doğrulandı)                                |
+| 6 – Raporlar                          | ✅ Tamamlandı                                                                                                             |
+| 7 – Dışa aktarma                      | ✅ Tamamlandı (onay bekliyor; iOS'ta PDF/Excel üretimi + paylaşım kullanıcı tarafından denenecek)                         |
+| 8–10                                  | Başlanmadı                                                                                                                |
 
 ### Faz 0'da yapılanlar
 
@@ -87,6 +88,14 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 - Kırılımlar: kutucuğa veya satıra dokununca `/transactions?from=&to=&types=&transactionTypeId=&subjectId=&accountId=` (`filtersFromParams`).
 - `src/core/periods.ts` (dönem, kaydırma, dilimler, etiketler), `money.ts`'e `compactAmount` (eksen: `15 B`, `1,3 Mn`), `dates.ts`'e `weekday` ve yeni `DateStyle`'lar.
 - `reportsRepo` (`summary`, `dailyIncomeExpense`, `expensesByType`, `expensesBySubject`); `accountsRepo.listWithBalances({ asOf })`.
+
+### Faz 7'de yapılanlar
+
+- `expo-print` (native → dev client yeniden derlendi) ve SheetJS `xlsx` 0.20.3 (SheetJS dokümanındaki CDN tarball'ı; npm'deki `xlsx` 0.18.5'te kaldı).
+- Ekstre `/export/statement?contactId=` (modal): cari seçimi (ana sayfa "Ekstre"den gelirse), dönem Tümü / Bu ay / Geçen ay / Bu yıl / Özel, canlı özet, "Kimlik numaralarını dahil et" (yalnızca TC'si olan şahıs). Cari detayındaki "Ekstre gönder" ve ana sayfa "Ekstre" buraya bağlı.
+- Dışa aktar `/export/report` (modal): Raporlar'dan `source=report&unit&from&to` (PDF dönem raporu / Excel), Tüm hareketler'den `source=transactions` + filtreler ve arama (yalnızca Excel).
+- `src/core/statement.ts` (devreden bakiye, Borç/Alacak, yürüyen bakiye, `balanceSide`), `fileNames.ts` (ASCII dosya adı), `summary.ts` (Excel dönem özeti). `src/pdf/` saf HTML şablonları (`html.ts`, `statement.ts`, `report.ts`). `src/features/export/` (`documents.ts` metin/biçim → şablon, `workbook.ts` SheetJS, `exporters.ts` repo → dosya, `useExport.ts`). `src/platform/exportFiles.ts` (A4 PDF, base64 dosya, paylaş, logo → data URI). Dosyalar `cache/exports/`'a yazılır, her dışa aktarmada eskiler silinir.
+- Testler: ekstre hesapları, dosya adları, özet; gerçek çevirilerle HTML (kaçış, B/A, KVKK) ve Excel (SheetJS ile geri okunarak: sayfalar, sayı hücreleri, tarih seri no, kimlik sütunu).
 
 ## Alınan kararlar
 
@@ -151,6 +160,14 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 - **Grafik kırılımı:** yıl → aylar, ay ve hafta → günler, gün → grafik yok. Özel aralık: ≤31 gün günler, ≤183 gün haftalar, ≤3 yıl aylar, sonra yıllar. Hafta başı `en-US`'de Pazar, diğerlerinde Pazartesi (`weekStartFor`).
 - **Yalnızca gelir-gider grafiği victory-native;** tür/konu/hesap dağılımları View çubuklarıyla (`BarList`): uzun adlar alta kayar, Dynamic Type ve ekran okuyucu çalışır, satıra dokunulabilir. Skia yazısı yazı boyutuyla en fazla 1,3× büyür.
 - **Grafikler şimdilik herkese açık:** Premium kilidi Faz 9'da (belgelerdeki gibi). Grafik `chartPressConfig.pan.activateAfterLongPress` ile basılı tutunca devreye girer, sayfa kaydırması bozulmaz.
+
+- **Excel: SheetJS Community Edition (kullanıcı kararı, Faz 7):** kalın + dondurulmuş başlık satırı Pro özelliği olduğu için yok (§10.2'den sapma); yerine başlıkta otomatik filtre ve sütun genişlikleri. Tarih hücreleri Excel seri numarası + dile göre biçim (`Date` kullanılmaz, saat dilimi kayması olmaz); tutarlar ana birimde sayı, `#,##0.00`. "Tutar" sütunu işaretsiz (yönü hareket tipi verir); Gelir = tahsilat, Gider = ödeme.
+- **Ekstre Borç/Alacak (kullanıcı kararı):** işletme defteri bakışı — Borç = veresiye satış, cariye ödeme, alacak devri; Alacak = tahsilat, veresiye alış, borç devri. Bakiye işaretsiz + `(B)` / `(A)` (EN `(Dr)` / `(Cr)`); Borç ve (B) yeşil, Alacak ve (A) kırmızı. Varsayılan dönem "Tümü"; aralık başı verilince öncesi "Devreden bakiye".
+- **PDF:** sistem yazı tipi (Plus Jakarta Sans gömülmedi), kâğıt her zaman açık tema tokenlarıyla. Logo data URI olarak gömülür (iOS WKWebView yerel dosya yüklemez). "Tabulo ile oluşturuldu" notu şimdilik herkeste; Premium'da kaldırma Faz 9'da. Dışa aktarma da Faz 9'a kadar herkese açık.
+- **PDF dönem raporu düzeni (kullanıcı isteği):** 1) kartlar: Gelir, Gider, Net, Veresiye satış, Veresiye alış; 2) Kasa ve Banka dönem neti (hesap türüne göre toplam, giriş − çıkış; pasif hesaplar dahil, `reportsRepo.cashFlowByAccountType`); 3) "Özet – Tür bazlı": Gelir türü (tahsilatlar, `incomeByType`) ve Gider türü (ödemeler) yan yana, Adet + Tutar + Toplam; 4) altında eski bölümler aynen (gelir-gider kırılımı, türe/konuya göre gider, hesap bakiyeleri). Veresiye satış/alış tür özetine girmez (gelir = tahsilat kuralı). 12 satıra kadar tablolar başlığıyla aynı sayfada tutulur.
+- **PDF sayfalama (Faz 7, iOS simülatöründe ölçüldü):** iOS WebKit baskıda tablo başlığını tekrarlamıyor, satırı bölüyor, `position: fixed` notu sayfa dibine koymuyor. Bu yüzden iOS'ta belge içi script sayfalıyor ([src/pdf/paginate.ts](src/pdf/paginate.ts)): düzen genişliği 663 px, sayfa 956 px (WebKit yazdırılabilir alanı 1,25 kat CSS pikselle dizer; 531 × 770 pt). iOS'ta `@page` kuralı OLMAMALI (ölçeği küçültüyor), kenar boşluğu expo-print `margins`'ten. Android'de expo-print WebView'da JavaScript kapalı → `css` modu: Chromium başlığı tekrarlar, satırı bölmez, not `@page { @bottom-center }` ile. Mod `FormatContext.pdfPagination` (Platform.OS). Şablonlarda: `#flow` çocukları sayfalanır, `section.split-flow` satır satır bölünür (`keep` önce bütün taşınır), `.flow-title` devam sayfasında tekrarlanmaz. Android çıktısı Chrome ile denendi, cihazda denenmedi.
+- **Ekstre cari kutusu (kullanıcı isteği):** solda ad, telefon, e-posta; sağda tip, vergi/kimlik, adres, il/ilçe.
+- **Excel "Cariler" sayfası** tüm carileri (pasifler dahil) güncel bakiyeyle yazar; filtreler yalnızca Hareketler'e ve özete uygulanır.
 
 ## Kullanıcıdan cevap bekleyen sorular
 

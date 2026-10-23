@@ -148,6 +148,14 @@ function RootStack() {
         name="reminders/[id]"
         options={{ presentation: 'modal', title: t('reminders.editTitle') }}
       />
+      <Stack.Screen
+        name="export/statement"
+        options={{ presentation: 'modal', title: t('export.statement.title') }}
+      />
+      <Stack.Screen
+        name="export/report"
+        options={{ presentation: 'modal', title: t('export.report.title') }}
+      />
       <Stack.Screen name="dev/form-demo" options={{ title: t('formDemo.title') }} />
     </Stack>
   );

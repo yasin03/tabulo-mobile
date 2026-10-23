@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import { ChartColumn, Share } from 'lucide-react-native';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Pressable } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { AppText } from '@/components/ui/AppText';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -137,8 +137,12 @@ export default function ReportsScreen() {
       right={
         <Pressable
           accessibilityRole="button"
-          // Dışa aktarma Faz 7'de.
-          onPress={() => Alert.alert(t('common.comingSoonTitle'), t('common.comingSoon'))}
+          onPress={() =>
+            router.push({
+              pathname: '/export/report',
+              params: { source: 'report', unit: period.unit, from, to },
+            })
+          }
           className="min-h-11 flex-row items-center gap-1.5 rounded-[14px] border border-border bg-surface px-3 active:opacity-70"
         >
           <Share size={18} color={colors.primary} strokeWidth={2.2} />

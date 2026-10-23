@@ -698,5 +698,154 @@
       "title": "Bekleyen hatırlatıcı yok",
       "description": "Cari detayındaki \"Hatırlat\" düğmesiyle tahsilat hatırlatıcısı kurabilirsiniz."
     }
+  },
+  "export": {
+    "footer": "Tabulo ile oluşturuldu",
+    "generated": "Oluşturulma: {{date}}",
+    "side": {
+      "debit": "(B)",
+      "credit": "(A)"
+    },
+    "includeIds": "Kimlik numaralarını dahil et",
+    "includeIdsHint": "TC Kimlik No varsayılan olarak dosyaya yazılmaz.",
+    "period": "Dönem",
+    "periods": {
+      "all": "Tümü",
+      "thisMonth": "Bu ay",
+      "lastMonth": "Geçen ay",
+      "thisYear": "Bu yıl",
+      "custom": "Özel"
+    },
+    "from": "Başlangıç",
+    "to": "Bitiş",
+    "failed": "Dosya oluşturulamadı. Lütfen tekrar deneyin.",
+    "shareUnavailable": "Bu cihazda paylaşım kullanılamıyor.",
+    "premiumNote": "Dışa aktarma Premium özelliğidir; şimdilik herkese açık.",
+    "statement": {
+      "title": "Ekstre",
+      "heading": "Cari Hesap Ekstresi",
+      "fileName": "Ekstre",
+      "contact": "Cari",
+      "contactPlaceholder": "Cari seçin",
+      "contactRequired": "Ekstre için bir cari seçin.",
+      "preview": "Ekstre özeti",
+      "columns": {
+        "date": "Tarih",
+        "documentNo": "Belge no",
+        "description": "Açıklama",
+        "debit": "Borç",
+        "credit": "Alacak",
+        "balance": "Bakiye"
+      },
+      "opening": "Devreden bakiye",
+      "totals": "Dönem toplamı",
+      "periodDebit": "Dönem borç toplamı",
+      "periodCredit": "Dönem alacak toplamı",
+      "closing": "{{date}} itibarıyla son bakiye",
+      "closingShort": "Son bakiye",
+      "closingCaption": {
+        "debit": "Cari borçlu (B)",
+        "credit": "Cari alacaklı (A)",
+        "settled": "Hesap kapalı"
+      },
+      "empty": "Bu dönemde hareket yok.",
+      "movementCount_one": "{{count}} hareket",
+      "movementCount_other": "{{count}} hareket",
+      "submit": "PDF oluştur ve paylaş",
+      "shareTitle": "Ekstreyi paylaş",
+      "hint": "Paylaş ekranından WhatsApp'ı seçerek müşterinize gönderebilirsiniz."
+    },
+    "report": {
+      "title": "Dışa aktar",
+      "heading": "Dönem Raporu",
+      "fileName": "Rapor",
+      "format": "Biçim",
+      "formats": {
+        "pdf": "PDF rapor",
+        "excel": "Excel"
+      },
+      "formatHints": {
+        "pdf": "Özet kartları, gelir-gider kırılımı, gider dağılımları ve hesap bakiyeleri.",
+        "excel": "Hareketler, cariler ve dönem özeti üç ayrı sayfada."
+      },
+      "submitPdf": "PDF oluştur ve paylaş",
+      "submitExcel": "Excel oluştur ve paylaş",
+      "shareTitle": "Raporu paylaş",
+      "filters": "Uygulanan filtreler",
+      "transactionCount_one": "{{count}} hareket dışa aktarılacak",
+      "transactionCount_other": "{{count}} hareket dışa aktarılacak",
+      "columns": {
+        "name": "Ad",
+        "amount": "Tutar",
+        "period": "Dönem",
+        "net": "Net",
+        "account": "Hesap",
+        "balance": "Bakiye",
+        "incomeType": "Gelir türü",
+        "expenseType": "Gider türü",
+        "count": "Adet"
+      },
+      "total": "Toplam",
+      "typeSummary": "Özet – Tür bazlı",
+      "noIncome": "Bu dönemde tahsilat yok.",
+      "accountFlow": {
+        "cash": "Kasa dönem neti",
+        "bank": "Banka dönem neti"
+      },
+      "accountFlowDetail": "Giriş {{in}} · Çıkış {{out}}"
+    },
+    "excel": {
+      "fileName": "Hareketler",
+      "sheets": {
+        "transactions": "Hareketler",
+        "contacts": "Cariler",
+        "summary": "Dönem özeti"
+      },
+      "transactionColumns": {
+        "date": "Tarih",
+        "movementType": "Hareket tipi",
+        "account": "Hesap",
+        "transactionType": "İşlem türü",
+        "subject": "Konu",
+        "contact": "Cari",
+        "description": "Açıklama",
+        "documentNo": "Belge no",
+        "dueDate": "Vade",
+        "income": "Gelir",
+        "expense": "Gider",
+        "amount": "Tutar"
+      },
+      "contactColumns": {
+        "name": "Ad / Unvan",
+        "personType": "Kişi türü",
+        "role": "Cari tipi",
+        "status": "Durum",
+        "balance": "Güncel bakiye",
+        "balanceState": "Bakiye durumu"
+      },
+      "active": "Aktif",
+      "passive": "Pasif",
+      "balanceState": {
+        "receivable": "Size borçlu",
+        "payable": "Borcunuz",
+        "settled": "Hesap kapalı"
+      },
+      "summary": {
+        "from": "Başlangıç",
+        "to": "Bitiş",
+        "filters": "Filtreler",
+        "noFilters": "Yok",
+        "count": "Hareket sayısı",
+        "net": "Net (gelir − gider)"
+      },
+      "filter": {
+        "types": "Hareket tipi: {{value}}",
+        "account": "Hesap: {{value}}",
+        "transactionType": "İşlem türü: {{value}}",
+        "subject": "Konu: {{value}}",
+        "contact": "Cari: {{value}}",
+        "search": "Arama: {{value}}"
+      }
+    }
   }
 }

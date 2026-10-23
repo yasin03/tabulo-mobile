@@ -115,9 +115,6 @@ export default function ContactDetailScreen() {
     setSelected(tx);
   }, []);
 
-  // Ekstre gönder Faz 7'de (PDF).
-  const comingSoon = () => Alert.alert(t('common.comingSoonTitle'), t('common.comingSoon'));
-
   const addTransaction = () => {
     if (contact?.status === 'passive') {
       haptics.warning();
@@ -218,7 +215,9 @@ export default function ContactDetailScreen() {
         balanceMinor={data?.balanceMinor ?? 0}
         due={due}
         hasPhone={!!contact.phone}
-        onSendStatement={comingSoon}
+        onSendStatement={() =>
+          router.push({ pathname: '/export/statement', params: { contactId: contact.id } })
+        }
         onRemind={remind}
         onWhatsApp={() => setWhatsAppOpen(true)}
       />
