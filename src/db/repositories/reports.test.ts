@@ -164,6 +164,29 @@ describe('reportsRepo', () => {
     ]);
   });
 
+  it('işlem türüne göre gelir: yalnızca tahsilatlar, adetle', async () => {
+    const ctx = await setup();
+    const byType = await ctx.reportsRepo.incomeByType(OCTOBER);
+    expect(byType.map(({ name, totalMinor, count }) => [name, totalMinor, count])).toEqual([
+      ['Satış', 150000, 1],
+      ['Faiz Geliri', 50000, 1],
+    ]);
+  });
+
+  it('kasa ve banka dönem neti (dönem dışı ve silinmişler hariç)', async () => {
+    const ctx = await setup();
+    expect(await ctx.reportsRepo.cashFlowByAccountType(OCTOBER)).toEqual([
+      { type: 'cash', inMinor: 150000, outMinor: 101000, netMinor: 49000 },
+      { type: 'bank', inMinor: 50000, outMinor: 120000, netMinor: -70000 },
+    ]);
+    expect(
+      await ctx.reportsRepo.cashFlowByAccountType({ from: '2020-01-01', to: '2020-01-31' }),
+    ).toEqual([
+      { type: 'cash', inMinor: 0, outMinor: 0, netMinor: 0 },
+      { type: 'bank', inMinor: 0, outMinor: 0, netMinor: 0 },
+    ]);
+  });
+
   it('hesap bakiyeleri dönem sonuna göre', async () => {
     const ctx = await setup();
     const asOf = async (date: string) =>

@@ -698,5 +698,154 @@
       "title": "No pending reminders",
       "description": "Use \"Remind\" on a contact's page to set a payment reminder."
     }
+  },
+  "export": {
+    "footer": "Created with Tabulo",
+    "generated": "Created on {{date}}",
+    "side": {
+      "debit": "(Dr)",
+      "credit": "(Cr)"
+    },
+    "includeIds": "Include ID numbers",
+    "includeIdsHint": "Personal tax IDs are left out of the file by default.",
+    "period": "Period",
+    "periods": {
+      "all": "All",
+      "thisMonth": "This month",
+      "lastMonth": "Last month",
+      "thisYear": "This year",
+      "custom": "Custom"
+    },
+    "from": "From",
+    "to": "To",
+    "failed": "Couldn't create the file. Please try again.",
+    "shareUnavailable": "Sharing isn't available on this device.",
+    "premiumNote": "Exporting is a Premium feature; open to everyone for now.",
+    "statement": {
+      "title": "Statement",
+      "heading": "Account Statement",
+      "fileName": "Statement",
+      "contact": "Contact",
+      "contactPlaceholder": "Select a contact",
+      "contactRequired": "Select a contact for the statement.",
+      "preview": "Statement summary",
+      "columns": {
+        "date": "Date",
+        "documentNo": "Doc no",
+        "description": "Description",
+        "debit": "Debit",
+        "credit": "Credit",
+        "balance": "Balance"
+      },
+      "opening": "Balance brought forward",
+      "totals": "Period total",
+      "periodDebit": "Total debits",
+      "periodCredit": "Total credits",
+      "closing": "Closing balance as of {{date}}",
+      "closingShort": "Closing balance",
+      "closingCaption": {
+        "debit": "Amount due from contact (Dr)",
+        "credit": "Amount owed to contact (Cr)",
+        "settled": "Account settled"
+      },
+      "empty": "No transactions in this period.",
+      "movementCount_one": "{{count}} transaction",
+      "movementCount_other": "{{count}} transactions",
+      "submit": "Create & share PDF",
+      "shareTitle": "Share statement",
+      "hint": "Pick WhatsApp on the share sheet to send it to your customer."
+    },
+    "report": {
+      "title": "Export",
+      "heading": "Period Report",
+      "fileName": "Report",
+      "format": "Format",
+      "formats": {
+        "pdf": "PDF report",
+        "excel": "Excel"
+      },
+      "formatHints": {
+        "pdf": "Summary, money in/out breakdown, expense breakdowns and account balances.",
+        "excel": "Transactions, contacts and a period summary on three sheets."
+      },
+      "submitPdf": "Create & share PDF",
+      "submitExcel": "Create & share Excel",
+      "shareTitle": "Share report",
+      "filters": "Applied filters",
+      "transactionCount_one": "{{count}} transaction will be exported",
+      "transactionCount_other": "{{count}} transactions will be exported",
+      "columns": {
+        "name": "Name",
+        "amount": "Amount",
+        "period": "Period",
+        "net": "Net",
+        "account": "Account",
+        "balance": "Balance",
+        "incomeType": "Income category",
+        "expenseType": "Expense category",
+        "count": "Count"
+      },
+      "total": "Total",
+      "typeSummary": "Summary by category",
+      "noIncome": "No money in during this period.",
+      "accountFlow": {
+        "cash": "Cash net for period",
+        "bank": "Bank net for period"
+      },
+      "accountFlowDetail": "In {{in}} · Out {{out}}"
+    },
+    "excel": {
+      "fileName": "Transactions",
+      "sheets": {
+        "transactions": "Transactions",
+        "contacts": "Contacts",
+        "summary": "Period summary"
+      },
+      "transactionColumns": {
+        "date": "Date",
+        "movementType": "Type",
+        "account": "Account",
+        "transactionType": "Category",
+        "subject": "Subject",
+        "contact": "Contact",
+        "description": "Description",
+        "documentNo": "Doc no",
+        "dueDate": "Due date",
+        "income": "Money in",
+        "expense": "Money out",
+        "amount": "Amount"
+      },
+      "contactColumns": {
+        "name": "Name",
+        "personType": "Type",
+        "role": "Contact type",
+        "status": "Status",
+        "balance": "Current balance",
+        "balanceState": "Balance status"
+      },
+      "active": "Active",
+      "passive": "Inactive",
+      "balanceState": {
+        "receivable": "Owes you",
+        "payable": "You owe",
+        "settled": "Settled"
+      },
+      "summary": {
+        "from": "From",
+        "to": "To",
+        "filters": "Filters",
+        "noFilters": "None",
+        "count": "Transactions",
+        "net": "Net (in − out)"
+      },
+      "filter": {
+        "types": "Type: {{value}}",
+        "account": "Account: {{value}}",
+        "transactionType": "Category: {{value}}",
+        "subject": "Subject: {{value}}",
+        "contact": "Contact: {{value}}",
+        "search": "Search: {{value}}"
+      }
+    }
   }
 }

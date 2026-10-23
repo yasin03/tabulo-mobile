@@ -60,7 +60,11 @@ export function filtersFromParams(params: TransactionFilterParams): TransactionF
   };
 }
 
-function periodRange(filters: TransactionFilters, today: string): { from?: string; to?: string } {
+/** Dönem seçimini tarih aralığına çevirir; `all` ve boş özel sınırlar sınırsızdır. */
+export function periodRange(
+  filters: Pick<TransactionFilters, 'period' | 'from' | 'to'>,
+  today: string,
+): { from?: string; to?: string } {
   switch (filters.period) {
     case 'thisMonth':
       return monthRange(today);

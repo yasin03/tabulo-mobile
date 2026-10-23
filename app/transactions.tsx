@@ -1,7 +1,7 @@
 import { FlashList } from '@shopify/flash-list';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { SearchField } from 'heroui-native';
-import { ReceiptText, SearchX, SlidersHorizontal } from 'lucide-react-native';
+import { ReceiptText, SearchX, Share, SlidersHorizontal } from 'lucide-react-native';
 import { useCallback, useDeferredValue, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
@@ -64,9 +64,41 @@ export default function TransactionsScreen() {
 
   const hasNoTransactions = !isLoading && total === 0;
 
+  /** Excel dışa aktarma (10.2): ekrandaki filtreler ve arama aynen uygulanır. */
+  const exportFiltered = () => {
+    const filter = toSearchFilter(filters, search);
+    const params: Record<string, string> = { source: 'transactions' };
+    if (filter.from) params.from = filter.from;
+    if (filter.to) params.to = filter.to;
+    if (filter.movementTypes) params.types = filter.movementTypes.join(',');
+    if (filter.accountId) params.accountId = filter.accountId;
+    if (filter.transactionTypeId) params.transactionTypeId = filter.transactionTypeId;
+    if (filter.subjectId) params.subjectId = filter.subjectId;
+    if (filter.contactId) params.contactId = filter.contactId;
+    if (filter.search) params.search = filter.search;
+    router.push({ pathname: '/export/report', params });
+  };
+
   return (
     <View className="flex-1 bg-background">
-      <Stack.Screen options={{ title: t('transactions.title') }} />
+      <Stack.Screen
+        options={{
+          title: t('transactions.title'),
+          headerRight: hasNoTransactions
+            ? undefined
+            : () => (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={t('reports.export')}
+                  onPress={exportFiltered}
+                  hitSlop={8}
+                  className="h-11 w-11 items-center justify-center active:opacity-70"
+                >
+                  <Share size={22} color={colors.primary} />
+                </Pressable>
+              ),
+        }}
+      />
 
       {hasNoTransactions ? null : (
         <View className="flex-row items-center gap-2 px-5 pb-2 pt-3">

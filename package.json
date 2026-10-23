@@ -26,6 +26,7 @@
     "expo-localization": "~57.0.2",
     "expo-navigation-bar": "~57.0.3",
     "expo-notifications": "~57.0.23",
+    "expo-print": "~57.0.2",
     "expo-router": "~57.0.28",
     "expo-sharing": "~57.0.23",
     "expo-splash-screen": "~57.0.10",
@@ -56,6 +57,7 @@
     "uniwind": "^1.13.0",
     "uuid": "^14.0.3",
     "victory-native": "^42.0.1",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
     "zod": "^4.6.7",
     "zustand": "^5.0.15"
   },

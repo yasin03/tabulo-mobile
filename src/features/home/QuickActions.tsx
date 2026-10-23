@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { ArrowDown, ArrowUp, FileText, UserPlus, type LucideIcon } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { Alert, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { AppText } from '@/components/ui/AppText';
 import type { ColorToken } from '@/core/theme/tokens';
@@ -51,8 +51,7 @@ export function QuickActions() {
       label: t('home.statement'),
       icon: FileText,
       color: 'primary',
-      // Ekstre Faz 7'de.
-      onPress: () => Alert.alert(t('common.comingSoonTitle'), t('common.comingSoon')),
+      onPress: () => router.push('/export/statement'),
     },
   ];
 
