@@ -33,6 +33,7 @@
     "expo-sqlite": "~57.0.4",
     "expo-status-bar": "~57.0.1",
     "expo-system-ui": "~57.0.4",
+    "fflate": "^0.8.3",
     "heroui-native": "^1.0.10",
     "i18next": "^26.5.2",
     "lucide-react-native": "^1.59.0",

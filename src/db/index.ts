@@ -7,6 +7,7 @@ import { createRepositories } from './repositories';
 export const {
   accountsRepo,
   attachmentsRepo,
+  backupRepo,
   businessProfileRepo,
   contactsRepo,
   recurringPaymentsRepo,

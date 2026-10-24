@@ -132,6 +132,7 @@ function RootStack() {
         options={{ title: t('settings.transactionTypes') }}
       />
       <Stack.Screen name="settings/subjects" options={{ title: t('settings.subjects') }} />
+      <Stack.Screen name="settings/backup" options={{ title: t('backup.title') }} />
       <Stack.Screen name="recurring/index" options={{ title: t('recurring.title') }} />
       <Stack.Screen name="recurring/new" options={{ title: t('recurring.newTitle') }} />
       <Stack.Screen name="recurring/[id]/index" options={{ title: t('recurring.editTitle') }} />
