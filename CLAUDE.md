@@ -24,8 +24,9 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 | 4 – Ana sayfa                         | ✅ Tamamlandı                                                                                                             |
 | 5 – Düzenli ödemeler / hatırlatıcılar | ✅ Tamamlandı (iOS'ta bildirim + dokununca ekran açılması kullanıcı tarafından doğrulandı)                                |
 | 6 – Raporlar                          | ✅ Tamamlandı                                                                                                             |
-| 7 – Dışa aktarma                      | ✅ Tamamlandı (onay bekliyor; iOS'ta PDF/Excel üretimi + paylaşım kullanıcı tarafından denenecek)                         |
-| 8–10                                  | Başlanmadı                                                                                                                |
+| 7 – Dışa aktarma                      | ✅ Tamamlandı                                                                                                             |
+| 8 – Yedekleme                         | ✅ Tamamlandı (onay bekliyor; paylaş ekranı ve dosya seçici kullanıcı tarafından denenecek)                               |
+| 9–10                                  | Başlanmadı                                                                                                                |
 
 ### Faz 0'da yapılanlar
 
@@ -97,6 +98,14 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 - `src/core/statement.ts` (devreden bakiye, Borç/Alacak, yürüyen bakiye, `balanceSide`), `fileNames.ts` (ASCII dosya adı), `summary.ts` (Excel dönem özeti). `src/pdf/` saf HTML şablonları (`html.ts`, `statement.ts`, `report.ts`). `src/features/export/` (`documents.ts` metin/biçim → şablon, `workbook.ts` SheetJS, `exporters.ts` repo → dosya, `useExport.ts`). `src/platform/exportFiles.ts` (A4 PDF, base64 dosya, paylaş, logo → data URI). Dosyalar `cache/exports/`'a yazılır, her dışa aktarmada eskiler silinir.
 - Testler: ekstre hesapları, dosya adları, özet; gerçek çevirilerle HTML (kaçış, B/A, KVKK) ve Excel (SheetJS ile geri okunarak: sayfalar, sayı hücreleri, tarih seri no, kimlik sütunu).
 
+### Faz 8'de yapılanlar
+
+- `fflate` 0.8.3 (saf JS zip; native modül yok, dev client yeniden derlenmedi).
+- Ayarlar → Veriler → Yedekleme ve geri yükleme (`/settings/backup`): son yedek tarihi, 30 gün hatırlatması (Ayarlar'da da uyarı kartı), Yedek al → paylaş ekranı, Yedekten geri yükle → dosya seçici → özetli onay → geri yükle.
+- `src/core/backup.ts` (biçim, `parseBackup` doğrulaması, `BACKUP_SCHEMA_VERSION` = migration sayısı, dosya adı, hatırlatma), `backupRepo` (`exportTables`, `restore` tek transaction, `hasData`), `src/lib/zipStream.ts` (1 MB parçalarla zip yaz/oku), `src/platform/backupFiles.ts`, `src/features/backup/`.
+- Yan düzeltme: SDK 57'de `File.move/copy` Promise döner; belge, logo ve PDF'teki beklenmeyen çağrılar `await` edildi.
+- Simülatörde gerçek API'lerle gidiş-dönüş denendi (zip + belge, veriler birebir aynı, `unzip -t` temiz).
+
 ## Alınan kararlar
 
 - **Drizzle 1.0 RC** (`drizzle-orm` / `drizzle-kit` `1.0.0-rc.4`, tam sürüm sabit): Drizzle'ın Expo dokümanı `@rc` kurulumunu söylüyor. RC'nin `useMigrations` tipi `journal` bekliyor ama migrator kullanmıyor → `useDatabaseSetup.ts`'te bilinçli cast.
@@ -167,6 +176,9 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 - **PDF dönem raporu düzeni (kullanıcı isteği):** 1) kartlar: Gelir, Gider, Net, Veresiye satış, Veresiye alış; 2) Kasa ve Banka dönem neti (hesap türüne göre toplam, giriş − çıkış; pasif hesaplar dahil, `reportsRepo.cashFlowByAccountType`); 3) "Özet – Tür bazlı": Gelir türü (tahsilatlar, `incomeByType`) ve Gider türü (ödemeler) yan yana, Adet + Tutar + Toplam; 4) altında eski bölümler aynen (gelir-gider kırılımı, türe/konuya göre gider, hesap bakiyeleri). Veresiye satış/alış tür özetine girmez (gelir = tahsilat kuralı). 12 satıra kadar tablolar başlığıyla aynı sayfada tutulur.
 - **PDF sayfalama (Faz 7, iOS simülatöründe ölçüldü):** iOS WebKit baskıda tablo başlığını tekrarlamıyor, satırı bölüyor, `position: fixed` notu sayfa dibine koymuyor. Bu yüzden iOS'ta belge içi script sayfalıyor ([src/pdf/paginate.ts](src/pdf/paginate.ts)): düzen genişliği 663 px, sayfa 956 px (WebKit yazdırılabilir alanı 1,25 kat CSS pikselle dizer; 531 × 770 pt). iOS'ta `@page` kuralı OLMAMALI (ölçeği küçültüyor), kenar boşluğu expo-print `margins`'ten. Android'de expo-print WebView'da JavaScript kapalı → `css` modu: Chromium başlığı tekrarlar, satırı bölmez, not `@page { @bottom-center }` ile. Mod `FormatContext.pdfPagination` (Platform.OS). Şablonlarda: `#flow` çocukları sayfalanır, `section.split-flow` satır satır bölünür (`keep` önce bütün taşınır), `.flow-title` devam sayfasında tekrarlanmaz. Android çıktısı Chrome ile denendi, cihazda denenmedi.
 - **Ekstre cari kutusu (kullanıcı isteği):** solda ad, telefon, e-posta; sağda tip, vergi/kimlik, adres, il/ilçe.
+- **Yedek biçimi (Faz 8):** satırlar HAM SQLite değerleriyle (snake_case, ms zaman damgası, 0/1), silinmişler dahil. Belge/logo yoksa `tabulo-yedek-YYYY-AA-GG.json` (EN `tabulo-backup-…`), varsa aynı adla `.zip` (`tabulo-backup.json` + `attachments/…`, `logo/…`; JPEG/PDF sıkıştırılmadan). Zip'ten yalnızca `isBackupFilePath`'e uyan yollar açılır. Yeni migration eklenince `BACKUP_SCHEMA_VERSION` artırılmalı (test kontrol eder) ve eski yedekler için `upgradeBackup`'a adım eklenmeli; daha yeni sürümlü yedek `backupTooNew` ile reddedilir.
+- **Geri yükleme sırası:** zip önce önbellekte geçici klasöre açılır, doğrulanır, onay sorulur; DB tek transaction (yabancı anahtar sırasıyla sil/ekle, sonra `localizeSeedRecords`); ancak başarılıysa belge/logo klasörleri silinip yedektekiler taşınır, hareket taslağı silinir. MMKV'den yalnızca varsayılan hatırlatma saati yedeğe girer (`settings.defaultRemindTime`, kullanıcı isteği; isteğe bağlı alan, şema sürümü değişmedi); dil, tema, son hesap girmez.
+- **Son yedek tarihi** MMKV `lastBackupDate`; paylaş ekranı kapanınca yazılır (kaydedilip kaydedilmediği bilinemez). Hatırlatma: 30 günden eskiyse veya hiç yedek yokken cari/hareket varsa. Yedekleme Faz 9'a kadar herkese açık.
 - **Excel "Cariler" sayfası** tüm carileri (pasifler dahil) güncel bakiyeyle yazar; filtreler yalnızca Hareketler'e ve özete uygulanır.
 
 ## Kullanıcıdan cevap bekleyen sorular

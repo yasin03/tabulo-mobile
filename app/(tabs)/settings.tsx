@@ -5,15 +5,17 @@ import {
   Building2,
   CalendarClock,
   Coins,
+  DatabaseBackup,
   FlaskConical,
   Landmark,
   ShieldCheck,
   Tags,
   TrendingUpDown,
+  TriangleAlert,
 } from 'lucide-react-native';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { AppText } from '@/components/ui/AppText';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
@@ -22,8 +24,10 @@ import { TabScreen } from '@/components/ui/TabScreen';
 import { TimeField } from '@/components/ui/TimeField';
 import type { Language } from '@/core/i18n';
 import { CURRENCY_SYMBOLS } from '@/core/money';
+import { useBackupReminder } from '@/features/backup/useBackupReminder';
 import { PermissionBanner } from '@/features/notifications/PermissionBanner';
 import { useBusinessProfile, useMoney } from '@/lib/business';
+import { useDates } from '@/lib/dates';
 import { resolveLanguage } from '@/lib/i18n';
 import { useColors } from '@/lib/theme';
 import { usePreferences, type ThemePreference } from '@/stores/preferences';
@@ -39,7 +43,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-/** Ayarlar (7.11). Yedekleme ve Premium sonraki fazlarda eklenecek. */
+/** Ayarlar (7.11). Premium Faz 9'da eklenecek. */
 export default function SettingsScreen() {
   const { t } = useTranslation();
   const colors = useColors();
@@ -51,6 +55,9 @@ export default function SettingsScreen() {
   const setLanguage = usePreferences((s) => s.setLanguage);
   const remindTime = usePreferences((s) => s.defaultRemindTime);
   const setRemindTime = usePreferences((s) => s.setDefaultRemindTime);
+  const lastBackupDate = usePreferences((s) => s.lastBackupDate);
+  const backupReminder = useBackupReminder();
+  const dates = useDates();
 
   return (
     <TabScreen title={t('tabs.settings')}>
@@ -99,6 +106,31 @@ export default function SettingsScreen() {
           onPress={() => router.push('/reminders')}
         />
       </SettingsGroup>
+
+      <View className="gap-2.5">
+        <SettingsGroup title={t('settings.data')}>
+          <SettingsRow
+            icon={DatabaseBackup}
+            label={t('backup.title')}
+            value={
+              lastBackupDate ? dates.format(lastBackupDate, 'dayMonthYear') : t('backup.neverShort')
+            }
+            onPress={() => router.push('/settings/backup')}
+          />
+        </SettingsGroup>
+        {backupReminder !== 'none' ? (
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => router.push('/settings/backup')}
+            className="flex-row gap-3 rounded-[18px] bg-warning-bg p-4 active:opacity-80"
+          >
+            <TriangleAlert size={20} color={colors['warning-fg']} />
+            <AppText className="flex-1 text-[13px] leading-[19px] text-warning-fg">
+              {t(backupReminder === 'stale' ? 'backup.reminderStale' : 'backup.reminderNever')}
+            </AppText>
+          </Pressable>
+        ) : null}
+      </View>
 
       <Section title={t('settings.notifications')}>
         <TimeField

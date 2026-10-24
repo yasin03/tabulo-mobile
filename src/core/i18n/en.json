@@ -99,7 +99,8 @@
     "reminders": "Reminders",
     "notifications": "Notifications",
     "defaultRemindTime": "Default reminder time",
-    "defaultRemindTimeHint": "New recurring payments and reminders start with this time."
+    "defaultRemindTimeHint": "New recurring payments and reminders start with this time.",
+    "data": "Data"
   },
   "formDemo": {
     "title": "Sample form",
@@ -130,7 +131,9 @@
       "systemRecordNotDeletable": "Built-in items can't be deleted; you can deactivate them.",
       "exchangeRateRequired": "Enter an exchange rate to change the currency.",
       "conversionOverflow": "A converted amount is too large. Check the exchange rate.",
-      "recurringEnded": "This recurring payment has ended or is inactive. Edit it and update the date to continue."
+      "recurringEnded": "This recurring payment has ended or is inactive. Edit it and update the date to continue.",
+      "backupInvalid": "This file is not a valid Tabulo backup, or it is damaged.",
+      "backupTooNew": "This backup was made with a newer version of the app. Please update the app first."
     }
   },
   "notFound": {
@@ -846,6 +849,40 @@
         "contact": "Contact: {{value}}",
         "search": "Search: {{value}}"
       }
+    }
+  },
+  "backup": {
+    "title": "Backup & restore",
+    "lastBackup": "Last backup: {{date}}",
+    "never": "No backup yet",
+    "neverShort": "None",
+    "reminderStale": "Your last backup is more than 30 days old. Make a new backup to keep your data safe.",
+    "reminderNever": "You haven't made a backup yet. Make one so you can restore your data if your phone is lost or broken.",
+    "reminderNeverHint": "Make one so you can restore your data if your phone is lost or broken.",
+    "privacyNote": "The backup file is not encrypted and contains all your records, including ID numbers. Keep it somewhere you trust.",
+    "create": {
+      "title": "Make a backup",
+      "description": "All your records, document photos and logo are saved into a single file. In the share sheet, choose iCloud Drive, Google Drive or email to keep it.",
+      "button": "Back up now",
+      "working": "Preparing backup…",
+      "shareTitle": "Save backup",
+      "failed": "Couldn't create the backup. Please try again."
+    },
+    "restore": {
+      "title": "Restore",
+      "description": "Choose a Tabulo backup (.json or .zip) you made earlier. The data on this device will be deleted and replaced with the backup.",
+      "button": "Restore from backup",
+      "working": "Reading backup…",
+      "invalidTitle": "Couldn't open backup",
+      "confirmTitle": "Restore this backup?",
+      "summaryDate": "Backup date: {{date}} {{time}}",
+      "summaryBusiness": "Business: {{name}}",
+      "summaryCounts": "{{contacts}} contacts, {{transactions}} transactions, {{attachments}} documents",
+      "confirmWarning": "Your current data will be deleted and replaced with the backup. This can't be undone.",
+      "confirm": "Restore",
+      "done": "Backup restored",
+      "failedTitle": "Restore failed",
+      "failed": "Your current data hasn't changed. Please try again."
     }
   }
 }

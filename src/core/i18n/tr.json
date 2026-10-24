@@ -99,7 +99,8 @@
     "reminders": "Hatırlatmalar",
     "notifications": "Bildirimler",
     "defaultRemindTime": "Varsayılan hatırlatma saati",
-    "defaultRemindTimeHint": "Yeni düzenli ödeme ve hatırlatıcılarda bu saat önerilir."
+    "defaultRemindTimeHint": "Yeni düzenli ödeme ve hatırlatıcılarda bu saat önerilir.",
+    "data": "Veriler"
   },
   "formDemo": {
     "title": "Örnek form",
@@ -130,7 +131,9 @@
       "systemRecordNotDeletable": "Hazır kayıt silinemez; pasife alabilirsiniz.",
       "exchangeRateRequired": "Para birimini değiştirmek için kur girin.",
       "conversionOverflow": "Dönüştürülen bir tutar çok büyük. Kuru kontrol edin.",
-      "recurringEnded": "Bu düzenli ödeme sona erdi veya pasif. Devam etmek için düzenleyip tarihini güncelleyin."
+      "recurringEnded": "Bu düzenli ödeme sona erdi veya pasif. Devam etmek için düzenleyip tarihini güncelleyin.",
+      "backupInvalid": "Bu dosya geçerli bir Tabulo yedeği değil veya bozuk.",
+      "backupTooNew": "Bu yedek uygulamanın daha yeni bir sürümüyle alınmış. Önce uygulamayı güncelleyin."
     }
   },
   "notFound": {
@@ -846,6 +849,40 @@
         "contact": "Cari: {{value}}",
         "search": "Arama: {{value}}"
       }
+    }
+  },
+  "backup": {
+    "title": "Yedekleme ve geri yükleme",
+    "lastBackup": "Son yedek: {{date}}",
+    "never": "Henüz yedek alınmadı",
+    "neverShort": "Yok",
+    "reminderStale": "Son yedeğinizin üzerinden 30 günden fazla geçti. Verilerinizi korumak için yeni bir yedek alın.",
+    "reminderNever": "Henüz yedek almadınız. Telefon kaybolur veya bozulursa verilerinizi geri yükleyebilmek için yedek alın.",
+    "reminderNeverHint": "Telefon kaybolur veya bozulursa verilerinizi geri yükleyebilmek için yedek alın.",
+    "privacyNote": "Yedek dosyası şifrelenmez ve kimlik numaraları dahil tüm kayıtlarınızı içerir. Güvendiğiniz bir yerde saklayın.",
+    "create": {
+      "title": "Yedek al",
+      "description": "Tüm kayıtlarınız, belge fotoğrafları ve logonuz tek bir dosyaya yazılır. Açılan paylaş ekranından iCloud Drive, Google Drive veya e-postayı seçerek saklayın.",
+      "button": "Yedek al",
+      "working": "Yedek hazırlanıyor…",
+      "shareTitle": "Yedeği kaydet",
+      "failed": "Yedek oluşturulamadı. Lütfen tekrar deneyin."
+    },
+    "restore": {
+      "title": "Geri yükle",
+      "description": "Daha önce aldığınız bir Tabulo yedeğini (.json veya .zip) seçin. Bu cihazdaki mevcut veriler silinip yedekteki veriler yüklenir.",
+      "button": "Yedekten geri yükle",
+      "working": "Yedek okunuyor…",
+      "invalidTitle": "Yedek açılamadı",
+      "confirmTitle": "Yedek geri yüklensin mi?",
+      "summaryDate": "Yedek tarihi: {{date}} {{time}}",
+      "summaryBusiness": "İşletme: {{name}}",
+      "summaryCounts": "{{contacts}} cari, {{transactions}} hareket, {{attachments}} belge",
+      "confirmWarning": "Mevcut veriler silinip yedekteki veriler yüklenecek. Bu işlem geri alınamaz.",
+      "confirm": "Geri yükle",
+      "done": "Yedek geri yüklendi",
+      "failedTitle": "Geri yükleme tamamlanamadı",
+      "failed": "Mevcut verileriniz değişmedi. Lütfen tekrar deneyin."
     }
   }
 }

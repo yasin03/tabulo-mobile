@@ -1,6 +1,7 @@
 import type { Db } from '../types';
 import { createAccountsRepo } from './accounts';
 import { createAttachmentsRepo } from './attachments';
+import { createBackupRepo } from './backup';
 import { createBusinessProfileRepo } from './businessProfile';
 import { createContactsRepo } from './contacts';
 import { createSubjectsRepo, createTransactionTypesRepo } from './definitions';
@@ -11,6 +12,7 @@ import { createTransactionsRepo } from './transactions';
 
 export * from './accounts';
 export * from './attachments';
+export * from './backup';
 export * from './businessProfile';
 export * from './contacts';
 export * from './definitions';
@@ -24,6 +26,7 @@ export function createRepositories(db: Db) {
   return {
     accountsRepo: createAccountsRepo(db),
     attachmentsRepo: createAttachmentsRepo(db),
+    backupRepo: createBackupRepo(db),
     businessProfileRepo: createBusinessProfileRepo(db),
     contactsRepo: createContactsRepo(db),
     recurringPaymentsRepo: createRecurringPaymentsRepo(db),

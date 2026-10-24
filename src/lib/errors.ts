@@ -32,6 +32,10 @@ export function errorMessage(t: TFunction, error: unknown): string {
         return t('errors.domain.conversionOverflow');
       case 'recurringEnded':
         return t('errors.domain.recurringEnded');
+      case 'backupInvalid':
+        return t('errors.domain.backupInvalid');
+      case 'backupTooNew':
+        return t('errors.domain.backupTooNew');
     }
   }
   if (__DEV__) console.warn(error);

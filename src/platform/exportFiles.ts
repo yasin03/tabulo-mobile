@@ -14,9 +14,17 @@ const EXPORTS_FOLDER = 'exports';
 export const MIME = {
   pdf: 'application/pdf',
   xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  // Yedek dosyaları (Faz 8).
+  json: 'application/json',
+  zip: 'application/zip',
 } as const;
 
-const UTI = { pdf: 'com.adobe.pdf', xlsx: 'org.openxmlformats.spreadsheetml.sheet' } as const;
+const UTI = {
+  pdf: 'com.adobe.pdf',
+  xlsx: 'org.openxmlformats.spreadsheetml.sheet',
+  json: 'public.json',
+  zip: 'public.zip-archive',
+} as const;
 
 export type ExportKind = keyof typeof MIME;
 
@@ -37,7 +45,7 @@ export async function createPdf(html: string, fileName: string): Promise<string>
     margins: PAGE_MARGINS,
   });
   const target = new File(freshExportsDirectory(), fileName);
-  new File(uri).move(target);
+  await new File(uri).move(target);
   return target.uri;
 }
 

@@ -16,7 +16,9 @@ export type DomainErrorCode =
   | 'subjectPassive'
   | 'exchangeRateRequired' // Tutar varken para birimi kur olmadan değiştirilemez
   | 'conversionOverflow' // Dönüştürülen tutar girilebilir en büyük tutarı aşıyor
-  | 'recurringEnded'; // Bitiş tarihi geçmiş / pasif düzenli ödeme ödenemez veya aktife alınamaz
+  | 'recurringEnded' // Bitiş tarihi geçmiş / pasif düzenli ödeme ödenemez veya aktife alınamaz
+  | 'backupInvalid' // Seçilen dosya Tabulo yedeği değil veya bozuk
+  | 'backupTooNew'; // Yedek uygulamanın daha yeni bir sürümüyle alınmış
 
 export class DomainError extends Error {
   readonly code: DomainErrorCode;

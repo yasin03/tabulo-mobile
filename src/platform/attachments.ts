@@ -132,10 +132,10 @@ export async function storeAttachment(pending: PendingAttachment): Promise<Attac
   const target = new File(directory, `${pending.id}.${isPdf ? 'pdf' : 'jpg'}`);
 
   if (isPdf) {
-    new File(pending.uri).copy(target);
+    await new File(pending.uri).copy(target);
   } else {
     const compressed = new File(await compressImage(pending));
-    compressed.move(target);
+    await compressed.move(target);
   }
 
   return {
@@ -172,7 +172,7 @@ export async function storeLogo(pending: PendingAttachment): Promise<string> {
   const directory = new Directory(Paths.document, LOGO_FOLDER);
   directory.create({ idempotent: true, intermediates: true });
   const target = new File(directory, `${pending.id}.jpg`);
-  new File(await compressImage(pending, LOGO_MAX_EDGE)).move(target);
+  await new File(await compressImage(pending, LOGO_MAX_EDGE)).move(target);
   return `${LOGO_FOLDER}/${pending.id}.jpg`;
 }
 
