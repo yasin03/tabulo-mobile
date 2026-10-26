@@ -21,17 +21,19 @@ import type { CategoryTotal } from '@/db/repositories';
 import { useLiveQuery } from '@/db/useLiveQuery';
 import { BarList, type BarListItem } from '@/features/reports/BarList';
 import { CustomRangeSheet } from '@/features/reports/CustomRangeSheet';
+import { PremiumTeaser } from '@/features/premium/PremiumTeaser';
 import { IncomeExpenseChart } from '@/features/reports/IncomeExpenseChart';
 import { PeriodSelector } from '@/features/reports/PeriodSelector';
 import { ReportSummary } from '@/features/reports/ReportSummary';
 import { useMoney } from '@/lib/business';
 import { useDates } from '@/lib/dates';
+import { useIsPremium, usePremiumGate } from '@/lib/premium';
 import { useColors } from '@/lib/theme';
 import { useToday } from '@/lib/useToday';
 
 /**
  * Raporlar (7.9): dönem seçici, özet kartları, gelir-gider grafiği, işlem türü ve konuya göre gider,
- * dönem sonundaki hesap bakiyeleri. Grafikler Premium'dur; kilit Faz 9'da (şimdilik herkese açık).
+ * dönem sonundaki hesap bakiyeleri. Grafik ve dağılımlar Premium'dur; ücretsizde özet kartları + tanıtım.
  */
 export default function ReportsScreen() {
   const { t } = useTranslation();
@@ -39,6 +41,8 @@ export default function ReportsScreen() {
   const money = useMoney();
   const dates = useDates();
   const today = useToday();
+  const isPremium = useIsPremium();
+  const requirePremium = usePremiumGate();
   const weekStart = weekStartFor(dates.locale);
   const [period, setPeriod] = useState<Period>(() => periodContaining('month', today, 1));
   const [rangeSheet, setRangeSheet] = useState({ isOpen: false, key: 0 });
@@ -137,12 +141,13 @@ export default function ReportsScreen() {
       right={
         <Pressable
           accessibilityRole="button"
-          onPress={() =>
+          onPress={() => {
+            if (!requirePremium('export')) return;
             router.push({
               pathname: '/export/report',
               params: { source: 'report', unit: period.unit, from, to },
-            })
-          }
+            });
+          }}
           className="min-h-11 flex-row items-center gap-1.5 rounded-[14px] border border-border bg-surface px-3 active:opacity-70"
         >
           <Share size={18} color={colors.primary} strokeWidth={2.2} />
@@ -172,7 +177,9 @@ export default function ReportsScreen() {
         />
       ) : null}
 
-      {data && hasTransactions ? (
+      {data && hasTransactions && !isPremium ? <PremiumTeaser feature="charts" /> : null}
+
+      {data && hasTransactions && isPremium ? (
         <>
           {hasCashFlow && buckets.length > 1 ? (
             <IncomeExpenseChart
@@ -195,7 +202,7 @@ export default function ReportsScreen() {
         </>
       ) : null}
 
-      {data && data.accounts.length > 0 ? (
+      {data && isPremium && data.accounts.length > 0 ? (
         <BarList
           title={t('reports.accounts')}
           subtitle={t('reports.accountsAsOf', { date: dates.format(asOf, 'full') })}

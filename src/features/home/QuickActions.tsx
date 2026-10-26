@@ -6,6 +6,7 @@ import { Pressable, View } from 'react-native';
 import { AppText } from '@/components/ui/AppText';
 import type { ColorToken } from '@/core/theme/tokens';
 import { useContactLimit } from '@/features/contacts/useContactActions';
+import { usePremiumGate } from '@/lib/premium';
 import { useColors } from '@/lib/theme';
 
 type Action = {
@@ -21,6 +22,7 @@ export function QuickActions() {
   const { t } = useTranslation();
   const colors = useColors();
   const ensureCanAddContact = useContactLimit();
+  const requirePremium = usePremiumGate();
 
   const actions: Action[] = [
     {
@@ -51,7 +53,9 @@ export function QuickActions() {
       label: t('home.statement'),
       icon: FileText,
       color: 'primary',
-      onPress: () => router.push('/export/statement'),
+      onPress: () => {
+        if (requirePremium('whatsappStatement')) router.push('/export/statement');
+      },
     },
   ];
 

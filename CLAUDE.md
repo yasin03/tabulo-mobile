@@ -25,8 +25,9 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 | 5 – Düzenli ödemeler / hatırlatıcılar | ✅ Tamamlandı (iOS'ta bildirim + dokununca ekran açılması kullanıcı tarafından doğrulandı)                                |
 | 6 – Raporlar                          | ✅ Tamamlandı                                                                                                             |
 | 7 – Dışa aktarma                      | ✅ Tamamlandı                                                                                                             |
-| 8 – Yedekleme                         | ✅ Tamamlandı (onay bekliyor; paylaş ekranı ve dosya seçici kullanıcı tarafından denenecek)                               |
-| 9–10                                  | Başlanmadı                                                                                                                |
+| 8 – Yedekleme                         | ✅ Tamamlandı                                                                                                             |
+| 9 – Premium                           | ✅ Tamamlandı (onay bekliyor; Test Store anahtarıyla satın alma kullanıcı tarafından denenecek)                           |
+| 10                                    | Başlanmadı                                                                                                                |
 
 ### Faz 0'da yapılanlar
 
@@ -106,6 +107,16 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 - Yan düzeltme: SDK 57'de `File.move/copy` Promise döner; belge, logo ve PDF'teki beklenmeyen çağrılar `await` edildi.
 - Simülatörde gerçek API'lerle gidiş-dönüş denendi (zip + belge, veriler birebir aynı, `unzip -t` temiz).
 
+### Faz 9'da yapılanlar
+
+- `react-native-purchases` 10.15 (native → dev client yeniden derlendi). `react-native-purchases-ui` kurulmadı: paywall özel ekran (kullanıcı kararı).
+- Anahtarlar `.env` (`.env.example`): `EXPO_PUBLIC_REVENUECAT_TEST_KEY` (yalnızca `__DEV__`), `_IOS_KEY`, `_ANDROID_KEY`. Seçim `selectRevenueCatKey` ([plans.ts](src/config/plans.ts)); sürüm derlemesinde `test_` anahtarı asla seçilmez (SDK bilerek çöker). Anahtar yoksa uygulama çalışır, paywall "kullanılamıyor" der.
+- [src/platform/purchases.ts](src/platform/purchases.ts) (configure, durum, dinleyici, aylık/yıllık paket, satın al, geri yükle, aboneliği yönet); `PremiumSync` (açılış, ön plana gelme, SDK dinleyicisi); durum MMKV'de `stores/premium.ts` (`entitled`, `expiresAt`, geliştirici `override`). `useIsPremium` → `resolvePremium` (süresi geçmiş saklı abonelik Premium sayılmaz).
+- Paywall `/paywall?feature=` (modal): neden metni, özellik listesi (açan özellik vurgulu), paket kartları (fiyat mağazadan), yenileme açıklaması, geri yükle, koşullar / gizlilik ([legal.ts](src/config/legal.ts)); Premium ise "Aboneliği yönet".
+- Kilitler `usePremiumGate(feature)` (değilse paywall açar): cari ve hesap sınırı (eski açıklama diyaloğu yerine), Raporlar grafik + dağılımlar + hesap bakiyeleri (`PremiumTeaser`, özet kartları ücretsiz), Raporlar ve Tüm hareketler "Dışa aktar", Ekstre (cari detayı + ana sayfa), Yedek al, belge ekleme. `/export/*` derin bağlantıyla açılırsa `PremiumRequiredScreen`.
+- Ayarlar: Premium grubu (durum, Aboneliği yönet, Satın alımları geri yükle); `__DEV__`'de Premium Otomatik / Açık / Kapalı.
+- Abonelik tarihi (kullanıcı isteği): `subscriptionTerm` (`expiresAt` + `willRenew`). Paywall'un Premium halinde durum kartı özellik listesinin üstünde: "Yenilenme tarihi: …" veya iptal edilmişse uyarı renginde "sona erecek: …". Ayarlar satırı yenilenecekse "Aktif", iptal edilmişse "Bitiş: …". Ömür boyu / ücretsizde tarih yok.
+
 ## Alınan kararlar
 
 - **Drizzle 1.0 RC** (`drizzle-orm` / `drizzle-kit` `1.0.0-rc.4`, tam sürüm sabit): Drizzle'ın Expo dokümanı `@rc` kurulumunu söylüyor. RC'nin `useMigrations` tipi `journal` bekliyor ama migrator kullanmıyor → `useDatabaseSetup.ts`'te bilinçli cast.
@@ -124,7 +135,7 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 - **`@hookform/resolvers` kurulmadı:** isteğe bağlı peer'leri (typebox, effect) drizzle-orm RC ile çakışıyor; yerine [src/lib/zodResolver.ts](src/lib/zodResolver.ts). `--legacy-peer-deps` kullanma.
 - **Kaydedilmemiş değişiklik:** [useConfirmDiscard](src/lib/useConfirmDiscard.ts) `usePreventRemove`'u `expo-router/build/react-navigation/core`'dan alır (SDK 57'de genel API'de yok, SDK 58'de `expo-router`'dan). `beforeRemove` dinleme native-stack'te çalışmaz. Kökte `headerBackButtonMenuEnabled: false`. Koruma `isDirty`'ye bağlı, başarılı kayıtta `leave()`. React Navigation API'leri `expo-router`'dan import edilir, `@react-navigation/*`'tan değil.
 - **HeroUI Input'ta `min-h-*` sınıfı çalışmaz** (`.input__input` ezer); çok satırlı alan yüksekliği `FormField` içinde `style` ile.
-- **Ücretsiz sınır** ([plans.ts](src/config/plans.ts), 10 aktif cari): yeni cari eklerken ve pasif cariyi aktife alırken `useContactLimit`; şimdilik açıklama diyaloğu, Faz 9'da paywall. `useIsPremium` şimdilik `false`.
+- **Ücretsiz sınır** ([plans.ts](src/config/plans.ts), 10 aktif cari): yeni cari eklerken ve pasif cariyi aktife alırken `useContactLimit` → paywall (nedeni başlıkta).
 - **`babel.config.js` var** (Drizzle `.sql` inline-import için) → `babel-preset-expo` dev bağımlılığı olarak kurulu olmalı. uuid 14 yalnızca ESM → jest `transformIgnorePatterns`'e eklendi.
 
 - **Expo SDK 57** (58 değil): SDK 58 gesture-handler 3.x ile geliyor, `heroui-native` ise `^2.28` istiyor. SDK 57 tüm HeroUI peer bağımlılıklarını karşılıyor. Yükseltmeden önce HeroUI'nin desteğini kontrol et.
@@ -147,7 +158,7 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 
 - **Vade etiketi FIFO ile (kullanıcı kararı, Faz 3):** tahsilatlar en eski borç kaleminden düşülür; tamamen kapanan veresiyenin vadesi gösterilmez. Açık kalan en erken vade gösterilir, geçmişse "Gecikti". Ana sayfadaki "Vadesi gelen alacaklar" da `openItems` ile yapılmalı.
 - **Cari detay filtreleri cari tipine göre (kullanıcı kararı):** Müşteri: Tümü / Satışlar / Tahsilatlar / Ödemeler; Tedarikçi: Satışlar yerine Alışlar; İkisi: hepsi. Tasarımdaki segment yerine yatay çip satırı (5 seçenek ve büyük yazıda sığsın diye).
-- **Belge ekleme şimdilik herkese açık (kullanıcı kararı):** Premium kilidi Faz 9'da.
+- **Belge ekleme Premium (Faz 9):** yalnızca yeni belge eklemek kilitli; kayıtlı belgeler ücretsiz planda da görünür ve kaldırılabilir.
 - **Belge yolu göreli saklanır** (`attachments/<id>.jpg`): iOS uygulama klasörünün mutlak yolu güncellemede değişir; `resolveAttachmentUri` ile açılır. Silinen belgenin dosyası yumuşak silme gereği diskte kalır (temizlik ileride, yedekleme fazında ele alınabilir).
 - **Tutarın işareti/rengi:** genel listelerde tahsilat `+` yeşil, ödeme `−` kırmızı, veresiye satış `+`, veresiye alış `−`; cari detayında tasarımdaki gibi işaret cari bakiyesine etkidir (tahsilat `−`), renk para akışıdır (tahsilat yeşil, veresiye nötr).
 - **Devir hareketi** yalnızca cari detayındaki "İşlem ekle"den girilir; düzenlerken tipi değiştirilemez.
@@ -168,22 +179,22 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 - **Rapor tanımları (Faz 6):** gelir = tahsilat, gider = ödeme (şemadaki örnek sorgular); devir rapora girmez. Gider dağılımları yalnızca ödemelerden. Hesap bakiyeleri dönem sonunda (dönem sürüyorsa bugün). Gelecek döneme gidilmez.
 - **Grafik kırılımı:** yıl → aylar, ay ve hafta → günler, gün → grafik yok. Özel aralık: ≤31 gün günler, ≤183 gün haftalar, ≤3 yıl aylar, sonra yıllar. Hafta başı `en-US`'de Pazar, diğerlerinde Pazartesi (`weekStartFor`).
 - **Yalnızca gelir-gider grafiği victory-native;** tür/konu/hesap dağılımları View çubuklarıyla (`BarList`): uzun adlar alta kayar, Dynamic Type ve ekran okuyucu çalışır, satıra dokunulabilir. Skia yazısı yazı boyutuyla en fazla 1,3× büyür.
-- **Grafikler şimdilik herkese açık:** Premium kilidi Faz 9'da (belgelerdeki gibi). Grafik `chartPressConfig.pan.activateAfterLongPress` ile basılı tutunca devreye girer, sayfa kaydırması bozulmaz.
+- **Grafikler Premium (Faz 9):** ücretsizde özet kartları + tanıtım kartı. Grafik `chartPressConfig.pan.activateAfterLongPress` ile basılı tutunca devreye girer, sayfa kaydırması bozulmaz.
 
 - **Excel: SheetJS Community Edition (kullanıcı kararı, Faz 7):** kalın + dondurulmuş başlık satırı Pro özelliği olduğu için yok (§10.2'den sapma); yerine başlıkta otomatik filtre ve sütun genişlikleri. Tarih hücreleri Excel seri numarası + dile göre biçim (`Date` kullanılmaz, saat dilimi kayması olmaz); tutarlar ana birimde sayı, `#,##0.00`. "Tutar" sütunu işaretsiz (yönü hareket tipi verir); Gelir = tahsilat, Gider = ödeme.
 - **Ekstre Borç/Alacak (kullanıcı kararı):** işletme defteri bakışı — Borç = veresiye satış, cariye ödeme, alacak devri; Alacak = tahsilat, veresiye alış, borç devri. Bakiye işaretsiz + `(B)` / `(A)` (EN `(Dr)` / `(Cr)`); Borç ve (B) yeşil, Alacak ve (A) kırmızı. Varsayılan dönem "Tümü"; aralık başı verilince öncesi "Devreden bakiye".
-- **PDF:** sistem yazı tipi (Plus Jakarta Sans gömülmedi), kâğıt her zaman açık tema tokenlarıyla. Logo data URI olarak gömülür (iOS WKWebView yerel dosya yüklemez). "Tabulo ile oluşturuldu" notu şimdilik herkeste; Premium'da kaldırma Faz 9'da. Dışa aktarma da Faz 9'a kadar herkese açık.
+- **PDF:** sistem yazı tipi (Plus Jakarta Sans gömülmedi), kâğıt her zaman açık tema tokenlarıyla. Logo data URI olarak gömülür (iOS WKWebView yerel dosya yüklemez). "Tabulo ile oluşturuldu" notu Premium'da da kalır (kullanıcı kararı, Faz 9; §10.1'den sapma). Dışa aktarma Premium.
 - **PDF dönem raporu düzeni (kullanıcı isteği):** 1) kartlar: Gelir, Gider, Net, Veresiye satış, Veresiye alış; 2) Kasa ve Banka dönem neti (hesap türüne göre toplam, giriş − çıkış; pasif hesaplar dahil, `reportsRepo.cashFlowByAccountType`); 3) "Özet – Tür bazlı": Gelir türü (tahsilatlar, `incomeByType`) ve Gider türü (ödemeler) yan yana, Adet + Tutar + Toplam; 4) altında eski bölümler aynen (gelir-gider kırılımı, türe/konuya göre gider, hesap bakiyeleri). Veresiye satış/alış tür özetine girmez (gelir = tahsilat kuralı). 12 satıra kadar tablolar başlığıyla aynı sayfada tutulur.
 - **PDF sayfalama (Faz 7, iOS simülatöründe ölçüldü):** iOS WebKit baskıda tablo başlığını tekrarlamıyor, satırı bölüyor, `position: fixed` notu sayfa dibine koymuyor. Bu yüzden iOS'ta belge içi script sayfalıyor ([src/pdf/paginate.ts](src/pdf/paginate.ts)): düzen genişliği 663 px, sayfa 956 px (WebKit yazdırılabilir alanı 1,25 kat CSS pikselle dizer; 531 × 770 pt). iOS'ta `@page` kuralı OLMAMALI (ölçeği küçültüyor), kenar boşluğu expo-print `margins`'ten. Android'de expo-print WebView'da JavaScript kapalı → `css` modu: Chromium başlığı tekrarlar, satırı bölmez, not `@page { @bottom-center }` ile. Mod `FormatContext.pdfPagination` (Platform.OS). Şablonlarda: `#flow` çocukları sayfalanır, `section.split-flow` satır satır bölünür (`keep` önce bütün taşınır), `.flow-title` devam sayfasında tekrarlanmaz. Android çıktısı Chrome ile denendi, cihazda denenmedi.
 - **Ekstre cari kutusu (kullanıcı isteği):** solda ad, telefon, e-posta; sağda tip, vergi/kimlik, adres, il/ilçe.
 - **Yedek biçimi (Faz 8):** satırlar HAM SQLite değerleriyle (snake_case, ms zaman damgası, 0/1), silinmişler dahil. Belge/logo yoksa `tabulo-yedek-YYYY-AA-GG.json` (EN `tabulo-backup-…`), varsa aynı adla `.zip` (`tabulo-backup.json` + `attachments/…`, `logo/…`; JPEG/PDF sıkıştırılmadan). Zip'ten yalnızca `isBackupFilePath`'e uyan yollar açılır. Yeni migration eklenince `BACKUP_SCHEMA_VERSION` artırılmalı (test kontrol eder) ve eski yedekler için `upgradeBackup`'a adım eklenmeli; daha yeni sürümlü yedek `backupTooNew` ile reddedilir.
 - **Geri yükleme sırası:** zip önce önbellekte geçici klasöre açılır, doğrulanır, onay sorulur; DB tek transaction (yabancı anahtar sırasıyla sil/ekle, sonra `localizeSeedRecords`); ancak başarılıysa belge/logo klasörleri silinip yedektekiler taşınır, hareket taslağı silinir. MMKV'den yalnızca varsayılan hatırlatma saati yedeğe girer (`settings.defaultRemindTime`, kullanıcı isteği; isteğe bağlı alan, şema sürümü değişmedi); dil, tema, son hesap girmez.
-- **Son yedek tarihi** MMKV `lastBackupDate`; paylaş ekranı kapanınca yazılır (kaydedilip kaydedilmediği bilinemez). Hatırlatma: 30 günden eskiyse veya hiç yedek yokken cari/hareket varsa. Yedekleme Faz 9'a kadar herkese açık.
+- **Son yedek tarihi** MMKV `lastBackupDate`; paylaş ekranı kapanınca yazılır (kaydedilip kaydedilmediği bilinemez). Hatırlatma: 30 günden eskiyse veya hiç yedek yokken cari/hareket varsa. **Yedek almak Premium, geri yüklemek herkese açık** (kullanıcı kararı, Faz 9; §10.3'ten sapma): eski veriyi kurtarmak engellenmez.
 - **Excel "Cariler" sayfası** tüm carileri (pasifler dahil) güncel bakiyeyle yazar; filtreler yalnızca Hareketler'e ve özete uygulanır.
 
 ## Kullanıcıdan cevap bekleyen sorular
 
-- (yok)
+- Kendi kullanım koşulları (şimdilik Apple standart EULA). Gizlilik politikası yayında: https://sites.google.com/view/tabulo-gizlilik/ (veri sorumlusu Yasin Türk, iletişim lemartsoft@gmail.com); yayındaki metin `docs/privacy-policy.md`'den genişletildi, repo kopyası eşitlenecek.
 
 ## Komutlar ve yerel ortam
 

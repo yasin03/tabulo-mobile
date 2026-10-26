@@ -11,28 +11,25 @@ import { accountsRepo, type Account } from '@/db';
 import type { AccountType } from '@/db/repositories';
 import { errorMessage } from '@/lib/errors';
 import { haptics } from '@/lib/haptics';
-import { useIsPremium } from '@/lib/premium';
+import { openPaywall, useIsPremium } from '@/lib/premium';
 
 type AccountRef = Pick<Account, 'id' | 'name' | 'status' | 'type'>;
 
 /**
  * Ücretsiz plan sınırı (6.8): 1 aktif kasa + 1 aktif banka. Yeni hesap eklerken / pasif hesabı aktife alırken.
- * Sınırdaysa açıklama gösterir ve `false` döner (paywall Faz 9'da).
+ * Sınırdaysa nedenini söyleyen paywall'u açar ve `false` döner.
  */
 export function useAccountLimit() {
-  const { t } = useTranslation();
   const isPremium = useIsPremium();
 
   return useCallback(
     async (type: AccountType): Promise<boolean> => {
       if (canAddActiveAccount(type, await accountsRepo.countActive(), isPremium)) return true;
       haptics.warning();
-      Alert.alert(t('accounts.limit.title'), t(`accounts.limit.${type}`), [
-        { text: t('common.ok') },
-      ]);
+      openPaywall('unlimitedAccounts');
       return false;
     },
-    [isPremium, t],
+    [isPremium],
   );
 }
 

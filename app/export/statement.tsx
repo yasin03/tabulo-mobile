@@ -20,9 +20,11 @@ import {
   type PeriodValue,
 } from '@/features/export/ExportOptions';
 import { useFormatContext, useShareExport } from '@/features/export/useExport';
+import { PremiumRequiredScreen } from '@/features/premium/PremiumRequiredScreen';
 import { periodRange } from '@/features/transactions/filters';
 import { useMoney } from '@/lib/business';
 import { haptics } from '@/lib/haptics';
+import { useIsPremium } from '@/lib/premium';
 import { useColors } from '@/lib/theme';
 
 /**
@@ -30,6 +32,13 @@ import { useColors } from '@/lib/theme';
  * Cari detayından `contactId` ile gelir; ana sayfadaki "Ekstre"den cari seçilir.
  */
 export default function StatementExportScreen() {
+  const { t } = useTranslation();
+  const isPremium = useIsPremium();
+  if (!isPremium) return <PremiumRequiredScreen title={t('export.statement.title')} />;
+  return <StatementExportForm />;
+}
+
+function StatementExportForm() {
   const { t } = useTranslation();
   const colors = useColors();
   const money = useMoney();

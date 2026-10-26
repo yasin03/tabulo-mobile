@@ -255,10 +255,6 @@
     "deleteBlocked": {
       "title": "Can't delete this contact",
       "message": "Contacts with transactions can't be deleted. You can make it inactive instead; its history and balance are kept."
-    },
-    "limit": {
-      "title": "Free plan limit",
-      "message": "The free plan allows up to {{count}} active contacts. Upgrade to Premium for more, or make contacts you no longer use inactive."
     }
   },
   "contactForm": {
@@ -566,11 +562,6 @@
     "ibanHint": "Optional. Can be shown on statements.",
     "openingBalance": "Opening balance",
     "openingHint": "The amount in this account when you start using the app.",
-    "limit": {
-      "title": "Free plan limit",
-      "cash": "The free plan includes 1 active cash account. Upgrade to Premium for more, or deactivate an account you don't use.",
-      "bank": "The free plan includes 1 active bank account. Upgrade to Premium for more, or deactivate an account you don't use."
-    },
     "deleteBlocked": {
       "title": "This account can't be deleted",
       "message": "Accounts with entries can't be deleted. You can deactivate it; its entries and balance are kept."
@@ -884,5 +875,100 @@
       "failedTitle": "Restore failed",
       "failed": "Your current data hasn't changed. Please try again."
     }
+  },
+  "premium": {
+    "title": "Tabulo Premium",
+    "headline": "Track your business without limits",
+    "subheadline": "Unlimited contacts and accounts, chart reports, Excel/PDF, statements via WhatsApp, backups and attachments.",
+    "activeTitle": "Premium is on",
+    "activeDescription": "Every feature is unlocked. Thanks for your support!",
+    "activeBadge": "Your subscription is active",
+    "statusActive": "Active",
+    "statusFree": "Free",
+    "upgrade": "Upgrade to Premium",
+    "subscribe": "Upgrade to Premium",
+    "startTrial": "Start free trial",
+    "freeTrial": "Free trial",
+    "annual": "Yearly",
+    "monthly": "Monthly",
+    "perYear": "{{price}} / year",
+    "perMonth": "{{price}} / month",
+    "monthlyEquivalent": "About {{price}} a month",
+    "renewAnnual": "Your subscription renews automatically every year at {{price}}. Cancel anytime in your store settings; cancellation takes effect at the end of the period.",
+    "renewMonthly": "Your subscription renews automatically every month at {{price}}. Cancel anytime in your store settings; cancellation takes effect at the end of the period.",
+    "restore": "Restore purchases",
+    "restoring": "Checking…",
+    "restored": "Premium restored",
+    "restoreNoneTitle": "No purchases found",
+    "restoreNoneMessage": "We couldn't find an active Tabulo Premium subscription on this store account.",
+    "restoreFailed": "Couldn't restore purchases. Check your internet connection and try again.",
+    "unlocked": "Premium unlocked",
+    "purchaseFailed": "The purchase didn't go through. You weren't charged; please try again.",
+    "pendingTitle": "Payment pending",
+    "pendingMessage": "Premium will turn on automatically once the payment is approved.",
+    "unavailable": "Purchases aren't available right now. Please try again later.",
+    "loadFailed": "Couldn't load plans. Check your internet connection and try again.",
+    "manage": "Manage subscription",
+    "manageFailed": "Couldn't open subscription settings.",
+    "terms": "Terms of Use",
+    "privacy": "Privacy Policy",
+    "devToggle": "Premium (developer)",
+    "devAuto": "Auto",
+    "devOn": "On",
+    "devOff": "Off",
+    "devHint": "Only visible in development builds. Auto uses the real subscription status.",
+    "reason": {
+      "unlimitedContacts": "The free plan allows up to {{count}} active contacts. Get unlimited contacts with Premium, or deactivate contacts you no longer use.",
+      "unlimitedAccounts": "The free plan allows 1 active cash and 1 active bank account. Get unlimited accounts with Premium, or deactivate an account you no longer use.",
+      "charts": "Chart reports are a Premium feature.",
+      "export": "Excel and PDF export are Premium features.",
+      "whatsappStatement": "PDF statements and sending them via WhatsApp are Premium features.",
+      "backup": "Creating backups is a Premium feature. Restoring a backup you already have is always free.",
+      "attachments": "Attaching receipts and invoices is a Premium feature. Attachments you already added stay visible."
+    },
+    "features": {
+      "unlimitedContacts": {
+        "title": "Unlimited contacts",
+        "description": "As many customers and suppliers as you need"
+      },
+      "unlimitedAccounts": {
+        "title": "Unlimited cash and bank accounts",
+        "description": "See each account's balance separately"
+      },
+      "charts": {
+        "title": "Chart reports",
+        "description": "Income vs. expense chart, expenses by type and category"
+      },
+      "export": {
+        "title": "Excel and PDF",
+        "description": "Export transactions and period reports"
+      },
+      "whatsappStatement": {
+        "title": "Statements via WhatsApp",
+        "description": "Send a contact's statement as a PDF"
+      },
+      "backup": {
+        "title": "Backups",
+        "description": "Keep all your data in a single file"
+      },
+      "attachments": {
+        "title": "Attachments",
+        "description": "Photos of receipts and invoices, and PDFs"
+      }
+    },
+    "teaser": {
+      "charts": {
+        "title": "Chart reports are in Premium",
+        "description": "The income vs. expense chart, expenses by type and category, and account balances unlock with Premium."
+      },
+      "export": {
+        "title": "Exporting is in Premium",
+        "description": "PDF statements, PDF period reports and Excel export unlock with Premium."
+      }
+    },
+    "cancelledBadge": "Auto-renew is off",
+    "renewsOn": "Renews on {{date}}",
+    "endsOn": "Premium ends on {{date}}. To keep it, turn auto-renew back on in Manage subscription.",
+    "statusEnds": "Ends {{date}}"
   }
 }

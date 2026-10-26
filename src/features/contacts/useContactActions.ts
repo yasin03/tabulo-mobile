@@ -4,34 +4,28 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 
-import { canAddActiveContact, FREE_LIMITS } from '@/config/plans';
+import { canAddActiveContact } from '@/config/plans';
 import { isDomainError } from '@/core/errors';
 import { contactsRepo, type Contact } from '@/db';
 import { errorMessage } from '@/lib/errors';
 import { haptics } from '@/lib/haptics';
-import { useIsPremium } from '@/lib/premium';
+import { openPaywall, useIsPremium } from '@/lib/premium';
 
 type ContactRef = Pick<Contact, 'id' | 'name' | 'status'>;
 
 /**
  * Ücretsiz plan sınırı (6.8): yeni aktif cari eklemeden / pasif cariyi aktife almadan önce çağrılır.
- * Sınırdaysa nazik bir açıklama gösterir ve `false` döner. Mevcut veriye asla dokunulmaz.
- * (Paywall Faz 9'da buraya bağlanacak.)
+ * Sınırdaysa nedenini söyleyen paywall'u açar ve `false` döner. Mevcut veriye asla dokunulmaz.
  */
 export function useContactLimit() {
-  const { t } = useTranslation();
   const isPremium = useIsPremium();
 
   return useCallback(async (): Promise<boolean> => {
     if (canAddActiveContact(await contactsRepo.countActive(), isPremium)) return true;
     haptics.warning();
-    Alert.alert(
-      t('contacts.limit.title'),
-      t('contacts.limit.message', { count: FREE_LIMITS.activeContacts }),
-      [{ text: t('common.ok') }],
-    );
+    openPaywall('unlimitedContacts');
     return false;
-  }, [isPremium, t]);
+  }, [isPremium]);
 }
 
 /** Cari listesi ve detayında ortak eylemler: aç, düzenle, pasife/aktife al, sil (+ 5 sn geri al). */

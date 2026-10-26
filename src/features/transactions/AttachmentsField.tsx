@@ -6,6 +6,7 @@ import { Pressable, View } from 'react-native';
 import { ActionSheet } from '@/components/ui/ActionSheet';
 import { AppText } from '@/components/ui/AppText';
 import type { Attachment } from '@/db';
+import { usePremiumGate } from '@/lib/premium';
 import { useColors } from '@/lib/theme';
 import {
   attachmentKind,
@@ -26,7 +27,10 @@ type AttachmentsFieldProps = {
   onRemovePending: (id: string) => void;
 };
 
-/** Belgeler (6.4): fotoğraf çek / galeriden seç / PDF seç; birden fazla. */
+/**
+ * Belgeler (6.4): fotoğraf çek / galeriden seç / PDF seç; birden fazla. Yeni belge eklemek Premium (6.8);
+ * kayıtlı belgeler ücretsiz planda da görünür ve kaldırılabilir.
+ */
 export function AttachmentsField({
   existing,
   pending,
@@ -38,6 +42,7 @@ export function AttachmentsField({
   const colors = useColors();
   const pick = useAttachmentPicker();
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const requirePremium = usePremiumGate();
 
   const add = async (source: AttachmentSource) => {
     const items = await pick(source);
@@ -71,7 +76,9 @@ export function AttachmentsField({
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={t('attachments.add')}
-          onPress={() => setMenuOpen(true)}
+          onPress={() => {
+            if (requirePremium('attachments')) setMenuOpen(true);
+          }}
           style={{ width: THUMB_SIZE, height: THUMB_SIZE }}
           className="items-center justify-center gap-1 rounded-xl border border-dashed border-border bg-surface active:opacity-70"
         >

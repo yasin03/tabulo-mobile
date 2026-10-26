@@ -41,6 +41,7 @@ import { useTransactionActions } from '@/features/transactions/useTransactionAct
 import { useBusinessProfile, useMoney } from '@/lib/business';
 import { useDates } from '@/lib/dates';
 import { haptics } from '@/lib/haptics';
+import { usePremiumGate } from '@/lib/premium';
 import { useColors } from '@/lib/theme';
 import { useToday } from '@/lib/useToday';
 
@@ -65,6 +66,7 @@ const BOTTOM_BAR_HEIGHT = 78;
 /** Cari detay (7.4, client-detail.html). */
 export default function ContactDetailScreen() {
   const { t } = useTranslation();
+  const requirePremium = usePremiumGate();
   const { id } = useLocalSearchParams<{ id: string }>();
   const colors = useColors();
   const insets = useSafeAreaInsets();
@@ -215,9 +217,11 @@ export default function ContactDetailScreen() {
         balanceMinor={data?.balanceMinor ?? 0}
         due={due}
         hasPhone={!!contact.phone}
-        onSendStatement={() =>
-          router.push({ pathname: '/export/statement', params: { contactId: contact.id } })
-        }
+        onSendStatement={() => {
+          if (requirePremium('whatsappStatement')) {
+            router.push({ pathname: '/export/statement', params: { contactId: contact.id } });
+          }
+        }}
         onRemind={remind}
         onWhatsApp={() => setWhatsAppOpen(true)}
       />

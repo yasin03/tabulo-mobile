@@ -23,7 +23,9 @@ import { useLiveQuery } from '@/db/useLiveQuery';
 import { exportExcel, exportReportPdf } from '@/features/export/exporters';
 import { PreviewCard, SwitchRow } from '@/features/export/ExportOptions';
 import { useFormatContext, useShareExport } from '@/features/export/useExport';
+import { PremiumRequiredScreen } from '@/features/premium/PremiumRequiredScreen';
 import { useDates } from '@/lib/dates';
+import { useIsPremium } from '@/lib/premium';
 import { useColors } from '@/lib/theme';
 
 type Format = 'pdf' | 'excel';
@@ -71,6 +73,13 @@ const nameOf = (load: () => Promise<{ name: string }>) =>
  * Dışa aktar (7.9, 10.2): raporlardan PDF dönem raporu veya Excel; tüm hareketlerden Excel (filtreler uygulanır).
  */
 export default function ReportExportScreen() {
+  const { t } = useTranslation();
+  const isPremium = useIsPremium();
+  if (!isPremium) return <PremiumRequiredScreen title={t('export.report.title')} />;
+  return <ReportExportForm />;
+}
+
+function ReportExportForm() {
   const { t } = useTranslation();
   const colors = useColors();
   const ctx = useFormatContext();

@@ -25,6 +25,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DatabaseGate } from '@/components/DatabaseGate';
 import { fontFamilies } from '@/core/theme/tokens';
 import { NotificationSync } from '@/features/notifications/NotificationSync';
+import { PremiumSync } from '@/features/premium/PremiumSync';
 import { BusinessProvider } from '@/lib/business';
 import { applyThemePreference, useColors, useThemeSync } from '@/lib/theme';
 import { subscribeToNotificationTaps } from '@/platform/notifications';
@@ -68,6 +69,7 @@ export default function RootLayout() {
               <BusinessProvider>
                 <RootStack />
                 <NotificationSync />
+                <PremiumSync />
               </BusinessProvider>
             </DatabaseGate>
             <StatusBar style="auto" />
@@ -157,6 +159,7 @@ function RootStack() {
         name="export/report"
         options={{ presentation: 'modal', title: t('export.report.title') }}
       />
+      <Stack.Screen name="paywall" options={{ presentation: 'modal', title: t('premium.title') }} />
       <Stack.Screen name="dev/form-demo" options={{ title: t('formDemo.title') }} />
     </Stack>
   );

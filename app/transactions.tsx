@@ -28,6 +28,7 @@ import { useTransactionActions } from '@/features/transactions/useTransactionAct
 import { useTransactionFormData } from '@/features/transactions/useTransactionFormData';
 import { cn } from '@/lib/cn';
 import { haptics } from '@/lib/haptics';
+import { usePremiumGate } from '@/lib/premium';
 import { useColors } from '@/lib/theme';
 
 const countAll = () => transactionsRepo.count();
@@ -35,6 +36,7 @@ const countAll = () => transactionsRepo.count();
 /** Tüm hareketler (7.8): dönem, hareket tipi, hesap, işlem türü, konu, cari filtreleri; açıklama/belge no araması. */
 export default function TransactionsScreen() {
   const { t } = useTranslation();
+  const requirePremium = usePremiumGate();
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const actions = useTransactionActions();
@@ -66,6 +68,7 @@ export default function TransactionsScreen() {
 
   /** Excel dışa aktarma (10.2): ekrandaki filtreler ve arama aynen uygulanır. */
   const exportFiltered = () => {
+    if (!requirePremium('export')) return;
     const filter = toSearchFilter(filters, search);
     const params: Record<string, string> = { source: 'transactions' };
     if (filter.from) params.from = filter.from;

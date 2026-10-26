@@ -255,10 +255,6 @@
     "deleteBlocked": {
       "title": "Bu cari silinemez",
       "message": "Hareketi olan cari silinemez. Pasife alabilirsiniz; geçmiş hareketleri ve bakiyesi korunur."
-    },
-    "limit": {
-      "title": "Ücretsiz sürüm sınırı",
-      "message": "Ücretsiz sürümde en fazla {{count}} aktif cari olabilir. Daha fazlası için Premium'a geçebilir veya kullanmadığınız carileri pasife alabilirsiniz."
     }
   },
   "contactForm": {
@@ -566,11 +562,6 @@
     "ibanHint": "İsteğe bağlı. Ekstrede gösterilebilir.",
     "openingBalance": "Açılış bakiyesi",
     "openingHint": "Uygulamayı kullanmaya başladığınızda hesapta bulunan tutar.",
-    "limit": {
-      "title": "Ücretsiz sürüm sınırı",
-      "cash": "Ücretsiz sürümde 1 aktif kasa hesabı olabilir. Daha fazlası için Premium'a geçebilir veya kullanmadığınız hesabı pasife alabilirsiniz.",
-      "bank": "Ücretsiz sürümde 1 aktif banka hesabı olabilir. Daha fazlası için Premium'a geçebilir veya kullanmadığınız hesabı pasife alabilirsiniz."
-    },
     "deleteBlocked": {
       "title": "Bu hesap silinemez",
       "message": "Hareketi olan hesap silinemez. Pasife alabilirsiniz; geçmiş hareketleri ve bakiyesi korunur."
@@ -884,5 +875,100 @@
       "failedTitle": "Geri yükleme tamamlanamadı",
       "failed": "Mevcut verileriniz değişmedi. Lütfen tekrar deneyin."
     }
+  },
+  "premium": {
+    "title": "Tabulo Premium",
+    "headline": "İşinizi sınırsız takip edin",
+    "subheadline": "Sınırsız cari ve hesap, grafikli raporlar, Excel/PDF, WhatsApp'tan ekstre, yedekleme ve belge ekleme.",
+    "activeTitle": "Premium açık",
+    "activeDescription": "Tüm özellikler kullanımınızda. Desteğiniz için teşekkürler!",
+    "activeBadge": "Aboneliğiniz aktif",
+    "statusActive": "Aktif",
+    "statusFree": "Ücretsiz",
+    "upgrade": "Premium'a geç",
+    "subscribe": "Premium'a geç",
+    "startTrial": "Ücretsiz denemeyi başlat",
+    "freeTrial": "Ücretsiz deneme",
+    "annual": "Yıllık",
+    "monthly": "Aylık",
+    "perYear": "{{price}} / yıl",
+    "perMonth": "{{price}} / ay",
+    "monthlyEquivalent": "Aylık yaklaşık {{price}}",
+    "renewAnnual": "Abonelik her yıl {{price}} olarak kendiliğinden yenilenir. İstediğiniz zaman mağaza ayarlarından iptal edebilirsiniz; iptal dönem sonunda geçerli olur.",
+    "renewMonthly": "Abonelik her ay {{price}} olarak kendiliğinden yenilenir. İstediğiniz zaman mağaza ayarlarından iptal edebilirsiniz; iptal dönem sonunda geçerli olur.",
+    "restore": "Satın alımları geri yükle",
+    "restoring": "Kontrol ediliyor…",
+    "restored": "Premium geri yüklendi",
+    "restoreNoneTitle": "Satın alım bulunamadı",
+    "restoreNoneMessage": "Bu mağaza hesabında etkin bir Tabulo Premium aboneliği bulunamadı.",
+    "restoreFailed": "Satın alımlar geri yüklenemedi. İnternet bağlantınızı kontrol edip tekrar deneyin.",
+    "unlocked": "Premium açıldı",
+    "purchaseFailed": "Satın alma tamamlanamadı. Ödeme alınmadı; lütfen tekrar deneyin.",
+    "pendingTitle": "Ödeme onay bekliyor",
+    "pendingMessage": "Ödeme onaylanınca Premium kendiliğinden açılacak.",
+    "unavailable": "Satın alma şu an kullanılamıyor. Lütfen daha sonra tekrar deneyin.",
+    "loadFailed": "Paketler yüklenemedi. İnternet bağlantınızı kontrol edip tekrar deneyin.",
+    "manage": "Aboneliği yönet",
+    "manageFailed": "Abonelik ayarları açılamadı.",
+    "terms": "Kullanım koşulları",
+    "privacy": "Gizlilik politikası",
+    "devToggle": "Premium (geliştirici)",
+    "devAuto": "Otomatik",
+    "devOn": "Açık",
+    "devOff": "Kapalı",
+    "devHint": "Yalnızca geliştirme derlemesinde görünür. Otomatik, gerçek abonelik durumunu kullanır.",
+    "reason": {
+      "unlimitedContacts": "Ücretsiz sürümde en fazla {{count}} aktif cari olabilir. Premium ile sınırsız cari ekleyin ya da kullanmadığınız carileri pasife alın.",
+      "unlimitedAccounts": "Ücretsiz sürümde 1 aktif kasa ve 1 aktif banka hesabı olabilir. Premium ile sınırsız hesap ekleyin ya da kullanmadığınız hesabı pasife alın.",
+      "charts": "Grafikli raporlar Premium'a özeldir.",
+      "export": "Excel ve PDF dışa aktarma Premium'a özeldir.",
+      "whatsappStatement": "PDF cari ekstresi ve WhatsApp'tan gönderme Premium'a özeldir.",
+      "backup": "Yedek almak Premium'a özeldir. Daha önce aldığınız yedeği geri yüklemek her zaman ücretsizdir.",
+      "attachments": "Fiş ve fatura eklemek Premium'a özeldir. Eklenmiş belgeleriniz görünmeye devam eder."
+    },
+    "features": {
+      "unlimitedContacts": {
+        "title": "Sınırsız cari",
+        "description": "İstediğiniz kadar müşteri ve tedarikçi"
+      },
+      "unlimitedAccounts": {
+        "title": "Sınırsız kasa ve banka",
+        "description": "Her hesabın bakiyesini ayrı görün"
+      },
+      "charts": {
+        "title": "Grafikli raporlar",
+        "description": "Gelir-gider grafiği, türe ve konuya göre gider"
+      },
+      "export": {
+        "title": "Excel ve PDF",
+        "description": "Hareketleri ve dönem raporunu dışa aktarın"
+      },
+      "whatsappStatement": {
+        "title": "WhatsApp'tan ekstre",
+        "description": "Cari ekstresini PDF olarak gönderin"
+      },
+      "backup": {
+        "title": "Yedekleme",
+        "description": "Tüm verilerinizi tek dosyada saklayın"
+      },
+      "attachments": {
+        "title": "Belge ekleme",
+        "description": "Fiş, fatura fotoğrafı ve PDF"
+      }
+    },
+    "teaser": {
+      "charts": {
+        "title": "Grafikli raporlar Premium'da",
+        "description": "Gelir-gider grafiği, işlem türüne ve konuya göre gider dağılımı ve hesap bakiyeleri Premium ile açılır."
+      },
+      "export": {
+        "title": "Dışa aktarma Premium'da",
+        "description": "PDF ekstre, PDF dönem raporu ve Excel dışa aktarma Premium ile açılır."
+      }
+    },
+    "cancelledBadge": "Otomatik yenileme kapalı",
+    "renewsOn": "Yenilenme tarihi: {{date}}",
+    "endsOn": "Premium bu tarihte sona erecek: {{date}}. Devam etmek için aboneliği yönet'ten yeniden açabilirsiniz.",
+    "statusEnds": "Bitiş: {{date}}"
   }
 }

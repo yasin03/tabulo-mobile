@@ -20,6 +20,7 @@ import { useMoney } from '@/lib/business';
 import { useDates } from '@/lib/dates';
 import { errorMessage } from '@/lib/errors';
 import { haptics } from '@/lib/haptics';
+import { usePremiumGate } from '@/lib/premium';
 import { useColors } from '@/lib/theme';
 import { pickBackupFile } from '@/platform/backupFiles';
 import { shareFile } from '@/platform/exportFiles';
@@ -47,7 +48,10 @@ function Card({
   );
 }
 
-/** Yedekleme ve geri yükleme (10.3). Premium kilidi Faz 9'da. */
+/**
+ * Yedekleme ve geri yükleme (10.3). Yedek almak Premium; geri yükleme herkese açık (kullanıcı kararı:
+ * daha önce alınmış veriyi kurtarmak hiçbir zaman engellenmez).
+ */
 export default function BackupScreen() {
   const { t } = useTranslation();
   const { toast } = useToast();
@@ -58,6 +62,7 @@ export default function BackupScreen() {
   const lastBackupDate = usePreferences((s) => s.lastBackupDate);
   const setLastBackupDate = usePreferences((s) => s.setLastBackupDate);
   const reminder = useBackupReminder();
+  const requirePremium = usePremiumGate();
 
   const [busy, setBusy] = useState<Busy>(null);
   // Çift dokunuş ikinci bir işlem başlatmasın (8.1).
@@ -75,8 +80,9 @@ export default function BackupScreen() {
     }
   };
 
-  const backup = () =>
-    run('create', async () => {
+  const backup = () => {
+    if (!requirePremium('backup')) return;
+    return run('create', async () => {
       try {
         const { uri, kind } = await createBackup(language);
         haptics.success();
@@ -93,6 +99,7 @@ export default function BackupScreen() {
         toast.show({ variant: 'danger', label: t('backup.create.failed') });
       }
     });
+  };
 
   const summaryText = (summary: BackupSummary) => {
     const created = new Date(summary.createdAt);
