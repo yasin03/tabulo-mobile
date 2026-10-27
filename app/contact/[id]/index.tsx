@@ -22,6 +22,7 @@ import { ActionSheet } from '@/components/ui/ActionSheet';
 import { AppText } from '@/components/ui/AppText';
 import { ChipGroup } from '@/components/ui/ChipGroup';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { ListSkeleton } from '@/components/ui/ListSkeleton';
 import { groupByMonth } from '@/core/grouping';
 import { balanceState, nearestDue, type MovementType } from '@/core/ledger';
 import { formatPhone } from '@/core/validation';
@@ -309,7 +310,9 @@ export default function ContactDetailScreen() {
           )
         }
         ListEmptyComponent={
-          isLoading ? null : (
+          isLoading ? (
+            <ListSkeleton className="mx-5 mt-2" rows={4} avatar={false} />
+          ) : (
             <View className="px-5 pt-2">
               <EmptyState
                 icon={ReceiptText}

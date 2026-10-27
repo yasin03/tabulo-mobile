@@ -27,7 +27,7 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 | 7 – Dışa aktarma                      | ✅ Tamamlandı                                                                                                             |
 | 8 – Yedekleme                         | ✅ Tamamlandı                                                                                                             |
 | 9 – Premium                           | ✅ Tamamlandı (onay bekliyor; Test Store anahtarıyla satın alma kullanıcı tarafından denenecek)                           |
-| 10                                    | Başlanmadı                                                                                                                |
+| 10 – Son rötuşlar                     | 🟡 Kod tamam (onay bekliyor; iOS'ta Face ID / kilit ve Android cihaz testi kullanıcıda)                                   |
 
 ### Faz 0'da yapılanlar
 
@@ -117,6 +117,19 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 - Ayarlar: Premium grubu (durum, Aboneliği yönet, Satın alımları geri yükle); `__DEV__`'de Premium Otomatik / Açık / Kapalı.
 - Abonelik tarihi (kullanıcı isteği): `subscriptionTerm` (`expiresAt` + `willRenew`). Paywall'un Premium halinde durum kartı özellik listesinin üstünde: "Yenilenme tarihi: …" veya iptal edilmişse uyarı renginde "sona erecek: …". Ayarlar satırı yenilenecekse "Aktif", iptal edilmişse "Bitiş: …". Ömür boyu / ücretsizde tarih yok.
 
+### Faz 10'da yapılanlar
+
+- `expo-local-authentication` + `expo-screen-capture` (native → dev client yeniden derlendi). Face ID metni TR/EN (`assets/locales`).
+- Onboarding `app/onboarding.tsx`: 3 tanıtım sayfası (kaydırmalı, Atla) + kurulum (dil, para birimi, isteğe bağlı işletme adı, "Yedekten geri yükle" → `/settings/backup`). `(tabs)/_layout` `onboardingDone` değilse yönlendirir. Tercihler persist sürümü 2: sürüm 1 kaydı olan (önceden kurulmuş) uygulamada onboarding atlanır.
+- Uygulama kilidi [AppLock](src/features/security/AppLock.tsx): açılışta ve arka planda `Hemen / 1 dk / 5 dk` kaldıktan sonra (`core/appLock.ts`). Arka plana geçerken hemen logo örtüsü, dönüşte süre dolmadıysa kalkar (kilitliye dönerken içerik bir an bile görünmez). Örtü iOS'ta `FullWindowOverlay` (native modal ekranların da üstünde), Android'de RN `Modal`. Açma/kapama önce kimlik doğrulatır (`useAppLockToggle`); cihazda ekran kilidi yoksa açılmaz.
+- Son uygulamalarda gizle (varsayılan açık): iOS `enableAppSwitcherProtectionAsync` (bulanık), Android `FLAG_SECURE` (bu sırada ekran görüntüsü alınamaz; kapatılabilir).
+- Ayarlar: Güvenlik grubu (kilit, kilit süresi, gizle), Görünüm'de "Titreşimli geri bildirim" (`haptics` artık tercihi okur). Ortak `SettingsSwitchRow`.
+- Yükleniyor iskeletleri `ListSkeleton` / `CardsSkeleton` (HeroUI Skeleton): cari listesi, tüm hareketler, cari detayı, ana sayfa son işlemler, raporlar özet, düzenli ödemeler, hatırlatıcılar.
+- Performans: `sampleDataRepo.insert` (tohumlu örnek veri; Ayarlar → Geliştirici "Örnek veri ekle", yalnızca `__DEV__`) ve `performance.test.ts` (1.000 cari + 10.000 hareket, her sorgu < 400 ms; Node'da hepsi < 50 ms). `transactionsRepo.search` arama yoksa LIMIT/OFFSET'i SQL'de uygular (ana sayfa son 5: 38 → 1 ms).
+- EAS: [eas.json](eas.json) (development, development-simulator, preview, production; `appVersionSource: remote`, production `autoIncrement`). Adımlar ve ekran görüntüsü önerileri [docs/store-release.md](docs/store-release.md).
+- Yayın öncesi: Android'de kullanılmayan izinler `android.blockedPermissions` ile kaldırıldı (RECORD_AUDIO, SYSTEM_ALERT_WINDOW, READ/WRITE_EXTERNAL_STORAGE); `/dev/form-demo` sürüm derlemesinde ana sayfaya yönlendirir. `expo-doctor` 21/21, `expo export` iOS + Android temiz.
+- Erişilebilirlik taraması: tüm `Pressable`'larda rol var, simgeli olanlarda etiket var; İngilizce çeviride Türkçe kalan metin yok.
+
 ## Alınan kararlar
 
 - **Drizzle 1.0 RC** (`drizzle-orm` / `drizzle-kit` `1.0.0-rc.4`, tam sürüm sabit): Drizzle'ın Expo dokümanı `@rc` kurulumunu söylüyor. RC'nin `useMigrations` tipi `journal` bekliyor ama migrator kullanmıyor → `useDatabaseSetup.ts`'te bilinçli cast.
@@ -152,7 +165,7 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 - **Rotalar:** sekme ekranları düz dosyalar (`app/(tabs)/contacts.tsx` …). Detay ekranları sekmelerin dışına, kök Stack'e konacak; böylece alt sekme çubuğu detay ekranlarında gizlenir.
 - **`src/core` saf TypeScript'tir:** React/Expo/mobil paket ve `@/components`, `@/lib`, `@/stores` vb. importları ESLint ile yasak ([eslint.config.js](eslint.config.js)).
 - **Uniwind tipleri:** `src/uniwind-types.d.ts` Metro tarafından üretilir ve repoya dahildir. Metro çalışmıyorsa şununla üret: `npx uniwind generate-artifacts --css ./global.css --dts ./src/uniwind-types.d.ts`.
-- **Paket kimliği:** `app.tabulo` (iOS ve Android), kullanıcı "şimdilik kalsın" dedi.
+- **Paket kimliği:** `com.lemartsoft.tabulo` (iOS ve Android; kullanıcı kararı, mağaza öncesi `app.tabulo`dan değişti). Mağazada kullanıldıktan sonra değiştirilemez.
 - **Android:** mağaza derlemeleri EAS Build ile (Faz 10). Yerel emülatör testi için JDK 17 gerekir (makinede yalnızca JDK 25 var, RN 0.86 CMake adımı onunla başarısız); kullanıcı isterse kurulacak.
 - **Renkler** kullanıcı tarafından şimdilik uygun bulundu; Faz 4'te özet kartı koyu temada ayrıca kontrol edilecek.
 
@@ -194,6 +207,9 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 
 ## Kullanıcıdan cevap bekleyen sorular
 
+- Mağaza anahtarları (`EXPO_PUBLIC_REVENUECAT_IOS_KEY` / `_ANDROID_KEY`) henüz yok: sürüm derlemesinde paywall "kullanılamıyor" der. Android paywall'unda kullanım koşulları bağlantısı Apple EULA'sına gidiyor; kendi koşullar sayfası yazılmalı.
+- EAS `projectId`: kullanıcı `eas init` çalıştırınca `app.config.ts` → `extra.eas.projectId`'ye eklenecek.
+
 - Kendi kullanım koşulları (şimdilik Apple standart EULA). Gizlilik politikası yayında: https://sites.google.com/view/tabulo-gizlilik/ (veri sorumlusu Yasin Türk, iletişim lemartsoft@gmail.com); yayındaki metin `docs/privacy-policy.md`'den genişletildi, repo kopyası eşitlenecek.
 
 ## Komutlar ve yerel ortam
@@ -205,7 +221,7 @@ npx tsc --noEmit && npx eslint . && npm test
 npm run db:generate                       # şema değişince migration üret
 ```
 
-- Simülatördeki DB: `sqlite3 "$(find "$(xcrun simctl get_app_container booted app.tabulo data)" -name tabulo.db)"`
+- Simülatördeki DB: `sqlite3 "$(find "$(xcrun simctl get_app_container booted com.lemartsoft.tabulo data)" -name tabulo.db)"`
 
 - Uygulamayı 8082'deki Metro'ya bağlamak: `xcrun simctl openurl booted "exp+tabulo://expo-development-client/?url=http%3A%2F%2F127.0.0.1%3A8082"`
 - Simülatöre dokunma aracı yok. Ekranlara derin bağlantıyla git (`tabulo://settings`, `tabulo://dev/form-demo`, `tabulo://contact/c1`, `tabulo://transactions`, `tabulo://transaction/new?type=collection`, `tabulo://settings/accounts`, `tabulo://settings/currency`); koyu tema için `xcrun simctl ui booted appearance dark`.

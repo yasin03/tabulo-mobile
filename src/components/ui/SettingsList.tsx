@@ -1,3 +1,4 @@
+import { Switch } from 'heroui-native';
 import { ChevronRight, type LucideIcon } from 'lucide-react-native';
 import { Children, type ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
@@ -59,6 +60,48 @@ export function SettingsRow({ icon: Icon, label, value, onPress }: SettingsRowPr
         </AppText>
       ) : null}
       <ChevronRight size={20} color={colors.muted} />
+    </Pressable>
+  );
+}
+
+type SettingsSwitchRowProps = {
+  icon?: LucideIcon;
+  label: string;
+  /** Etiketin altında kısa açıklama. */
+  hint?: string;
+  value: boolean;
+  onChange: (value: boolean) => void;
+  isDisabled?: boolean;
+};
+
+/** Aç/kapa ayar satırı; satırın tamamına dokunmak da değeri değiştirir. */
+export function SettingsSwitchRow({
+  icon: Icon,
+  label,
+  hint,
+  value,
+  onChange,
+  isDisabled,
+}: SettingsSwitchRowProps) {
+  const colors = useColors();
+  return (
+    <Pressable
+      accessibilityRole="switch"
+      accessibilityLabel={label}
+      accessibilityHint={hint}
+      accessibilityState={{ checked: value, disabled: isDisabled }}
+      disabled={isDisabled}
+      onPress={() => onChange(!value)}
+      className="min-h-14 flex-row items-center gap-3 px-4 py-3 active:bg-surface-secondary"
+    >
+      {Icon ? <Icon size={20} color={colors.primary} /> : null}
+      <View className="flex-1 gap-0.5">
+        <AppText weight="semibold">{label}</AppText>
+        {hint ? <AppText className="text-[13px] leading-[18px] text-muted">{hint}</AppText> : null}
+      </View>
+      <View importantForAccessibility="no-hide-descendants" accessibilityElementsHidden>
+        <Switch isSelected={value} isDisabled={isDisabled} onSelectedChange={onChange} />
+      </View>
     </Pressable>
   );
 }

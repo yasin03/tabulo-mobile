@@ -17,6 +17,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ActionSheet, type ActionSheetItem } from '@/components/ui/ActionSheet';
 import { AppText } from '@/components/ui/AppText';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { ListSkeleton } from '@/components/ui/ListSkeleton';
 import { SwipeableRow } from '@/components/ui/SwipeableRow';
 import { recurringPaymentsRepo } from '@/db';
 import type { RecurringPaymentListItem } from '@/db/repositories';
@@ -135,6 +136,7 @@ export default function RecurringListScreen() {
         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={refresh} />}
       >
         <PermissionBanner />
+        {!data ? <ListSkeleton rows={4} /> : null}
         {data && items.length === 0 ? (
           <EmptyState
             icon={CalendarClock}

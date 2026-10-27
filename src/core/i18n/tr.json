@@ -13,7 +13,9 @@
     "search": "Ara",
     "clear": "Temizle",
     "comingSoonTitle": "Yakında",
-    "continue": "Devam"
+    "continue": "Devam",
+    "back": "Geri",
+    "loading": "Yükleniyor"
   },
   "brand": {
     "name": "tabulo"
@@ -100,7 +102,11 @@
     "notifications": "Bildirimler",
     "defaultRemindTime": "Varsayılan hatırlatma saati",
     "defaultRemindTimeHint": "Yeni düzenli ödeme ve hatırlatıcılarda bu saat önerilir.",
-    "data": "Veriler"
+    "data": "Veriler",
+    "security": "Güvenlik",
+    "haptics": "Titreşimli geri bildirim",
+    "sampleData": "Örnek veri ekle (performans)",
+    "sampleDataConfirm": "1.000 cari ve 10.000 hareket eklenecek. Yalnızca geliştirme içindir; geri almak için uygulamayı silip yeniden kurun."
   },
   "formDemo": {
     "title": "Örnek form",
@@ -970,5 +976,53 @@
     "renewsOn": "Yenilenme tarihi: {{date}}",
     "endsOn": "Premium bu tarihte sona erecek: {{date}}. Devam etmek için aboneliği yönet'ten yeniden açabilirsiniz.",
     "statusEnds": "Bitiş: {{date}}"
+  },
+  "appLock": {
+    "setting": "Uygulama kilidi",
+    "settingHint": "Açılışta Face ID, parmak izi veya cihaz şifresi istenir.",
+    "timeout": "Kilitlenme zamanı",
+    "timeoutImmediate": "Hemen",
+    "timeout1m": "1 dk sonra",
+    "timeout5m": "5 dk sonra",
+    "privacyScreen": "Son uygulamalarda gizle",
+    "privacyScreenHint": "Uygulamalar arasında geçerken bakiyeleriniz görünmez.",
+    "title": "Tabulo kilitli",
+    "description": "Devam etmek için kimliğinizi doğrulayın.",
+    "failed": "Doğrulanamadı. Tekrar deneyin.",
+    "unlock": "Kilidi aç",
+    "prompt": "Tabulo'nun kilidini açın",
+    "enablePrompt": "Uygulama kilidini açmak için doğrulayın",
+    "disablePrompt": "Uygulama kilidini kapatmak için doğrulayın",
+    "unavailableTitle": "Ekran kilidi bulunamadı",
+    "unavailableMessage": "Uygulama kilidi için önce telefonunuzun ayarlarından Face ID, parmak izi veya bir cihaz şifresi tanımlayın."
+  },
+  "onboarding": {
+    "skip": "Atla",
+    "next": "İleri",
+    "getStarted": "Başlayalım",
+    "start": "Başla",
+    "page": "Sayfa {{current}} / {{total}}",
+    "restore": "Yedekten geri yükle",
+    "slides": {
+      "contacts": {
+        "title": "Carilerinizi takip edin",
+        "body": "Müşterilerinizi ve tedarikçilerinizi kaydedin; kim ne kadar borçlu, tek bakışta görün."
+      },
+      "accounts": {
+        "title": "Kasanızı ve bankanızı görün",
+        "body": "Tahsilat ve ödemelerinizi girin; kasa ve banka bakiyeleriniz kendiliğinden güncellensin."
+      },
+      "reminders": {
+        "title": "Hatırlatma alın",
+        "body": "Kira, fatura ve tahsilat günlerini unutmayın; zamanı gelince telefonunuz hatırlatsın."
+      }
+    },
+    "setup": {
+      "title": "İşletmenizi tanıyalım",
+      "description": "Bunları daha sonra Ayarlar'dan değiştirebilirsiniz.",
+      "businessName": "İşletme adı (isteğe bağlı)",
+      "businessNamePlaceholder": "Örn. Yılmaz Ticaret",
+      "businessNameHint": "PDF ekstrelerinin başında görünür. Verileriniz yalnızca bu cihazda saklanır."
+    }
   }
 }

@@ -13,6 +13,7 @@ export const {
   recurringPaymentsRepo,
   remindersRepo,
   reportsRepo,
+  sampleDataRepo,
   subjectsRepo,
   transactionTypesRepo,
   transactionsRepo,

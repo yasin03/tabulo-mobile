@@ -6,6 +6,7 @@ import { Pressable } from 'react-native';
 
 import { AppText } from '@/components/ui/AppText';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { CardsSkeleton } from '@/components/ui/ListSkeleton';
 import { TabScreen } from '@/components/ui/TabScreen';
 import type { MovementType } from '@/core/ledger';
 import {
@@ -167,7 +168,9 @@ export default function ReportsScreen() {
 
       {summary ? (
         <ReportSummary summary={summary} onOpen={(types) => openTransactions({ types })} />
-      ) : null}
+      ) : (
+        <CardsSkeleton />
+      )}
 
       {data && !hasTransactions ? (
         <EmptyState

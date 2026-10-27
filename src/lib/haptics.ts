@@ -1,10 +1,22 @@
 import * as Haptics from 'expo-haptics';
 
-// Dokunsal geri bildirim (8.3). Ayarlardan kapatma seçeneği Faz 10'da buraya bağlanacak.
+import { usePreferences } from '@/stores/preferences';
+
+// Dokunsal geri bildirim (8.3); Ayarlar → Genel'den kapatılabilir.
+
+const enabled = () => usePreferences.getState().hapticsEnabled;
 
 export const haptics = {
-  success: () => void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success),
-  warning: () => void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning),
-  error: () => void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error),
-  selection: () => void Haptics.selectionAsync(),
+  success: () => {
+    if (enabled()) void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+  },
+  warning: () => {
+    if (enabled()) void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+  },
+  error: () => {
+    if (enabled()) void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+  },
+  selection: () => {
+    if (enabled()) void Haptics.selectionAsync();
+  },
 };

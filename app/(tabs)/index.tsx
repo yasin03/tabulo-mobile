@@ -8,6 +8,7 @@ import { Pressable, View } from 'react-native';
 import { Logo } from '@/components/brand/Logo';
 import { AppText } from '@/components/ui/AppText';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { ListSkeleton } from '@/components/ui/ListSkeleton';
 import { TabScreen } from '@/components/ui/TabScreen';
 import { monthKey, monthRange, monthsBetween } from '@/core/dates';
 import {
@@ -193,7 +194,9 @@ export default function HomeScreen() {
               />
             ))}
           </View>
-        ) : data ? (
+        ) : !data ? (
+          <ListSkeleton rows={4} />
+        ) : (
           <EmptyState
             icon={ReceiptText}
             title={t('home.empty.title')}
@@ -211,7 +214,7 @@ export default function HomeScreen() {
               </Button>
             }
           />
-        ) : null}
+        )}
       </View>
 
       <MonthPickerSheet

@@ -1,8 +1,8 @@
-import * as Haptics from 'expo-haptics';
 import { Pressable, View } from 'react-native';
 
 import { AppText } from '@/components/ui/AppText';
 import { cn } from '@/lib/cn';
+import { haptics } from '@/lib/haptics';
 
 type Option<T extends string> = { value: T; label: string };
 
@@ -34,7 +34,7 @@ export function SegmentedControl<T extends string>({
             accessibilityState={{ selected }}
             onPress={() => {
               if (selected) return;
-              void Haptics.selectionAsync();
+              haptics.selection();
               onChange(option.value);
             }}
             className={cn(

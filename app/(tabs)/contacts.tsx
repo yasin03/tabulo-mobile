@@ -20,6 +20,7 @@ import { ActionSheet } from '@/components/ui/ActionSheet';
 import { ChipGroup } from '@/components/ui/ChipGroup';
 import { AppText } from '@/components/ui/AppText';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { ListSkeleton } from '@/components/ui/ListSkeleton';
 import { contactsRepo } from '@/db';
 import type { ContactListFilter, ContactSort, ContactWithBalance } from '@/db/repositories';
 import { useLiveQuery } from '@/db/useLiveQuery';
@@ -170,7 +171,9 @@ export default function ContactsScreen() {
         onRefresh={refresh}
         contentContainerStyle={{ paddingTop: 4, paddingBottom: 24 }}
         ListEmptyComponent={
-          isLoading ? null : (
+          isLoading ? (
+            <ListSkeleton className="mx-5" />
+          ) : (
             <View className="px-5">
               {hasNoContacts ? (
                 <EmptyState

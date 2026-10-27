@@ -16,7 +16,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   backgroundColor: LIGHT_BACKGROUND,
   icon: './assets/images/icon.png',
   ios: {
-    bundleIdentifier: 'app.tabulo',
+    bundleIdentifier: 'com.lemartsoft.tabulo',
     supportsTablet: false,
     infoPlist: {
       CFBundleAllowMixedLocalizations: true,
@@ -24,12 +24,20 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
   },
   android: {
-    package: 'app.tabulo',
+    package: 'com.lemartsoft.tabulo',
     adaptiveIcon: {
       foregroundImage: './assets/images/adaptive-icon-foreground.png',
       backgroundColor: BRAND_NAVY,
     },
     predictiveBackGestureEnabled: false,
+    // Şablon ve kütüphanelerin eklediği ama uygulamanın kullanmadığı izinler (Play incelemesi mikrofonu sorar).
+    // Fotoğraf/belge seçimi sistem seçicisiyle yapılır, depolama izni gerekmez.
+    blockedPermissions: [
+      'android.permission.RECORD_AUDIO',
+      'android.permission.SYSTEM_ALERT_WINDOW',
+      'android.permission.READ_EXTERNAL_STORAGE',
+      'android.permission.WRITE_EXTERNAL_STORAGE',
+    ],
   },
   locales: {
     tr: './assets/locales/tr.json',
@@ -53,6 +61,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
           'Tabulo uses your photos to attach receipts and invoices to your records.',
         microphonePermission: false,
       },
+    ],
+    [
+      'expo-local-authentication',
+      // Varsayılan (İngilizce) metin; Türkçesi assets/locales/tr.json'da (8.6).
+      { faceIDPermission: 'Tabulo uses Face ID to keep your records locked.' },
     ],
     [
       'expo-splash-screen',

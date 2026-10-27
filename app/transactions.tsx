@@ -9,6 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppText } from '@/components/ui/AppText';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { ListSkeleton } from '@/components/ui/ListSkeleton';
 import { groupByMonth } from '@/core/grouping';
 import { transactionsRepo } from '@/db';
 import type { TransactionListItem } from '@/db/repositories';
@@ -176,7 +177,9 @@ export default function TransactionsScreen() {
           )
         }
         ListEmptyComponent={
-          isLoading ? null : (
+          isLoading ? (
+            <ListSkeleton className="mx-5 mt-3" />
+          ) : (
             <View className="px-5 pt-3">
               {hasNoTransactions ? (
                 <EmptyState

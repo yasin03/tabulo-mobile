@@ -5,32 +5,39 @@ import {
   Building2,
   CalendarClock,
   Coins,
+  DatabaseZap,
   Crown,
   DatabaseBackup,
   FlaskConical,
+  EyeOff,
+  Fingerprint,
   Landmark,
   RotateCcw,
   ShieldCheck,
+  Vibrate,
   Tags,
   TrendingUpDown,
   TriangleAlert,
 } from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, View } from 'react-native';
+import { Alert, Pressable, View } from 'react-native';
 
 import { AppText } from '@/components/ui/AppText';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
-import { SettingsGroup, SettingsRow } from '@/components/ui/SettingsList';
+import { SettingsGroup, SettingsRow, SettingsSwitchRow } from '@/components/ui/SettingsList';
 import { TabScreen } from '@/components/ui/TabScreen';
 import { TimeField } from '@/components/ui/TimeField';
 import type { PremiumOverride } from '@/config/plans';
+import type { LockTimeout } from '@/core/appLock';
 import { toIsoDate } from '@/core/dates';
 import type { Language } from '@/core/i18n';
 import { CURRENCY_SYMBOLS } from '@/core/money';
 import { useBackupReminder } from '@/features/backup/useBackupReminder';
 import { PermissionBanner } from '@/features/notifications/PermissionBanner';
 import { useRestorePurchases } from '@/features/premium/useRestorePurchases';
+import { useAppLockToggle } from '@/features/security/useAppLockToggle';
+import { sampleDataRepo } from '@/db';
 import { useBusinessProfile, useMoney } from '@/lib/business';
 import { useDates } from '@/lib/dates';
 import { resolveLanguage } from '@/lib/i18n';
@@ -72,6 +79,13 @@ export default function SettingsScreen() {
   const setPremiumOverride = usePremiumStore((s) => s.setOverride);
   const restorePurchases = useRestorePurchases();
   const [isRestoring, setRestoring] = useState(false);
+  const appLock = useAppLockToggle();
+  const lockTimeout = usePreferences((s) => s.appLockTimeout);
+  const setLockTimeout = usePreferences((s) => s.setAppLockTimeout);
+  const privacyScreen = usePreferences((s) => s.privacyScreen);
+  const setPrivacyScreen = usePreferences((s) => s.setPrivacyScreen);
+  const hapticsEnabled = usePreferences((s) => s.hapticsEnabled);
+  const setHapticsEnabled = usePreferences((s) => s.setHapticsEnabled);
 
   const restore = async () => {
     if (isRestoring) return;
@@ -200,6 +214,43 @@ export default function SettingsScreen() {
         <PermissionBanner />
       </Section>
 
+      <View className="gap-2.5">
+        <SettingsGroup title={t('settings.security')}>
+          <SettingsSwitchRow
+            icon={Fingerprint}
+            label={t('appLock.setting')}
+            hint={t('appLock.settingHint')}
+            value={appLock.enabled}
+            isDisabled={appLock.isBusy}
+            onChange={(value) => void appLock.toggle(value)}
+          />
+          <SettingsSwitchRow
+            icon={EyeOff}
+            label={t('appLock.privacyScreen')}
+            hint={t('appLock.privacyScreenHint')}
+            value={privacyScreen}
+            onChange={setPrivacyScreen}
+          />
+        </SettingsGroup>
+        {appLock.enabled ? (
+          <>
+            <AppText weight="semibold" className="mt-1 text-[13px] text-muted">
+              {t('appLock.timeout')}
+            </AppText>
+            <SegmentedControl<LockTimeout>
+              accessibilityLabel={t('appLock.timeout')}
+              value={lockTimeout}
+              onChange={setLockTimeout}
+              options={[
+                { value: 'immediate', label: t('appLock.timeoutImmediate') },
+                { value: '1m', label: t('appLock.timeout1m') },
+                { value: '5m', label: t('appLock.timeout5m') },
+              ]}
+            />
+          </>
+        ) : null}
+      </View>
+
       <Section title={t('settings.appearance')}>
         <AppText weight="semibold" className="text-[13px] text-muted">
           {t('settings.theme')}
@@ -214,6 +265,14 @@ export default function SettingsScreen() {
             { value: 'system', label: t('settings.themeSystem') },
           ]}
         />
+        <SettingsGroup>
+          <SettingsSwitchRow
+            icon={Vibrate}
+            label={t('settings.haptics')}
+            value={hapticsEnabled}
+            onChange={setHapticsEnabled}
+          />
+        </SettingsGroup>
       </Section>
 
       <Section title={t('settings.language')}>
@@ -234,6 +293,20 @@ export default function SettingsScreen() {
             icon={FlaskConical}
             label={t('settings.formDemo')}
             onPress={() => router.push('/dev/form-demo')}
+          />
+          <SettingsRow
+            icon={DatabaseZap}
+            label={t('settings.sampleData')}
+            onPress={() =>
+              Alert.alert(t('settings.sampleData'), t('settings.sampleDataConfirm'), [
+                { text: t('common.cancel'), style: 'cancel' },
+                {
+                  text: t('common.continue'),
+                  onPress: () =>
+                    void sampleDataRepo.insert({ contacts: 1_000, transactions: 10_000 }),
+                },
+              ])
+            }
           />
         </SettingsGroup>
       ) : null}

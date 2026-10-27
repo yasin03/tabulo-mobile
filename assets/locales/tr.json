@@ -1,5 +1,6 @@
 {
   "CFBundleDisplayName": "Tabulo",
   "NSCameraUsageDescription": "Tabulo, fiş ve faturalarınızı kayıtlarınıza eklemek için kamerayı kullanır.",
-  "NSPhotoLibraryUsageDescription": "Tabulo, fiş ve faturalarınızı kayıtlarınıza eklemek için fotoğraflarınızı kullanır."
+  "NSPhotoLibraryUsageDescription": "Tabulo, fiş ve faturalarınızı kayıtlarınıza eklemek için fotoğraflarınızı kullanır.",
+  "NSFaceIDUsageDescription": "Tabulo, kayıtlarınızı kilitli tutmak için Face ID kullanır."
 }

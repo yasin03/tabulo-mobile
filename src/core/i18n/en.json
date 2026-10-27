@@ -13,7 +13,9 @@
     "search": "Search",
     "clear": "Clear",
     "comingSoonTitle": "Coming soon",
-    "continue": "Continue"
+    "continue": "Continue",
+    "back": "Back",
+    "loading": "Loading"
   },
   "brand": {
     "name": "tabulo"
@@ -100,7 +102,11 @@
     "notifications": "Notifications",
     "defaultRemindTime": "Default reminder time",
     "defaultRemindTimeHint": "New recurring payments and reminders start with this time.",
-    "data": "Data"
+    "data": "Data",
+    "security": "Security",
+    "haptics": "Haptic feedback",
+    "sampleData": "Add sample data (performance)",
+    "sampleDataConfirm": "This adds 1,000 contacts and 10,000 transactions. Development only; reinstall the app to remove them."
   },
   "formDemo": {
     "title": "Sample form",
@@ -970,5 +976,53 @@
     "renewsOn": "Renews on {{date}}",
     "endsOn": "Premium ends on {{date}}. To keep it, turn auto-renew back on in Manage subscription.",
     "statusEnds": "Ends {{date}}"
+  },
+  "appLock": {
+    "setting": "App lock",
+    "settingHint": "Ask for Face ID, fingerprint or device passcode when opening.",
+    "timeout": "Lock after",
+    "timeoutImmediate": "Immediately",
+    "timeout1m": "1 min",
+    "timeout5m": "5 min",
+    "privacyScreen": "Hide in app switcher",
+    "privacyScreenHint": "Your balances stay hidden when switching apps.",
+    "title": "Tabulo is locked",
+    "description": "Verify it's you to continue.",
+    "failed": "Couldn't verify. Please try again.",
+    "unlock": "Unlock",
+    "prompt": "Unlock Tabulo",
+    "enablePrompt": "Verify to turn on app lock",
+    "disablePrompt": "Verify to turn off app lock",
+    "unavailableTitle": "No screen lock set up",
+    "unavailableMessage": "To use app lock, first set up Face ID, a fingerprint or a device passcode in your phone's settings."
+  },
+  "onboarding": {
+    "skip": "Skip",
+    "next": "Next",
+    "getStarted": "Get started",
+    "start": "Start",
+    "page": "Page {{current}} of {{total}}",
+    "restore": "Restore from backup",
+    "slides": {
+      "contacts": {
+        "title": "Keep track of your customers",
+        "body": "Save your customers and suppliers, and see at a glance who owes what."
+      },
+      "accounts": {
+        "title": "See your cash and bank",
+        "body": "Record payments in and out; your cash and bank balances update on their own."
+      },
+      "reminders": {
+        "title": "Get reminders",
+        "body": "Never miss rent, bills or a payment you're owed — your phone reminds you when it's due."
+      }
+    },
+    "setup": {
+      "title": "Tell us about your business",
+      "description": "You can change these later in Settings.",
+      "businessName": "Business name (optional)",
+      "businessNamePlaceholder": "e.g. Smith & Co.",
+      "businessNameHint": "Shown at the top of PDF statements. Your data stays on this device."
+    }
   }
 }

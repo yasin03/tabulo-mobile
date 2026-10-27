@@ -8,6 +8,7 @@ import { createSubjectsRepo, createTransactionTypesRepo } from './definitions';
 import { createRecurringPaymentsRepo } from './recurringPayments';
 import { createRemindersRepo } from './reminders';
 import { createReportsRepo } from './reports';
+import { createSampleDataRepo } from './sampleData';
 import { createTransactionsRepo } from './transactions';
 
 export * from './accounts';
@@ -19,6 +20,7 @@ export * from './definitions';
 export * from './recurringPayments';
 export * from './reminders';
 export * from './reports';
+export * from './sampleData';
 export * from './transactions';
 
 /** Ekranlar veriye yalnızca bu repository'ler üzerinden erişir (PROMPT.md Bölüm 9). */
@@ -32,6 +34,7 @@ export function createRepositories(db: Db) {
     recurringPaymentsRepo: createRecurringPaymentsRepo(db),
     remindersRepo: createRemindersRepo(db),
     reportsRepo: createReportsRepo(db),
+    sampleDataRepo: createSampleDataRepo(db),
     subjectsRepo: createSubjectsRepo(db),
     transactionTypesRepo: createTransactionTypesRepo(db),
     transactionsRepo: createTransactionsRepo(db),

@@ -26,6 +26,7 @@ import { DatabaseGate } from '@/components/DatabaseGate';
 import { fontFamilies } from '@/core/theme/tokens';
 import { NotificationSync } from '@/features/notifications/NotificationSync';
 import { PremiumSync } from '@/features/premium/PremiumSync';
+import { AppLock } from '@/features/security/AppLock';
 import { BusinessProvider } from '@/lib/business';
 import { applyThemePreference, useColors, useThemeSync } from '@/lib/theme';
 import { subscribeToNotificationTaps } from '@/platform/notifications';
@@ -72,6 +73,7 @@ export default function RootLayout() {
                 <PremiumSync />
               </BusinessProvider>
             </DatabaseGate>
+            <AppLock />
             <StatusBar style="auto" />
             <NavigationBar style="auto" />
           </HeroUINativeProvider>
@@ -103,6 +105,10 @@ function RootStack() {
       }}
     >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="onboarding"
+        options={{ headerShown: false, gestureEnabled: false, animation: 'fade' }}
+      />
       <Stack.Screen
         name="transaction/new"
         options={{ presentation: 'modal', title: t('tabs.add') }}

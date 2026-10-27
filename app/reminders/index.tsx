@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ActionSheet, type ActionSheetItem } from '@/components/ui/ActionSheet';
 import { AppText } from '@/components/ui/AppText';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { ListSkeleton } from '@/components/ui/ListSkeleton';
 import { SettingsGroup, SettingsRow } from '@/components/ui/SettingsList';
 import { SwipeableRow } from '@/components/ui/SwipeableRow';
 import { remindersRepo } from '@/db';
@@ -94,6 +95,7 @@ export default function RemindersScreen() {
         refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={refresh} />}
       >
         <PermissionBanner />
+        {!data ? <ListSkeleton rows={3} /> : null}
         {data && items.length === 0 ? (
           <EmptyState
             icon={BellRing}

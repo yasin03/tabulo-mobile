@@ -315,12 +315,22 @@ export function createTransactionsRepo(db: Db) {
 
     /** Tüm hareketler ekranı (7.8): filtreler + açıklama/belge no araması. En yeniden eskiye. */
     async search(filter: TransactionSearchFilter = {}): Promise<TransactionListItem[]> {
-      const rows = selectDetailed(db, filterConditions(filter))
-        .orderBy(desc(t.date), desc(t.createdAt), desc(t.id))
-        .all()
-        .map(toListItem);
+      const query = selectDetailed(db, filterConditions(filter)).orderBy(
+        desc(t.date),
+        desc(t.createdAt),
+        desc(t.id),
+      );
       // Arama JS'te: SQLite LIKE Türkçe harfleri (İ/ı, Ş/ş…) doğru karşılaştırmaz.
       const search = filter.search?.trim();
+      // Arama yoksa sayfa SQL'de kesilir (ana sayfadaki son 5 hareket binlerce satırı okumasın).
+      if (!search && filter.limit !== undefined) {
+        return query
+          .limit(filter.limit)
+          .offset(filter.offset ?? 0)
+          .all()
+          .map(toListItem);
+      }
+      const rows = query.all().map(toListItem);
       const matched = search
         ? rows.filter((r) => matchesSearch(search, r.description, r.documentNo))
         : rows;

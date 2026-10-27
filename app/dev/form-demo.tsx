@@ -1,5 +1,4 @@
-import * as Haptics from 'expo-haptics';
-import { router } from 'expo-router';
+import { Redirect, router } from 'expo-router';
 import { useToast } from 'heroui-native';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,14 +7,19 @@ import type { TextInput } from 'react-native';
 import { FormField } from '@/components/ui/FormField';
 import { FormScreen } from '@/components/ui/FormScreen';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
+import { haptics } from '@/lib/haptics';
 
 type PersonType = 'individual' | 'company';
 
 /**
  * Yalnızca __DEV__: FormScreen'in klavye davranışını (iPhone SE dahil) test etmek için örnek form.
- * Gerçek cari formu Faz 2'de yazılacak.
+ * Sürüm derlemesinde derin bağlantıyla açılırsa ana sayfaya döner.
  */
 export default function FormDemoScreen() {
+  return __DEV__ ? <FormDemo /> : <Redirect href="/" />;
+}
+
+function FormDemo() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const [personType, setPersonType] = useState<PersonType>('individual');
@@ -34,7 +38,7 @@ export default function FormDemoScreen() {
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
-      void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      haptics.success();
       toast.show({ variant: 'success', label: t('formDemo.saved') });
       router.back();
     }, 600);

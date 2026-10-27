@@ -1,14 +1,18 @@
-import { router } from 'expo-router';
+import { Redirect, router } from 'expo-router';
 import { Tabs } from 'expo-router/tabs';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { AddMovementSheet } from '@/components/navigation/AddMovementSheet';
 import { TabBar } from '@/components/navigation/TabBar';
+import { usePreferences } from '@/stores/preferences';
 
 export default function TabsLayout() {
   const { t } = useTranslation();
   const [isAddOpen, setAddOpen] = useState(false);
+  const onboardingDone = usePreferences((s) => s.onboardingDone);
+
+  if (!onboardingDone) return <Redirect href="/onboarding" />;
 
   return (
     <>
