@@ -32,11 +32,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     predictiveBackGestureEnabled: false,
     // Şablon ve kütüphanelerin eklediği ama uygulamanın kullanmadığı izinler (Play incelemesi mikrofonu sorar).
     // Fotoğraf/belge seçimi sistem seçicisiyle yapılır, depolama izni gerekmez.
+    // READ_MEDIA_IMAGES: expo-screen-capture yalnızca ekran görüntüsü dinleyicisi için (Android 13) ekliyor;
+    // dinleyici kullanılmıyor, Play'in fotoğraf/video izni politikası beyan istiyordu.
     blockedPermissions: [
       'android.permission.RECORD_AUDIO',
       'android.permission.SYSTEM_ALERT_WINDOW',
       'android.permission.READ_EXTERNAL_STORAGE',
       'android.permission.WRITE_EXTERNAL_STORAGE',
+      'android.permission.READ_MEDIA_IMAGES',
     ],
   },
   locales: {
