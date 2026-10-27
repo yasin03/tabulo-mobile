@@ -1,6 +1,8 @@
 {
-  "CFBundleDisplayName": "Tabulo",
-  "NSCameraUsageDescription": "Tabulo uses the camera to photograph receipts and invoices for your records.",
-  "NSPhotoLibraryUsageDescription": "Tabulo uses your photos to attach receipts and invoices to your records.",
-  "NSFaceIDUsageDescription": "Tabulo uses Face ID to keep your records locked."
+  "ios": {
+    "CFBundleDisplayName": "Tabulo",
+    "NSCameraUsageDescription": "Tabulo uses the camera to photograph receipts and invoices for your records.",
+    "NSPhotoLibraryUsageDescription": "Tabulo uses your photos to attach receipts and invoices to your records.",
+    "NSFaceIDUsageDescription": "Tabulo uses Face ID to keep your records locked."
+  }
 }

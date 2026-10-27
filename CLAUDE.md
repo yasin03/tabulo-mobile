@@ -152,6 +152,7 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 - **`babel.config.js` var** (Drizzle `.sql` inline-import için) → `babel-preset-expo` dev bağımlılığı olarak kurulu olmalı. uuid 14 yalnızca ESM → jest `transformIgnorePatterns`'e eklendi.
 
 - **Expo SDK 57** (58 değil): SDK 58 gesture-handler 3.x ile geliyor, `heroui-native` ise `^2.28` istiyor. SDK 57 tüm HeroUI peer bağımlılıklarını karşılıyor. Yükseltmeden önce HeroUI'nin desteğini kontrol et.
+- **`assets/locales/*.json` iOS anahtarları `"ios": {…}` altında olmalı:** düz yazılınca Expo onları Android'de `values-b+tr/strings.xml`'e de yazıyor, varsayılan dilde karşılığı olmadığı için release derlemesi `lintVitalRelease` (ExtraTranslation) ile düşüyor (ilk EAS Android derlemesi).
 - **iOS 27 / Xcode 27:** UIScene yaşam döngüsü zorunlu; `expo-build-properties` → `ios.enableSceneSupport: true` ([app.config.ts](app.config.ts)). Bu ayar olmadan uygulama açılışta çöküyor. SDK 58'de kaldırılabilir.
 - **Jest 29** (30 değil): `jest-expo@57` Jest 29 kullanıyor. Dev bağımlılıklarında `expo install` jest-expo için yanlış (SDK 58) sürüm seçiyor; sürümü elle sabitle.
 - **TypeScript 6:** `@types` artık otomatik dahil edilmiyor → tsconfig'de `"types": ["jest", "node"]`; `*.css` importu için `src/types/css.d.ts`.
@@ -207,8 +208,8 @@ Küçük esnaf için cari hesap ve gelir-gider takip uygulaması (Expo / React N
 
 ## Kullanıcıdan cevap bekleyen sorular
 
-- Mağaza anahtarları (`EXPO_PUBLIC_REVENUECAT_IOS_KEY` / `_ANDROID_KEY`) henüz yok: sürüm derlemesinde paywall "kullanılamıyor" der. Android paywall'unda kullanım koşulları bağlantısı Apple EULA'sına gidiyor; kendi koşullar sayfası yazılmalı.
-- EAS `projectId`: kullanıcı `eas init` çalıştırınca `app.config.ts` → `extra.eas.projectId`'ye eklenecek.
+- iOS mağaza anahtarı (`EXPO_PUBLIC_REVENUECAT_IOS_KEY`) henüz yok: iOS sürüm derlemesinde paywall "kullanılamıyor" der. Android paywall'unda kullanım koşulları bağlantısı Apple EULA'sına gidiyor; kendi koşullar sayfası yazılmalı.
+- EAS projesi `@yasin03/tabulo` (`extra.eas.projectId` app.config.ts'de). Android imza anahtarı EAS'ta (bulutta üretildi). `EXPO_PUBLIC_REVENUECAT_ANDROID_KEY` EAS'ta (production + preview, sensitive) ve `.env`'de; iOS anahtarı henüz yok.
 
 - Kendi kullanım koşulları (şimdilik Apple standart EULA). Gizlilik politikası yayında: https://sites.google.com/view/tabulo-gizlilik/ (veri sorumlusu Yasin Türk, iletişim lemartsoft@gmail.com); yayındaki metin `docs/privacy-policy.md`'den genişletildi, repo kopyası eşitlenecek.
 

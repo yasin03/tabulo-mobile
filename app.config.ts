@@ -10,7 +10,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   name: 'Tabulo',
   slug: 'tabulo',
   scheme: 'tabulo',
-  version: '1.0.0',
+  version: '1.0',
   orientation: 'portrait',
   userInterfaceStyle: 'automatic',
   backgroundColor: LIGHT_BACKGROUND,
@@ -99,5 +99,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ],
   experiments: {
     typedRoutes: true,
+  },
+  extra: {
+    eas: { projectId: 'dc95ba87-2e66-42f2-90a4-eb63c21ae368' },
   },
 });
