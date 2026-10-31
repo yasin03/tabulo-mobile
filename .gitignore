@@ -41,3 +41,6 @@ yarn-error.*
 /android
 
 .env
+
+# Belgeler ve mağaza görselleri yalnızca yerelde (GitHub ve EAS arşivine girmez)
+/docs/
