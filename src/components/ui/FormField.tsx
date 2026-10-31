@@ -4,6 +4,8 @@ import type { TextInput } from 'react-native';
 
 import { useThemeMode } from '@/lib/theme';
 
+import { useSystemDoneFocus } from './formKeyboard';
+
 type FormFieldProps = InputProps & {
   label: string;
   error?: string;
@@ -18,6 +20,7 @@ export const FormField = forwardRef<TextInput, FormFieldProps>(function FormFiel
   ref,
 ) {
   const mode = useThemeMode();
+  const focusHandlers = useSystemDoneFocus(inputProps);
   return (
     <TextField isRequired={isRequired} isInvalid={!!error}>
       <Label>{label}</Label>
@@ -28,6 +31,7 @@ export const FormField = forwardRef<TextInput, FormFieldProps>(function FormFiel
         // HeroUI'nin .input__input min-height'ı Tailwind min-h-* sınıfını ezdiği için çok satırlı alanda style ile.
         style={[inputProps.multiline && MULTILINE_STYLE, style]}
         {...inputProps}
+        {...focusHandlers}
       />
       {error ? <FieldError>{error}</FieldError> : null}
     </TextField>

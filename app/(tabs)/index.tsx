@@ -16,6 +16,7 @@ import {
   contactsRepo,
   recurringPaymentsRepo,
   remindersRepo,
+  reportsRepo,
   transactionsRepo,
 } from '@/db';
 import type { TransactionListItem } from '@/db/repositories';
@@ -25,7 +26,7 @@ import { DueReceivableRow } from '@/features/home/DueReceivableRow';
 import { MonthPickerSheet } from '@/features/home/MonthPickerSheet';
 import { QuickActions } from '@/features/home/QuickActions';
 import { SectionHeader } from '@/features/home/SectionHeader';
-import { SummaryCard } from '@/features/home/SummaryCard';
+import { SummaryCarousel } from '@/features/home/SummaryCarousel';
 import { RecurringRow } from '@/features/recurring/RecurringRow';
 import { useRecurringActions } from '@/features/recurring/useRecurringActions';
 import { TransactionActionSheet } from '@/features/transactions/TransactionActionSheet';
@@ -53,19 +54,21 @@ export default function HomeScreen() {
   const [isMonthPickerOpen, setMonthPickerOpen] = useState(false);
   const [selected, setSelected] = useState<TransactionListItem | null>(null);
 
-  const asOf = monthRange(`${month}-01`).to;
+  const { from, to } = monthRange(`${month}-01`);
   const query = useCallback(async () => {
-    const [totals, accounts, due, recent, firstDate, upcoming, dueReminders] = await Promise.all([
-      contactsRepo.totals(asOf),
-      accountsRepo.listWithBalances(),
-      transactionsRepo.dueReceivables(today),
-      transactionsRepo.search({ limit: RECENT_LIMIT }),
-      transactionsRepo.firstDate(),
-      recurringPaymentsRepo.list({ activeOnly: true }),
-      remindersRepo.countDue(today),
-    ]);
-    return { totals, accounts, due, recent, firstDate, upcoming, dueReminders };
-  }, [asOf, today]);
+    const [cashFlow, totals, accounts, due, recent, firstDate, upcoming, dueReminders] =
+      await Promise.all([
+        reportsRepo.summary({ from, to }),
+        contactsRepo.totals(to),
+        accountsRepo.listWithBalances({ changeOn: today }),
+        transactionsRepo.dueReceivables(today),
+        transactionsRepo.search({ limit: RECENT_LIMIT }),
+        transactionsRepo.firstDate(),
+        recurringPaymentsRepo.list({ activeOnly: true }),
+        remindersRepo.countDue(today),
+      ]);
+    return { cashFlow, totals, accounts, due, recent, firstDate, upcoming, dueReminders };
+  }, [from, to, today]);
   const { data, isRefreshing, refresh } = useLiveQuery(query);
 
   const firstDate = data?.firstDate ?? null;
@@ -115,9 +118,9 @@ export default function HomeScreen() {
         </Pressable>
       }
     >
-      <SummaryCard
+      <SummaryCarousel
         month={month}
-        asOf={asOf}
+        cashFlow={data?.cashFlow ?? { incomeMinor: 0, expenseMinor: 0, netMinor: 0 }}
         totals={data?.totals ?? { receivableMinor: 0, payableMinor: 0, netMinor: 0 }}
         onMonthPress={() => setMonthPickerOpen(true)}
       />

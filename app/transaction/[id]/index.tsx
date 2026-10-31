@@ -106,6 +106,11 @@ export default function TransactionDetailScreen() {
   );
   add('account', t('transactionForm.account'), tx.accountName);
   add(
+    'contactBalance',
+    t('transactionDetail.contactBalance'),
+    tx.isCash ? t('transactionDetail.cashNoEffect') : null,
+  );
+  add(
     'openingDirection',
     t('transactionForm.openingDirection'),
     tx.openingDirection

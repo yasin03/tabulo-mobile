@@ -18,6 +18,13 @@ const movements = [
 ];
 
 describe('buildStatement', () => {
+  it('leaves out cash collections and payments', () => {
+    const cash: StatementMovement = { ...m('6', '2026-02-01', 'collection', 7_500), isCash: true };
+    const s = buildStatement([...movements, cash], { from: '2026-03-01' });
+    expect(s.openingBalanceMinor).toBe(60_000);
+    expect(buildStatement([...movements, cash]).rows.map((r) => r.id)).not.toContain('6');
+  });
+
   it('fills debit/credit from the contact effect and keeps a running balance', () => {
     const s = buildStatement(movements);
     expect(s.openingBalanceMinor).toBe(0);

@@ -18,6 +18,7 @@ import {
   Tags,
   TrendingUpDown,
   TriangleAlert,
+  Trash2,
 } from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -186,6 +187,11 @@ export default function SettingsScreen() {
               lastBackupDate ? dates.format(lastBackupDate, 'dayMonthYear') : t('backup.neverShort')
             }
             onPress={() => router.push('/settings/backup')}
+          />
+          <SettingsRow
+            icon={Trash2}
+            label={t('dataReset.title')}
+            onPress={() => router.push('/settings/delete-data')}
           />
         </SettingsGroup>
         {backupReminder !== 'none' ? (

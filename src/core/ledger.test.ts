@@ -7,6 +7,8 @@ import {
   contactBalance,
   contactEffect,
   contactViewDisplay,
+  defaultIsCash,
+  effectiveIsCash,
   generalDisplay,
   MOVEMENT_RULES,
   nearestDue,
@@ -57,6 +59,59 @@ describe('contactEffect / accountEffect', () => {
     expect(contactEffect({ movementType: 'opening', openingDirection: 'receivable' })).toBe(1);
     expect(contactEffect({ movementType: 'opening', openingDirection: 'payable' })).toBe(-1);
     expect(accountEffect({ movementType: 'opening' })).toBe(0);
+  });
+});
+
+describe('peşin tahsilat / ödeme', () => {
+  it('cari bakiyesini etkilemez, kasayı etkiler', () => {
+    expect(contactEffect({ movementType: 'collection', isCash: true })).toBe(0);
+    expect(contactEffect({ movementType: 'payment', isCash: true })).toBe(0);
+    expect(accountEffect({ movementType: 'collection' })).toBe(1);
+    expect(
+      contactBalance([
+        { movementType: 'collection', amountMinor: 75000, isCash: true },
+        { movementType: 'credit_sale', amountMinor: 1000 },
+      ]),
+    ).toBe(1000);
+  });
+
+  it('yalnız tahsilat/ödemede ve cari seçiliyken geçerli', () => {
+    expect(effectiveIsCash({ movementType: 'collection', contactId: 'c1', isCash: true })).toBe(
+      true,
+    );
+    expect(effectiveIsCash({ movementType: 'collection', contactId: null, isCash: true })).toBe(
+      false,
+    );
+    expect(effectiveIsCash({ movementType: 'credit_sale', contactId: 'c1', isCash: true })).toBe(
+      false,
+    );
+  });
+
+  it('varsayılan: açık borç/alacak varsa kapatır, yoksa peşin', () => {
+    expect(defaultIsCash('collection', 0)).toBe(true);
+    expect(defaultIsCash('collection', -500)).toBe(true);
+    expect(defaultIsCash('collection', 500)).toBe(false);
+    expect(defaultIsCash('payment', 0)).toBe(true);
+    expect(defaultIsCash('payment', 500)).toBe(true);
+    expect(defaultIsCash('payment', -500)).toBe(false);
+    expect(defaultIsCash('credit_sale', 0)).toBe(false);
+  });
+
+  it('cari ekranında para akışıyla gösterilir, FIFO kalemi açmaz', () => {
+    expect(contactViewDisplay({ movementType: 'collection', isCash: true })).toEqual({
+      sign: 1,
+      tone: 'positive',
+    });
+    expect(contactViewDisplay({ movementType: 'payment', isCash: true })).toEqual({
+      sign: -1,
+      tone: 'negative',
+    });
+    expect(
+      openItems([
+        { movementType: 'credit_sale', amountMinor: 3000, dueDate: '2026-10-10' },
+        { movementType: 'collection', amountMinor: 3000, isCash: true },
+      ]),
+    ).toEqual([{ side: 'receivable', remainingMinor: 3000, dueDate: '2026-10-10' }]);
   });
 });
 

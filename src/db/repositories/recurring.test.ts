@@ -63,7 +63,7 @@ describe('recurringPaymentsRepo', () => {
     );
   });
 
-  it('Ödendi: hareket oluşur, cari bakiyesi değişir, tarih bir dönem ileri gider; geri alınabilir', async () => {
+  it('Ödendi: peşin hareket oluşur, cari bakiyesi değişmez, tarih bir dönem ileri gider; geri alınabilir', async () => {
     const ctx = await setup();
     const id = await ctx.recurringPaymentsRepo.create(ctx.rent());
 
@@ -84,9 +84,10 @@ describe('recurringPaymentsRepo', () => {
         contactId: ctx.landlord,
         description: 'Dükkan kirası',
         recurringPaymentId: id,
+        isCash: true,
       }),
     );
-    expect(await ctx.contactsRepo.balance(ctx.landlord)).toBe(900000);
+    expect(await ctx.contactsRepo.balance(ctx.landlord)).toBe(0);
     expect(await ctx.accountsRepo.balance(ctx.cash.id)).toBe(-900000);
 
     await ctx.recurringPaymentsRepo.markPaid(id, {

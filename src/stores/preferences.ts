@@ -6,6 +6,8 @@ import type { Language } from '@/core/i18n';
 import { mmkvStateStorage } from '@/lib/storage';
 
 export type ThemePreference = 'light' | 'dark' | 'system';
+/** Ana sayfada son görülen özet kartı. */
+export type HomeSummaryCard = 'cashFlow' | 'contacts';
 
 type PreferencesState = {
   theme: ThemePreference;
@@ -27,6 +29,8 @@ type PreferencesState = {
   appLockTimeout: LockTimeout;
   /** Son uygulamalar ekranında içeriği gizle (8.5); Android'de bu sırada ekran görüntüsü alınamaz. */
   privacyScreen: boolean;
+  /** Ana sayfa özet kartlarından son görülen (kaydırınca değişir). */
+  homeSummaryCard: HomeSummaryCard;
   setTheme: (theme: ThemePreference) => void;
   setLanguage: (language: Language) => void;
   setLastAccountId: (id: string) => void;
@@ -37,6 +41,9 @@ type PreferencesState = {
   setAppLockEnabled: (enabled: boolean) => void;
   setAppLockTimeout: (timeout: LockTimeout) => void;
   setPrivacyScreen: (enabled: boolean) => void;
+  setHomeSummaryCard: (card: HomeSummaryCard) => void;
+  /** Ayarları varsayılana döndürür (Ayarlar → Verileri sil); ilk açılış ve son yedek tarihi korunur. */
+  resetSettings: () => void;
 };
 
 type PersistedPreferences = Pick<
@@ -51,21 +58,27 @@ type PersistedPreferences = Pick<
   | 'appLockEnabled'
   | 'appLockTimeout'
   | 'privacyScreen'
+  | 'homeSummaryCard'
 >;
+
+const DEFAULT_SETTINGS = {
+  theme: 'system',
+  language: null,
+  lastAccountId: null,
+  defaultRemindTime: '09:00',
+  hapticsEnabled: true,
+  appLockEnabled: false,
+  appLockTimeout: 'immediate',
+  privacyScreen: true,
+  homeSummaryCard: 'cashFlow',
+} satisfies Omit<PersistedPreferences, 'lastBackupDate' | 'onboardingDone'>;
 
 export const usePreferences = create<PreferencesState>()(
   persist(
     (set) => ({
-      theme: 'system',
-      language: null,
-      lastAccountId: null,
-      defaultRemindTime: '09:00',
+      ...DEFAULT_SETTINGS,
       lastBackupDate: null,
       onboardingDone: false,
-      hapticsEnabled: true,
-      appLockEnabled: false,
-      appLockTimeout: 'immediate',
-      privacyScreen: true,
       setTheme: (theme) => set({ theme }),
       setLanguage: (language) => set({ language }),
       setLastAccountId: (lastAccountId) => set({ lastAccountId }),
@@ -76,6 +89,8 @@ export const usePreferences = create<PreferencesState>()(
       setAppLockEnabled: (appLockEnabled) => set({ appLockEnabled }),
       setAppLockTimeout: (appLockTimeout) => set({ appLockTimeout }),
       setPrivacyScreen: (privacyScreen) => set({ privacyScreen }),
+      setHomeSummaryCard: (homeSummaryCard) => set({ homeSummaryCard }),
+      resetSettings: () => set(DEFAULT_SETTINGS),
     }),
     {
       name: 'preferences',
@@ -97,6 +112,7 @@ export const usePreferences = create<PreferencesState>()(
         appLockEnabled: s.appLockEnabled,
         appLockTimeout: s.appLockTimeout,
         privacyScreen: s.privacyScreen,
+        homeSummaryCard: s.homeSummaryCard,
       }),
     },
   ),

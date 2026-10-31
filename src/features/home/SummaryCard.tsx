@@ -3,44 +3,44 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 
 import { AppText } from '@/components/ui/AppText';
-import { monthKey, toIsoDate } from '@/core/dates';
-import type { ContactTotals } from '@/db/repositories';
-import { useMoney } from '@/lib/business';
 import { useDates } from '@/lib/dates';
 import { useColors } from '@/lib/theme';
 
+export type SummaryTile = {
+  label: string;
+  value: string;
+  tone: 'positive' | 'negative';
+  /** Verilirse kutucuk dokunulabilir (ör. ilgili hareketleri açar). */
+  onPress?: () => void;
+  accessibilityHint?: string;
+};
+
 type SummaryCardProps = {
+  title: string;
+  /** Biçimlenmiş büyük rakam. */
+  amount: string;
   /** `2026-10` */
   month: string;
-  /** Seçilen ayın son günü (bakiye bu günün sonundaki durumdur). */
-  asOf: string;
-  totals: ContactTotals;
+  tiles: readonly [SummaryTile, SummaryTile];
+  /** Kutucukların altında küçük açıklama. */
+  note?: string;
   onMonthPress: () => void;
 };
 
 /**
- * Ana sayfa özet kartı (7.2, home.html): net bakiye = toplam alacak − toplam borç; ay seçici (kullanıcı kararı:
- * seçilen ayın sonundaki durum). Kart iki temada da lacivert; yeşil/kırmızı tonlar açık tutulur.
+ * Ana sayfa özet kartının kabuğu (7.2, home.html): başlık + ay seçici, büyük rakam, iki kutucuk.
+ * İçeriği `SummaryCarousel` belirler. Kart iki temada da lacivert; yeşil/kırmızı tonlar açık tutulur.
  */
-export function SummaryCard({ month, asOf, totals, onMonthPress }: SummaryCardProps) {
+export function SummaryCard({ title, amount, month, tiles, note, onMonthPress }: SummaryCardProps) {
   const { t } = useTranslation();
   const colors = useColors();
-  const money = useMoney();
   const dates = useDates();
-  const isCurrentMonth = month === monthKey(toIsoDate());
   const monthLabel = dates.format(`${month}-01`, 'monthYear');
 
-  const net =
-    totals.netMinor < 0 ? money.formatSigned(totals.netMinor) : money.format(totals.netMinor);
-
   return (
-    <View className="gap-4 rounded-[22px] bg-summary p-5">
+    <View className="flex-1 gap-4 rounded-[22px] bg-summary p-5">
       <View className="flex-row items-center justify-between gap-3">
-        <AppText className="flex-1 text-[14px] leading-[20px] text-summary-muted">
-          {isCurrentMonth
-            ? t('home.netBalance')
-            : t('home.netBalanceAsOf', { date: dates.format(asOf, 'dayMonthLong') })}
-        </AppText>
+        <AppText className="flex-1 text-[14px] leading-[20px] text-summary-muted">{title}</AppText>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={t('home.selectMonth', { month: monthLabel })}
@@ -66,37 +66,51 @@ export function SummaryCard({ month, asOf, totals, onMonthPress }: SummaryCardPr
         numberOfLines={1}
         className="text-[36px] leading-[44px] tracking-[-0.7px] text-summary-foreground"
       >
-        {net}
+        {amount}
       </AppText>
 
-      <View className="flex-row gap-[10px]">
-        <View className="flex-1 gap-1 rounded-[14px] bg-summary-tile p-3">
-          <AppText className="text-[13px] leading-[18px] text-summary-muted">
-            {t('home.receivable')}
-          </AppText>
-          <AppText
-            weight="extrabold"
-            adjustsFontSizeToFit
-            numberOfLines={1}
-            className="text-[18px] leading-[24px] text-summary-positive"
-          >
-            {money.formatSigned(totals.receivableMinor)}
-          </AppText>
+      <View className="gap-2.5">
+        <View className="flex-row gap-[10px]">
+          {tiles.map((tile) => (
+            <Tile key={tile.label} tile={tile} />
+          ))}
         </View>
-        <View className="flex-1 gap-1 rounded-[14px] bg-summary-tile p-3">
-          <AppText className="text-[13px] leading-[18px] text-summary-muted">
-            {t('home.payable')}
-          </AppText>
-          <AppText
-            weight="extrabold"
-            adjustsFontSizeToFit
-            numberOfLines={1}
-            className="text-[18px] leading-[24px] text-summary-negative"
-          >
-            {money.formatSigned(-totals.payableMinor)}
-          </AppText>
-        </View>
+        {note ? (
+          <AppText className="text-[12px] leading-[16px] text-summary-muted">{note}</AppText>
+        ) : null}
       </View>
     </View>
+  );
+}
+
+function Tile({ tile }: { tile: SummaryTile }) {
+  const content = (
+    <>
+      <AppText className="text-[13px] leading-[18px] text-summary-muted">{tile.label}</AppText>
+      <AppText
+        weight="extrabold"
+        adjustsFontSizeToFit
+        numberOfLines={1}
+        className={`text-[18px] leading-[24px] ${
+          tile.tone === 'positive' ? 'text-summary-positive' : 'text-summary-negative'
+        }`}
+      >
+        {tile.value}
+      </AppText>
+    </>
+  );
+
+  if (!tile.onPress) {
+    return <View className="flex-1 gap-1 rounded-[14px] bg-summary-tile p-3">{content}</View>;
+  }
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityHint={tile.accessibilityHint}
+      onPress={tile.onPress}
+      className="flex-1 gap-1 rounded-[14px] bg-summary-tile p-3 active:opacity-70"
+    >
+      {content}
+    </Pressable>
   );
 }

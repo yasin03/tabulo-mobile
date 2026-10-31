@@ -179,6 +179,7 @@ export const transactions = sqliteTable(
     dueDate: text('due_date'), // Vade tarihi (veresiye satış/alışta: ne zaman ödenecek?)
     openingDirection: text('opening_direction', { enum: OPENING_DIRECTIONS }), // Sadece devirde: alacak mı borç mu?
     recurringPaymentId: text('recurring_payment_id').references(() => recurringPayments.id), // Düzenli ödemeden geldiyse
+    isCash: integer('is_cash', { mode: 'boolean' }).notNull().default(false), // Peşin: cari bakiyesini etkilemez (yalnız tahsilat/ödeme + cari)
     ...timestamps,
   },
   (t) => [
@@ -278,7 +279,7 @@ export const MOVEMENT_EFFECT: Record<
   (typeof MOVEMENT_TYPES)[number],
   { contact: -1 | 0 | 1; account: -1 | 0 | 1 }
 > = {
-  collection: { contact: -1, account: 1 }, // Tahsilat: cari borcu azalır, kasa artar
+  collection: { contact: -1, account: 1 }, // Tahsilat: cari borcu azalır, kasa artar (peşinse cariye etkisi yok)
   payment: { contact: 1, account: -1 }, // Ödeme: bizim borcumuz azalır, kasa azalır
   credit_sale: { contact: 1, account: 0 }, // Veresiye satış: cari bize borçlanır
   credit_purchase: { contact: -1, account: 0 }, // Veresiye alış: biz borçlanırız
@@ -334,14 +335,14 @@ export const SEED_SUBJECTS = ['Genel', 'Araç', 'Ofis', 'Diğer'];
 // ÖRNEK SORGULAR
 // =====================================================================
 //
-// Cari bakiyesi (+ ise cari bize borçlu):
-// SELECT COALESCE(SUM(CASE movement_type
+// Cari bakiyesi (+ ise cari bize borçlu; peşin tahsilat/ödeme sayılmaz):
+// SELECT COALESCE(SUM(CASE WHEN is_cash = 1 THEN 0 ELSE CASE movement_type
 //     WHEN 'credit_sale'     THEN  amount_minor
 //     WHEN 'payment'         THEN  amount_minor
 //     WHEN 'collection'      THEN -amount_minor
 //     WHEN 'credit_purchase' THEN -amount_minor
 //     WHEN 'opening'         THEN CASE opening_direction WHEN 'receivable' THEN amount_minor ELSE -amount_minor END
-//   END), 0) AS bakiye
+//   END END), 0) AS bakiye
 // FROM transactions WHERE contact_id = ? AND deleted_at IS NULL;
 //
 // Kasa/banka bakiyesi:

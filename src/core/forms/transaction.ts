@@ -6,7 +6,12 @@ import { z } from 'zod';
 import { MOVEMENT_TYPES, OPENING_DIRECTIONS } from '@/db/schema';
 
 import type { Language } from '../i18n';
-import { MOVEMENT_RULES, type MovementType, type OpeningDirection } from '../ledger';
+import {
+  effectiveIsCash,
+  MOVEMENT_RULES,
+  type MovementType,
+  type OpeningDirection,
+} from '../ledger';
 import { formatAmountForInput, parseAmount } from '../money';
 import { isIsoDate } from '../validation';
 
@@ -26,6 +31,8 @@ export interface TransactionFormValues {
   documentNo: string;
   dueDate: string;
   openingDirection: OpeningDirection;
+  /** Peşin: cari bakiyesini etkilemez (yalnız tahsilat/ödeme + cari). */
+  isCash: boolean;
 }
 
 /** Doğrulanmış çıktı: hareket tipine ait olmayan alanlar `null`. Repository'ye doğrudan verilir. */
@@ -41,6 +48,7 @@ export interface TransactionFormOutput {
   documentNo: string | null;
   dueDate: string | null;
   openingDirection: OpeningDirection | null;
+  isCash: boolean;
 }
 
 export function emptyTransactionForm(
@@ -59,6 +67,7 @@ export function emptyTransactionForm(
     documentNo: '',
     dueDate: '',
     openingDirection: 'receivable',
+    isCash: false,
   };
 }
 
@@ -80,6 +89,7 @@ export function createTransactionFormSchema(options: { language: Language }) {
     documentNo: z.string(),
     dueDate: z.string(),
     openingDirection: z.enum(OPENING_DIRECTIONS),
+    isCash: z.boolean(),
   });
 
   return values
@@ -120,6 +130,7 @@ export function createTransactionFormSchema(options: { language: Language }) {
         documentNo: orNull(v.documentNo),
         dueDate: rule.dueDate === 'allowed' ? orNull(v.dueDate) : null,
         openingDirection: rule.openingDirection === 'required' ? v.openingDirection : null,
+        isCash: effectiveIsCash({ ...v, contactId: orNull(v.contactId) }),
       };
     });
 }
@@ -138,6 +149,7 @@ export function transactionToFormValues(
     documentNo: string | null;
     dueDate: string | null;
     openingDirection: OpeningDirection | null;
+    isCash: boolean;
   },
   language: Language,
 ): TransactionFormValues {
@@ -153,5 +165,6 @@ export function transactionToFormValues(
     documentNo: transaction.documentNo ?? '',
     dueDate: transaction.dueDate ?? '',
     openingDirection: transaction.openingDirection ?? 'receivable',
+    isCash: transaction.isCash,
   };
 }

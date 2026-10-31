@@ -14,7 +14,8 @@ export function loadTransactionDraft(): TransactionFormValues | null {
   try {
     const value = JSON.parse(raw) as TransactionFormValues;
     if (!(MOVEMENT_TYPES as readonly string[]).includes(value.movementType)) return null;
-    return value;
+    // Eski taslaklarda peşin alanı yok.
+    return { ...value, isCash: value.isCash === true };
   } catch {
     return null;
   }

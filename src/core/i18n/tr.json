@@ -29,11 +29,22 @@
   },
   "home": {
     "notifications": "Bildirimler",
-    "netBalance": "Net bakiye",
-    "netBalanceAsOf": "{{date}} itibarıyla net bakiye",
+    "cashFlowNet": "Bu ay net",
+    "cashFlowNetOf": "{{month}} neti",
+    "moneyIn": "Giriş",
+    "moneyOut": "Çıkış",
+    "moneyInThisMonth": "Bu ay giriş",
+    "moneyOutThisMonth": "Bu ay çıkış",
+    "moneyInHint": "Bu ayın tahsilatlarını açar",
+    "moneyOutHint": "Bu ayın ödemelerini açar",
+    "contactBalance": "Cari bakiyesi",
+    "contactBalanceAsOf": "{{date}} itibarıyla cari bakiyesi",
+    "contactsOnlyNote": "Yalnızca cariler; kasa ve banka hariç",
+    "cardCashFlow": "Nakit akışı kartı",
+    "cardContacts": "Cari bakiyesi kartı",
     "selectMonth": "Ay: {{month}}. Değiştirmek için dokunun",
-    "receivable": "Alacak",
-    "payable": "Borç",
+    "receivable": "Alacağımız",
+    "payable": "Borcumuz",
     "monthPicker": "Ay seçin",
     "previousMonth": "Önceki ay",
     "nextMonth": "Sonraki ay",
@@ -58,7 +69,8 @@
     },
     "upcomingPayments": "Yaklaşan ödemeler",
     "remindersDue_one": "Bildirimler, {{count}} hatırlatıcının zamanı geldi",
-    "remindersDue_other": "Bildirimler, {{count}} hatırlatıcının zamanı geldi"
+    "remindersDue_other": "Bildirimler, {{count}} hatırlatıcının zamanı geldi",
+    "accountToday": "{{amount}} bugün"
   },
   "movementTypes": {
     "collection": "Tahsilat",
@@ -310,6 +322,15 @@
     "selectContact": "Cari seçin",
     "selectContactOptional": "Cari seçin (isteğe bağlı)",
     "noContacts": "Henüz aktif cari yok",
+    "cash": "Peşin",
+    "cashHint": {
+      "collection": "Satış anında ödendi; carinin bakiyesi değişmez.",
+      "payment": "Alış anında ödendi; carinin bakiyesi değişmez."
+    },
+    "settleHint": {
+      "collection": "Carinin bize olan borcundan düşülür.",
+      "payment": "Cariye olan borcumuzdan düşülür."
+    },
     "account": "Hesap",
     "noAccounts": "Aktif hesap yok. Ayarlar'dan hesap ekleyin.",
     "openingDirection": "Devir yönü",
@@ -330,7 +351,9 @@
   },
   "transactionDetail": {
     "title": "Hareket detayı",
-    "type": "İşlem türü"
+    "type": "İşlem türü",
+    "contactBalance": "Cari bakiyesi",
+    "cashNoEffect": "Etkilemez (peşin)"
   },
   "transactions": {
     "title": "Tüm hareketler",
@@ -881,6 +904,46 @@
       "failedTitle": "Geri yükleme tamamlanamadı",
       "failed": "Mevcut verileriniz değişmedi. Lütfen tekrar deneyin."
     }
+  },
+  "dataReset": {
+    "title": "Verileri sil",
+    "warning": "Seçtiğiniz veriler bu telefondan kalıcı olarak silinir ve geri alınamaz. Silmeden önce yedek almanızı öneririz.",
+    "categories": {
+      "transactions": {
+        "title": "İşlem hareketleri",
+        "description": "Tüm tahsilat, ödeme, veresiye ve devir kayıtları, ekli belgeler ve düzenli ödemeler"
+      },
+      "contacts": {
+        "title": "Cari hesaplar",
+        "description": "Tüm müşteri ve tedarikçiler ile tahsilat hatırlatıcıları"
+      },
+      "definitions": {
+        "title": "İşlem tanımlamaları",
+        "description": "İşlem türleri ve konular; yerine hazır olanlar gelir"
+      },
+      "accounts": {
+        "title": "Hesap tanımlamaları",
+        "description": "Kasa ve banka hesapları; yerine varsayılan Kasa ve Banka gelir"
+      },
+      "settings": {
+        "title": "Ayarlar",
+        "description": "Tema, dil, kilit, hatırlatma saati ve işletme profili (para birimi hariç)"
+      }
+    },
+    "forcedHint": "Seçtiğiniz diğer veriler hareketlere bağlı olduğu için bunlar da silinir",
+    "button": "Seçilen verileri sil",
+    "firstConfirmTitle": "Bu veriler silinecek",
+    "firstConfirmMessage": "Bu işlem geri alınamaz. Devam etmeden önce yedek almak ister misiniz?",
+    "backupFirst": "Önce yedek al",
+    "continue": "Devam et",
+    "secondConfirmTitle": "Silmeyi onaylayın",
+    "secondConfirmMessage": "Onaylamak için aşağıya “Verileri Sil” yazın.",
+    "typeLabel": "“{{phrase}}” yazın",
+    "phrase": "Verileri Sil",
+    "confirm": "Kalıcı olarak sil",
+    "done": "Veriler silindi",
+    "failedTitle": "Silinemedi",
+    "failed": "Hiçbir veri silinmedi. Lütfen tekrar deneyin."
   },
   "premium": {
     "title": "Tabulo Premium",

@@ -11,7 +11,11 @@ import type { Account, Db, Status } from '../types';
 import { definedOnly, emptyToNull, requireName, requireRow } from './shared';
 
 export type AccountType = (typeof ACCOUNT_TYPES)[number];
-export type AccountWithBalance = Account & { balanceMinor: number };
+export type AccountWithBalance = Account & {
+  balanceMinor: number;
+  /** `changeOn` gününün hareketlerinin bakiyeye etkisi (giriş − çıkış); gün verilmezse 0. */
+  dayChangeMinor: number;
+};
 
 export interface AccountInput {
   name: string;
@@ -29,12 +33,17 @@ export function createAccountsRepo(db: Db) {
   /**
    * Hesap başına hareket etkisi toplamı; hesaplara LEFT JOIN ile bağlanır.
    * (İlişkili alt sorgu kullanılmaz: Drizzle tek tablolu sorguda sütunları tablo adı olmadan yazar.)
+   * `changeOn` verilirse o günün hareketlerinin etkisi ayrıca toplanır.
    */
-  function withBalance(asOf?: string) {
+  function withBalance(asOf?: string, changeOn?: string) {
+    const dayDelta = changeOn
+      ? sql<number>`CASE WHEN ${transactions.date} = ${changeOn} THEN ${accountDeltaSql()} ELSE 0 END`
+      : sql<number>`0`;
     const stats = db
       .select({
         accountId: transactions.accountId,
         delta: sumOrZero(accountDeltaSql()).as('delta'),
+        dayDelta: sumOrZero(dayDelta).as('day_delta'),
       })
       .from(transactions)
       .where(liveTransactions(asOf ? lte(transactions.date, asOf) : undefined))
@@ -42,8 +51,9 @@ export function createAccountsRepo(db: Db) {
       .as('account_stats');
     const balanceMinor =
       sql<number>`${a.openingBalanceMinor} + COALESCE(${stats.delta}, 0)`.mapWith(Number);
+    const dayChangeMinor = sql<number>`COALESCE(${stats.dayDelta}, 0)`.mapWith(Number);
     return db
-      .select({ account: a, balanceMinor })
+      .select({ account: a, balanceMinor, dayChangeMinor })
       .from(a)
       .leftJoin(stats, eq(stats.accountId, a.id));
   }
@@ -75,16 +85,24 @@ export function createAccountsRepo(db: Db) {
         .all();
     },
 
-    /** `asOf` verilirse o günün sonundaki bakiye (raporlar: dönem sonu). */
+    /**
+     * `asOf` verilirse o günün sonundaki bakiye (raporlar: dönem sonu). `changeOn` verilirse o günün
+     * değişimi de (ana sayfa: "bugün").
+     */
     async listWithBalances(options?: {
       includePassive?: boolean;
       asOf?: string;
+      changeOn?: string;
     }): Promise<AccountWithBalance[]> {
-      return withBalance(options?.asOf)
+      return withBalance(options?.asOf, options?.changeOn)
         .where(live(options?.includePassive ? undefined : eq(a.status, 'active')))
         .orderBy(asc(a.sortOrder), asc(a.name))
         .all()
-        .map((row) => ({ ...row.account, balanceMinor: row.balanceMinor }));
+        .map((row) => ({
+          ...row.account,
+          balanceMinor: row.balanceMinor,
+          dayChangeMinor: row.dayChangeMinor,
+        }));
     },
 
     async getById(id: string): Promise<Account> {

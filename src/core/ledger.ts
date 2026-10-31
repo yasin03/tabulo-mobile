@@ -19,12 +19,18 @@ export interface LedgerMovement {
   movementType: MovementType;
   amountMinor: number;
   openingDirection?: OpeningDirection | null;
+  /** Peşin tahsilat/ödeme: cari hareketlerinde görünür ama bakiyesini etkilemez. */
+  isCash?: boolean | null;
 }
 
-/** Cari bakiyesine etki: + cari bize borçlanır, − biz cariye borçlanırız. Devirde yönü openingDirection belirler. */
+/**
+ * Cari bakiyesine etki: + cari bize borçlanır, − biz cariye borçlanırız. Devirde yönü openingDirection belirler,
+ * peşin hareketin etkisi yoktur.
+ */
 export function contactEffect(
-  m: Pick<LedgerMovement, 'movementType' | 'openingDirection'>,
+  m: Pick<LedgerMovement, 'movementType' | 'openingDirection' | 'isCash'>,
 ): Effect {
+  if (m.isCash) return 0;
   const effect = MOVEMENT_EFFECT[m.movementType].contact;
   if (m.movementType === 'opening' && m.openingDirection === 'payable') return negate(effect);
   return effect;
@@ -88,6 +94,8 @@ export interface MovementRule {
   contact: 'required' | 'optional';
   openingDirection: 'required' | 'forbidden';
   dueDate: 'allowed' | 'forbidden';
+  /** Peşin işaretlenebilir mi (cari seçiliyken). */
+  cash: 'allowed' | 'forbidden';
   /** Seçilebilecek işlem türlerinin yönü; `null` ise işlem türü alanı gizli. */
   transactionTypeDirection: Direction | null;
 }
@@ -98,6 +106,7 @@ export const MOVEMENT_RULES: Record<MovementType, MovementRule> = {
     contact: 'optional',
     openingDirection: 'forbidden',
     dueDate: 'forbidden',
+    cash: 'allowed',
     transactionTypeDirection: 'income',
   },
   payment: {
@@ -105,6 +114,7 @@ export const MOVEMENT_RULES: Record<MovementType, MovementRule> = {
     contact: 'optional',
     openingDirection: 'forbidden',
     dueDate: 'forbidden',
+    cash: 'allowed',
     transactionTypeDirection: 'expense',
   },
   credit_sale: {
@@ -112,6 +122,7 @@ export const MOVEMENT_RULES: Record<MovementType, MovementRule> = {
     contact: 'required',
     openingDirection: 'forbidden',
     dueDate: 'allowed',
+    cash: 'forbidden',
     transactionTypeDirection: 'income',
   },
   credit_purchase: {
@@ -119,6 +130,7 @@ export const MOVEMENT_RULES: Record<MovementType, MovementRule> = {
     contact: 'required',
     openingDirection: 'forbidden',
     dueDate: 'allowed',
+    cash: 'forbidden',
     transactionTypeDirection: 'expense',
   },
   opening: {
@@ -126,6 +138,7 @@ export const MOVEMENT_RULES: Record<MovementType, MovementRule> = {
     contact: 'required',
     openingDirection: 'required',
     dueDate: 'forbidden',
+    cash: 'forbidden',
     transactionTypeDirection: null,
   },
 };
@@ -139,6 +152,22 @@ export interface MovementFields {
   transactionTypeId?: string | null;
   openingDirection?: OpeningDirection | null;
   dueDate?: string | null;
+  isCash?: boolean | null;
+}
+
+/** Peşin işareti yalnız kural izin veriyorsa ve cari seçiliyse anlamlıdır; değilse `false`. */
+export function effectiveIsCash(m: Pick<MovementFields, 'movementType' | 'contactId' | 'isCash'>) {
+  return MOVEMENT_RULES[m.movementType].cash === 'allowed' && !!m.contactId && !!m.isCash;
+}
+
+/**
+ * Yeni harekette "Peşin" anahtarının varsayılanı: cariye karşı açık borç/alacak varsa hareket onu kapatır,
+ * yoksa peşin satış/alıştır. Tahsilatta cari bize borçluysa, ödemede biz cariye borçluysak peşin değil.
+ */
+export function defaultIsCash(movementType: MovementType, contactBalanceMinor: number): boolean {
+  if (movementType === 'collection') return contactBalanceMinor <= 0;
+  if (movementType === 'payment') return contactBalanceMinor >= 0;
+  return false;
 }
 
 export type MovementIssue =
@@ -202,7 +231,9 @@ const toneOf = (effect: Effect): AmountTone =>
  * Genel listelerde (tüm hareketler, hareket detayı): tahsilat/ödemede para akışı (+ giriş, − çıkış),
  * veresiye ve devirde cari etkisi (+ alacak, − borç). Renk işarete uyar.
  */
-export function generalDisplay(m: Pick<LedgerMovement, 'movementType' | 'openingDirection'>) {
+export function generalDisplay(
+  m: Pick<LedgerMovement, 'movementType' | 'openingDirection' | 'isCash'>,
+) {
   const account = accountEffect(m);
   const effect = account !== 0 ? account : contactEffect(m);
   return { sign: effect < 0 ? -1 : 1, tone: toneOf(effect) } satisfies MovementDisplay;
@@ -211,8 +242,12 @@ export function generalDisplay(m: Pick<LedgerMovement, 'movementType' | 'opening
 /**
  * Cari detayında (client-detail.html): işaret cari bakiyesine etkidir (tahsilat `−`),
  * renk para akışıdır (tahsilat yeşil, ödeme kırmızı, veresiye ve devir nötr).
+ * Peşin hareket bakiyeyi etkilemediği için genel listedeki gibi para akışıyla gösterilir.
  */
-export function contactViewDisplay(m: Pick<LedgerMovement, 'movementType' | 'openingDirection'>) {
+export function contactViewDisplay(
+  m: Pick<LedgerMovement, 'movementType' | 'openingDirection' | 'isCash'>,
+) {
+  if (m.isCash) return generalDisplay(m);
   const effect = contactEffect(m);
   return {
     sign: effect < 0 ? -1 : 1,

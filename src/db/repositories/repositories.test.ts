@@ -855,6 +855,8 @@ describe('SQL bakiyeleri saf ledger fonksiyonlarıyla aynı sonucu verir', () =>
       const accountId = hasAccount ? pick(accountIds) : null;
       const openingDirection =
         movementType === 'opening' ? pick(['receivable', 'payable'] as const) : null;
+      // Geçersiz yerde (veresiye, carisiz) de verilir; repository `false`'a çekmeli.
+      const isCash = random() < 0.4;
 
       const id = await ctx.transactionsRepo.create({
         movementType,
@@ -863,14 +865,17 @@ describe('SQL bakiyeleri saf ledger fonksiyonlarıyla aynı sonucu verir', () =>
         contactId,
         accountId,
         openingDirection,
+        isCash,
       });
+      const stored = (await ctx.transactionsRepo.getById(id)).isCash;
+      expect(stored).toBe(isCash && hasAccount && contactId !== null);
 
       // Bazı hareketler silinir; bakiyeye girmemeli.
       if (random() < 0.1) {
         await ctx.transactionsRepo.softDelete(id);
         continue;
       }
-      const movement = { movementType, amountMinor, openingDirection };
+      const movement = { movementType, amountMinor, openingDirection, isCash: stored };
       if (contactId) byContact.set(contactId, [...(byContact.get(contactId) ?? []), movement]);
       if (accountId) byAccount.set(accountId, [...(byAccount.get(accountId) ?? []), movement]);
     }

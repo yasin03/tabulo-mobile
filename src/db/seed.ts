@@ -15,7 +15,7 @@ import {
   subjects,
   transactionTypes,
 } from './schema';
-import type { Db } from './types';
+import type { Db, DbOrTx } from './types';
 
 type SeedTranslations = (typeof resources)['tr']['translation']['seed'];
 
@@ -66,8 +66,6 @@ export interface SeedOptions {
  * @returns Bu çağrıda ekleme yapıldıysa `true`.
  */
 export function seedDatabase(db: Db, { language, currency }: SeedOptions): boolean {
-  const names = resources[language].translation.seed;
-
   return db.transaction((tx) => {
     const existing = tx
       .select({ id: businessProfile.id })
@@ -77,42 +75,51 @@ export function seedDatabase(db: Db, { language, currency }: SeedOptions): boole
     if (existing) return false;
 
     tx.insert(businessProfile).values({ id: DEFAULT_PROFILE_ID, currency }).run();
-
-    tx.insert(accounts)
-      .values(
-        SEED_ACCOUNTS.map((account, i) => ({
-          name: names.accounts[SEED_ACCOUNT_KEYS[i]!],
-          type: account.type,
-          currency,
-          sortOrder: i,
-        })),
-      )
-      .run();
-
-    const orderByDirection = { income: 0, expense: 0 };
-    tx.insert(transactionTypes)
-      .values(
-        SEED_TRANSACTION_TYPES.map((type, i) => ({
-          name: names.transactionTypes[SEED_TRANSACTION_TYPE_KEYS[i]!],
-          direction: type.direction,
-          isSystem: true,
-          sortOrder: orderByDirection[type.direction]++,
-        })),
-      )
-      .run();
-
-    tx.insert(subjects)
-      .values(
-        SEED_SUBJECTS.map((_, i) => ({
-          name: names.subjects[SEED_SUBJECT_KEYS[i]!],
-          isSystem: true,
-          sortOrder: i,
-        })),
-      )
-      .run();
-
+    insertSeedAccounts(tx, { language, currency });
+    insertSeedDefinitions(tx, language);
     return true;
   });
+}
+
+/** Varsayılan hesaplar (Kasa + Banka). Verileri silme ekranı hesaplar silinince de çağırır. */
+export function insertSeedAccounts(db: DbOrTx, { language, currency }: SeedOptions) {
+  const names = resources[language].translation.seed;
+  db.insert(accounts)
+    .values(
+      SEED_ACCOUNTS.map((account, i) => ({
+        name: names.accounts[SEED_ACCOUNT_KEYS[i]!],
+        type: account.type,
+        currency,
+        sortOrder: i,
+      })),
+    )
+    .run();
+}
+
+/** Varsayılan işlem türleri ve konular. Verileri silme ekranı tanımlar silinince de çağırır. */
+export function insertSeedDefinitions(db: DbOrTx, language: Language) {
+  const names = resources[language].translation.seed;
+  const orderByDirection = { income: 0, expense: 0 };
+  db.insert(transactionTypes)
+    .values(
+      SEED_TRANSACTION_TYPES.map((type, i) => ({
+        name: names.transactionTypes[SEED_TRANSACTION_TYPE_KEYS[i]!],
+        direction: type.direction,
+        isSystem: true,
+        sortOrder: orderByDirection[type.direction]++,
+      })),
+    )
+    .run();
+
+  db.insert(subjects)
+    .values(
+      SEED_SUBJECTS.map((_, i) => ({
+        name: names.subjects[SEED_SUBJECT_KEYS[i]!],
+        isSystem: true,
+        sortOrder: i,
+      })),
+    )
+    .run();
 }
 
 /** Bir hazır kaydın tüm dillerdeki varsayılan adları. */

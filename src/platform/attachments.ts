@@ -156,6 +156,20 @@ export function deleteStoredAttachment(fileUri: string) {
   }
 }
 
+function deleteFolder(name: string) {
+  try {
+    const directory = new Directory(Paths.document, name);
+    if (directory.exists) directory.delete();
+  } catch {
+    // Klasör zaten yoksa yapılacak bir şey yok.
+  }
+}
+
+/** Tüm belge dosyaları (Ayarlar → Verileri sil, hareketlerle birlikte). */
+export function deleteAllAttachmentFiles() {
+  deleteFolder(ATTACHMENTS_FOLDER);
+}
+
 // ---------- İşletme logosu (PDF başlığı, 10.1) ----------
 
 const LOGO_FOLDER = 'logo';
@@ -165,6 +179,11 @@ const LOGO_MAX_EDGE = 512;
 export async function pickLogo(): Promise<PendingAttachment | null> {
   const result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: 'images', quality: 1 });
   return result.canceled ? null : (fromImageAssets(result.assets)[0] ?? null);
+}
+
+/** Logo dosyaları (Ayarlar → Verileri sil, işletme profiliyle birlikte). */
+export function deleteLogoFiles() {
+  deleteFolder(LOGO_FOLDER);
 }
 
 /** Logoyu küçültüp `logo/<id>.jpg` olarak kaydeder; göreli yolu döner. */

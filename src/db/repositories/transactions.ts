@@ -5,6 +5,7 @@ import { and, asc, desc, eq, gte, inArray, isNull, lte, sql, type SQL } from 'dr
 import { DomainError } from '@/core/errors';
 import { addDays } from '@/core/dates';
 import {
+  effectiveIsCash,
   MOVEMENT_RULES,
   openItems,
   validateMovement,
@@ -179,6 +180,7 @@ function normalizedFields(input: TransactionInput) {
     description: emptyToNull(input.description) ?? null,
     documentNo: emptyToNull(input.documentNo) ?? null,
     recurringPaymentId: input.recurringPaymentId ?? null,
+    isCash: effectiveIsCash(input),
   };
 }
 
@@ -398,6 +400,7 @@ export function createTransactionsRepo(db: Db) {
           movementType: t.movementType,
           amountMinor: t.amountMinor,
           openingDirection: t.openingDirection,
+          isCash: t.isCash,
           dueDate: t.dueDate,
           contactName: contacts.name,
           personType: contacts.personType,

@@ -7,6 +7,8 @@ import { CURRENCY_SYMBOLS, parseAmount } from '@/core/money';
 import { useMoney } from '@/lib/business';
 import { useThemeMode } from '@/lib/theme';
 
+import { useSystemDoneFocus } from './formKeyboard';
+
 type AmountInputProps = Omit<InputProps, 'value' | 'onChangeText' | 'keyboardType'> & {
   label: string;
   value: string;
@@ -25,6 +27,7 @@ export const AmountInput = forwardRef<TextInput, AmountInputProps>(function Amou
 ) {
   const mode = useThemeMode();
   const { currency, language } = useMoney();
+  const focusHandlers = useSystemDoneFocus({ ...inputProps, keyboardType: 'decimal-pad' });
   const symbol = (
     <AppText weight="extrabold" className="text-[22px] leading-[28px] text-muted">
       {CURRENCY_SYMBOLS[currency]}
@@ -57,6 +60,7 @@ export const AmountInput = forwardRef<TextInput, AmountInputProps>(function Amou
           className="min-h-14 font-extrabold text-[24px]"
           maxFontSizeMultiplier={1.6}
           {...inputProps}
+          {...focusHandlers}
         />
         {language === 'tr' ? (
           <InputGroup.Suffix className="pr-4">{symbol}</InputGroup.Suffix>

@@ -1,13 +1,27 @@
 import { toIsoDate } from '@/core/dates';
 import { emptyTransactionForm, type TransactionFormValues } from '@/core/forms/transaction';
-import type { MovementType } from '@/core/ledger';
+import { defaultIsCash, MOVEMENT_RULES, type MovementType } from '@/core/ledger';
 import { loadTransactionDraft } from '@/stores/transactionDraft';
 
 import type { TransactionFormData } from './useTransactionFormData';
 
 /**
+ * "Peşin" anahtarının varsayılanı: carinin güncel bakiyesine göre (`defaultIsCash`).
+ * Cari yoksa veya hareket tipi peşine izin vermiyorsa `false`.
+ */
+export function cashDefault(
+  data: TransactionFormData,
+  movementType: MovementType,
+  contactId: string,
+): boolean {
+  const contact = data.contacts.find((c) => c.id === contactId);
+  if (!contact || MOVEMENT_RULES[movementType].cash !== 'allowed') return false;
+  return defaultIsCash(movementType, contact.balanceMinor);
+}
+
+/**
  * Yeni hareketin akıllı varsayılanları (6.4): bugünün tarihi, son kullanılan hesap (yoksa ilk aktif hesap),
- * "Genel" konusu, cari detayından açıldıysa o cari.
+ * "Genel" konusu, cari detayından açıldıysa o cari ve ona göre "Peşin".
  */
 export function newTransactionDefaults(
   data: TransactionFormData,
@@ -25,6 +39,7 @@ export function newTransactionDefaults(
     accountId: account?.id ?? '',
     subjectId: data.defaultSubject?.id ?? '',
     contactId: contact?.id ?? '',
+    isCash: contact ? cashDefault(data, movementType, contact.id) : false,
   };
 }
 

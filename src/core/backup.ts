@@ -27,9 +27,9 @@ export const BACKUP_APP_ID = 'tabulo';
 
 /**
  * Yedeğin veritabanı şema sürümü = migration sayısı (test kontrol eder). Yeni migration eklenince artır;
- * eski sürümlü yedekler için `upgradeBackup`'a dönüştürme adımı ekle.
+ * eski sürümlü yedekler için `upgradeTables`'a dönüştürme adımı ekle.
  */
-export const BACKUP_SCHEMA_VERSION = 1;
+export const BACKUP_SCHEMA_VERSION = 2;
 
 /** Zip içinde JSON'un adı. */
 export const BACKUP_JSON_NAME = 'tabulo-backup.json';
@@ -138,9 +138,38 @@ function isBackupValue(value: unknown): value is BackupValue {
   );
 }
 
-/** Eski şema sürümlü yedeği güncel sürüme getirir. Şimdilik tek sürüm var. */
-function upgradeBackup(data: BackupData): BackupData {
-  return data;
+const isCashRow = (row: Record<string, unknown>) =>
+  row.recurring_payment_id != null &&
+  row.contact_id != null &&
+  (row.movement_type === 'collection' || row.movement_type === 'payment');
+
+/**
+ * Eski şema sürümlü yedeğin satırlarını güncel sütunlara getirir; sütun doğrulamasından önce çalışır.
+ * Her adım bir migration'ın veri karşılığıdır.
+ */
+function upgradeTables(
+  tables: Record<string, unknown>,
+  schemaVersion: number,
+): Record<string, unknown> {
+  let result = tables;
+  if (schemaVersion < 2) {
+    // 2: transactions.is_cash. Migration'daki gibi düzenli ödemeden gelen cari hareketleri peşin.
+    result = {
+      ...result,
+      transactions: mapRows(result.transactions, (row) => ({
+        ...row,
+        is_cash: isCashRow(row) ? 1 : 0,
+      })),
+    };
+  }
+  return result;
+}
+
+function mapRows(
+  rows: unknown,
+  map: (row: Record<string, unknown>) => Record<string, unknown>,
+): unknown {
+  return Array.isArray(rows) ? rows.map((row) => (isRecord(row) ? map(row) : row)) : rows;
 }
 
 /** Ayarlar isteğe bağlıdır: eksik veya geçersiz değer yok sayılır (geri yüklemede mevcut ayar kalır). */
@@ -177,9 +206,10 @@ export function parseBackup(text: string): BackupData {
     throw new DomainError('backupInvalid');
   }
 
+  const current = upgradeTables(tables, schemaVersion);
   const parsed: BackupTables = {};
   for (const spec of BACKUP_TABLES) {
-    const rows = tables[spec.name];
+    const rows = current[spec.name];
     if (!Array.isArray(rows)) throw new DomainError('backupInvalid');
     const ids = new Set<string>();
     for (const row of rows) {
@@ -201,15 +231,15 @@ export function parseBackup(text: string): BackupData {
   if (profiles.length !== 1 || profiles[0]?.id !== 'default')
     throw new DomainError('backupInvalid');
 
-  return upgradeBackup({
+  return {
     app: BACKUP_APP_ID,
-    schemaVersion,
+    schemaVersion: BACKUP_SCHEMA_VERSION,
     createdAt,
     appVersion: typeof appVersion === 'string' ? appVersion : null,
     tables: parsed,
     files: [...new Set(files as string[])],
     settings: parseSettings(settings),
-  });
+  };
 }
 
 export interface BackupSummary {

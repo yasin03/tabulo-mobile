@@ -112,6 +112,7 @@ describe('hareket form şeması', () => {
         documentNo: 'F-1',
         dueDate: '2026-11-01',
         openingDirection: null,
+        isCash: false,
       },
       'tr',
     );
@@ -129,6 +130,7 @@ describe('hareket form şeması', () => {
       documentNo: 'F-1',
       dueDate: '2026-11-01',
       openingDirection: null,
+      isCash: false,
     });
   });
 });

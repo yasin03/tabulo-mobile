@@ -29,8 +29,19 @@
   },
   "home": {
     "notifications": "Notifications",
-    "netBalance": "Net balance",
-    "netBalanceAsOf": "Net balance as of {{date}}",
+    "cashFlowNet": "Net this month",
+    "cashFlowNetOf": "Net for {{month}}",
+    "moneyIn": "Money in",
+    "moneyOut": "Money out",
+    "moneyInThisMonth": "Money in this month",
+    "moneyOutThisMonth": "Money out this month",
+    "moneyInHint": "Opens this month's money in",
+    "moneyOutHint": "Opens this month's money out",
+    "contactBalance": "Customer & supplier balance",
+    "contactBalanceAsOf": "Customer & supplier balance as of {{date}}",
+    "contactsOnlyNote": "Customers and suppliers only; excludes cash and bank",
+    "cardCashFlow": "Cash flow card",
+    "cardContacts": "Customer and supplier balance card",
     "selectMonth": "Month: {{month}}. Tap to change",
     "receivable": "Owed to you",
     "payable": "You owe",
@@ -58,7 +69,8 @@
     },
     "upcomingPayments": "Upcoming payments",
     "remindersDue_one": "Notifications, {{count}} reminder due",
-    "remindersDue_other": "Notifications, {{count}} reminders due"
+    "remindersDue_other": "Notifications, {{count}} reminders due",
+    "accountToday": "{{amount}} today"
   },
   "movementTypes": {
     "collection": "Money in",
@@ -310,6 +322,15 @@
     "selectContact": "Choose a contact",
     "selectContactOptional": "Choose a contact (optional)",
     "noContacts": "No active contacts yet",
+    "cash": "Paid on the spot",
+    "cashHint": {
+      "collection": "Paid at the time of sale; the contact's balance doesn't change.",
+      "payment": "Paid at the time of purchase; the contact's balance doesn't change."
+    },
+    "settleHint": {
+      "collection": "Reduces what the contact owes us.",
+      "payment": "Reduces what we owe the contact."
+    },
     "account": "Account",
     "noAccounts": "No active accounts. Add one in Settings.",
     "openingDirection": "Balance direction",
@@ -330,7 +351,9 @@
   },
   "transactionDetail": {
     "title": "Entry details",
-    "type": "Category"
+    "type": "Category",
+    "contactBalance": "Contact balance",
+    "cashNoEffect": "Not affected (paid on the spot)"
   },
   "transactions": {
     "title": "All entries",
@@ -881,6 +904,46 @@
       "failedTitle": "Restore failed",
       "failed": "Your current data hasn't changed. Please try again."
     }
+  },
+  "dataReset": {
+    "title": "Delete data",
+    "warning": "The data you select is permanently deleted from this phone and can’t be recovered. We recommend making a backup first.",
+    "categories": {
+      "transactions": {
+        "title": "Entries",
+        "description": "All money in, money out, credit and opening balance entries, attachments and recurring payments"
+      },
+      "contacts": {
+        "title": "Customers & suppliers",
+        "description": "All customers and suppliers, and their payment reminders"
+      },
+      "definitions": {
+        "title": "Categories and subjects",
+        "description": "Transaction categories and subjects; the defaults are restored"
+      },
+      "accounts": {
+        "title": "Accounts",
+        "description": "Cash and bank accounts; the default Cash and Bank accounts are restored"
+      },
+      "settings": {
+        "title": "Settings",
+        "description": "Theme, language, app lock, reminder time and business profile (except currency)"
+      }
+    },
+    "forcedHint": "Also deleted, because the other data you selected is linked to entries",
+    "button": "Delete selected data",
+    "firstConfirmTitle": "This data will be deleted",
+    "firstConfirmMessage": "This can’t be undone. Would you like to make a backup first?",
+    "backupFirst": "Back up first",
+    "continue": "Continue",
+    "secondConfirmTitle": "Confirm deletion",
+    "secondConfirmMessage": "To confirm, type “Delete Data” below.",
+    "typeLabel": "Type “{{phrase}}”",
+    "phrase": "Delete Data",
+    "confirm": "Delete permanently",
+    "done": "Data deleted",
+    "failedTitle": "Couldn’t delete",
+    "failed": "Nothing was deleted. Please try again."
   },
   "premium": {
     "title": "Tabulo Premium",

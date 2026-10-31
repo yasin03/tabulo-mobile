@@ -61,6 +61,7 @@ export const TransactionRow = memo(function TransactionRow({
   const title = item.description || item.transactionTypeName || movementLabel;
   const subtitle = [
     title === movementLabel ? null : movementLabel,
+    item.isCash ? t('transactionForm.cash') : null,
     variant === 'general' ? item.contactName : null,
     dates.day(item.date),
   ]

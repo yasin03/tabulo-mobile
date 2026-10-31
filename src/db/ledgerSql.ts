@@ -5,7 +5,7 @@ import { and, isNull, sql, type SQL } from 'drizzle-orm';
 
 import { MOVEMENT_EFFECT, MOVEMENT_TYPES, transactions } from './schema';
 
-/** Hareketin cari bakiyesine kuruş cinsinden etkisi (+ cari bize borçlu). */
+/** Hareketin cari bakiyesine kuruş cinsinden etkisi (+ cari bize borçlu). Peşin hareketin etkisi yok. */
 export function contactDeltaSql(): SQL<number> {
   const cases = MOVEMENT_TYPES.map((type) => {
     const effect = MOVEMENT_EFFECT[type].contact;
@@ -15,7 +15,7 @@ export function contactDeltaSql(): SQL<number> {
     }
     return sql`WHEN ${type} THEN ${sql.raw(String(effect))}`;
   });
-  return sql<number>`(CASE ${transactions.movementType} ${sql.join(cases, sql` `)} ELSE 0 END) * ${transactions.amountMinor}`;
+  return sql<number>`(CASE WHEN ${transactions.isCash} = 1 THEN 0 ELSE CASE ${transactions.movementType} ${sql.join(cases, sql` `)} ELSE 0 END END) * ${transactions.amountMinor}`;
 }
 
 /** Hareketin kasa/banka bakiyesine kuruş cinsinden etkisi (+ para girişi). */

@@ -62,6 +62,26 @@ describe('parseBackup', () => {
     expect(parseBackup(JSON.stringify(data))).toEqual(data);
   });
 
+  it('sürüm 1 yedeğini yükseltir: düzenli ödemeden gelen cari hareketleri peşin', () => {
+    const tables = emptyTables();
+    const tx = (id: string, values: BackupRow) => {
+      const { is_cash: _, ...rest } = row('transactions', { id, ...values });
+      return rest;
+    };
+    tables.transactions = [
+      tx('t1', { movement_type: 'payment', contact_id: 'c1', recurring_payment_id: 'r1' }),
+      tx('t2', { movement_type: 'payment', contact_id: 'c1' }),
+      tx('t3', { movement_type: 'payment', recurring_payment_id: 'r1' }),
+    ];
+    const parsed = parseBackup(JSON.stringify(backup({ schemaVersion: 1, tables })));
+    expect(parsed.schemaVersion).toBe(BACKUP_SCHEMA_VERSION);
+    expect(parsed.tables.transactions!.map((r) => [r.id, r.is_cash])).toEqual([
+      ['t1', 1],
+      ['t2', 0],
+      ['t3', 0],
+    ]);
+  });
+
   it('JSON olmayan veya başka uygulamanın dosyasını reddeder', () => {
     expectIssue('merhaba', 'backupInvalid');
     expectIssue('[]', 'backupInvalid');

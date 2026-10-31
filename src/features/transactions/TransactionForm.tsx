@@ -1,5 +1,5 @@
 import { router, Stack } from 'expo-router';
-import { useToast } from 'heroui-native';
+import { Switch, useToast } from 'heroui-native';
 import { X } from 'lucide-react-native';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Controller, useForm, useWatch, type UseFormReturn } from 'react-hook-form';
@@ -40,6 +40,7 @@ import { usePreferences } from '@/stores/preferences';
 import { clearTransactionDraft, saveTransactionDraft } from '@/stores/transactionDraft';
 
 import { AttachmentsField } from './AttachmentsField';
+import { cashDefault } from './initialValues';
 import { MovementTypeGrid } from './MovementTypeGrid';
 import type { TransactionFormData } from './useTransactionFormData';
 
@@ -157,7 +158,15 @@ export function TransactionForm(props: TransactionFormProps) {
   const leave = useConfirmDiscard(isDirty || attachmentsChanged, discardDraft);
 
   const movementType = useWatch({ control, name: 'movementType' });
+  const contactId = useWatch({ control, name: 'contactId' });
   const rule = MOVEMENT_RULES[movementType];
+
+  // "Peşin" elle değiştirilmediyse cari veya tip değişince carinin bakiyesine göre yeniden önerilir.
+  const [isCashTouched, setIsCashTouched] = useState(false);
+  const suggestCash = (nextType: MovementType, nextContactId: string) => {
+    if (isCashTouched) return;
+    setValue('isCash', cashDefault(data, nextType, nextContactId), { shouldDirty: true });
+  };
 
   const descriptionRef = useRef<TextInput>(null);
   const documentNoRef = useRef<TextInput>(null);
@@ -196,6 +205,7 @@ export function TransactionForm(props: TransactionFormProps) {
     if (type && type.direction !== direction) {
       setValue('transactionTypeId', '', { shouldDirty: true });
     }
+    suggestCash(next, getValues('contactId'));
   };
 
   const save = async (output: TransactionFormOutput) => {
@@ -310,11 +320,43 @@ export function TransactionForm(props: TransactionFormProps) {
             isClearable={rule.contact !== 'required'}
             value={field.value}
             options={contactOptions}
-            onChange={field.onChange}
+            onChange={(value: string) => {
+              field.onChange(value);
+              suggestCash(getValues('movementType'), value);
+            }}
             error={errorText(fieldState.error?.message)}
           />
         )}
       />
+
+      {rule.cash === 'allowed' && contactId ? (
+        <Controller
+          control={control}
+          name="isCash"
+          render={({ field }) => (
+            <View className="flex-row items-center gap-3 rounded-[18px] border border-border bg-surface px-4 py-3">
+              <View className="flex-1 gap-0.5">
+                <AppText weight="bold">{t('transactionForm.cash')}</AppText>
+                <AppText className="text-[13px] leading-[18px] text-muted">
+                  {t(
+                    field.value
+                      ? `transactionForm.cashHint.${movementType === 'payment' ? 'payment' : 'collection'}`
+                      : `transactionForm.settleHint.${movementType === 'payment' ? 'payment' : 'collection'}`,
+                  )}
+                </AppText>
+              </View>
+              <Switch
+                accessibilityLabel={t('transactionForm.cash')}
+                isSelected={field.value}
+                onSelectedChange={(selected) => {
+                  setIsCashTouched(true);
+                  field.onChange(selected);
+                }}
+              />
+            </View>
+          )}
+        />
+      ) : null}
 
       {rule.account === 'required' ? (
         <Controller

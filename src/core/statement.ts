@@ -43,6 +43,7 @@ export function balanceSide(balanceMinor: number): BalanceSide {
 /**
  * Hareketler kronolojik sırada (eskiden yeniye) verilmelidir.
  * Aralıktan önceki hareketler devreden bakiyeye, sonrakiler hiçbir yere girmez.
+ * Peşin tahsilat/ödeme borç/alacak oluşturmadığı için ekstreye girmez (kullanıcı kararı).
  */
 export function buildStatement<T extends StatementMovement>(
   chronological: readonly T[],
@@ -55,6 +56,7 @@ export function buildStatement<T extends StatementMovement>(
   const rows: StatementRow<T>[] = [];
 
   for (const m of chronological) {
+    if (m.isCash) continue;
     if (range.to && m.date > range.to) continue;
     const delta = contactDelta(m);
     if (range.from && m.date < range.from) {

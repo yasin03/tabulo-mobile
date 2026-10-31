@@ -9,7 +9,10 @@ import { useMoney } from '@/lib/business';
 import { cn } from '@/lib/cn';
 import { useColors } from '@/lib/theme';
 
-/** Hesap bakiyeleri (7.2): yatay kaydırılan küçük kartlar. Dokununca o hesabın hareketleri açılır. */
+/**
+ * Hesap bakiyeleri (7.2): yatay kaydırılan küçük kartlar; bakiyenin altında bugünkü değişim (giriş − çıkış).
+ * Dokununca o hesabın hareketleri açılır.
+ */
 export function AccountBalances({ accounts }: { accounts: readonly AccountWithBalance[] }) {
   const { t } = useTranslation();
   const colors = useColors();
@@ -29,11 +32,17 @@ export function AccountBalances({ accounts }: { accounts: readonly AccountWithBa
           account.balanceMinor < 0
             ? money.formatSigned(account.balanceMinor)
             : money.format(account.balanceMinor);
+        const change = t('home.accountToday', {
+          amount:
+            account.dayChangeMinor === 0
+              ? money.format(0)
+              : money.formatSigned(account.dayChangeMinor),
+        });
         return (
           <Pressable
             key={account.id}
             accessibilityRole="button"
-            accessibilityLabel={`${account.name}, ${balance}`}
+            accessibilityLabel={`${account.name}, ${balance}, ${change}`}
             accessibilityHint={t('home.accountHint')}
             onPress={() =>
               router.push({ pathname: '/transactions', params: { accountId: account.id } })
@@ -54,6 +63,19 @@ export function AccountBalances({ accounts }: { accounts: readonly AccountWithBa
               )}
             >
               {balance}
+            </AppText>
+            <AppText
+              weight="bold"
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              className={cn(
+                '-mt-1 text-[12px] leading-[16px]',
+                account.dayChangeMinor > 0 && 'text-positive',
+                account.dayChangeMinor < 0 && 'text-negative',
+                account.dayChangeMinor === 0 && 'text-muted',
+              )}
+            >
+              {change}
             </AppText>
           </Pressable>
         );

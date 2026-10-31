@@ -4,6 +4,7 @@ import { createAttachmentsRepo } from './attachments';
 import { createBackupRepo } from './backup';
 import { createBusinessProfileRepo } from './businessProfile';
 import { createContactsRepo } from './contacts';
+import { createDataResetRepo } from './dataReset';
 import { createSubjectsRepo, createTransactionTypesRepo } from './definitions';
 import { createRecurringPaymentsRepo } from './recurringPayments';
 import { createRemindersRepo } from './reminders';
@@ -16,6 +17,7 @@ export * from './attachments';
 export * from './backup';
 export * from './businessProfile';
 export * from './contacts';
+export * from './dataReset';
 export * from './definitions';
 export * from './recurringPayments';
 export * from './reminders';
@@ -31,6 +33,7 @@ export function createRepositories(db: Db) {
     backupRepo: createBackupRepo(db),
     businessProfileRepo: createBusinessProfileRepo(db),
     contactsRepo: createContactsRepo(db),
+    dataResetRepo: createDataResetRepo(db),
     recurringPaymentsRepo: createRecurringPaymentsRepo(db),
     remindersRepo: createRemindersRepo(db),
     reportsRepo: createReportsRepo(db),

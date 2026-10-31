@@ -247,6 +247,8 @@ export function createRecurringPaymentsRepo(db: Db) {
           subjectId: row.subjectId,
           description: row.title,
           recurringPaymentId: row.id,
+          // Kira, fatura gibi düzenli ödemeler cari bakiyesini etkilemez (kullanıcı kararı).
+          isCash: true,
         });
         const nextDueDate = nextOccurrence(row, row.nextDueDate);
         const isFinished = isScheduleFinished(nextDueDate, row.endDate);
